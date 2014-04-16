@@ -2,11 +2,11 @@
 #define indv_play_h
 
 #include "scrabble_piece.h"
-#include "safe_vector.h"
 #include "standard_board_builder.h"
 
 #include <algorithm>
 #include <iostream>
+#include <vector>
 
 /**
  * This class represents a single play in the game of scrabble. A single play
@@ -121,13 +121,13 @@ class Indv_Play
   //////////////////////////////////////////////////////////////////////////////
 
   //m_rows - The row components of the piece-placements
-  Safe_Vector<unsigned>              m_rows;
+  std::vector<unsigned>              m_rows;
 
   //m_cols - The col components of the piece-placements
-  Safe_Vector<unsigned>              m_cols;
+  std::vector<unsigned>              m_cols;
 
   //m_pieces - The piece components of the piece-placements
-  Safe_Vector<const Scrabble_Piece*> m_pieces;
+  std::vector<const Scrabble_Piece*> m_pieces;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

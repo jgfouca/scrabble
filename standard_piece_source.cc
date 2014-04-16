@@ -56,7 +56,7 @@ Standard_Piece_Source::Standard_Piece_Source() : m_curr_idx(0)
     }
   }
   my_static_assert(m_source.size() == 100,
-                   Safe_String("m_source is size ") + obj_to_str(m_source.size()) + 
+                   std::string("m_source is size ") + obj_to_str(m_source.size()) + 
                    ", expected size 100");
   
   //do a couple shuffles

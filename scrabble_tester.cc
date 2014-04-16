@@ -16,7 +16,7 @@ using namespace std;
 void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  Safe_String dummy;
+  std::string dummy;
   //Assemble and submit some plays
 
   //get player
@@ -29,7 +29,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
 
   // We hard-code a number of plays to test the engine:
 
-  Safe_String words[] = {"E-HIBIT", "OADS", "H_ATS", "N", "T", "URTS", "I", "B-CKSTA",
+  std::string words[] = {"E-HIBIT", "OADS", "H_ATS", "N", "T", "URTS", "I", "B-CKSTA",
                          "ORED", "SC_R", "SIC_EN", "_P_TS", "SPINS", "VI___S", "AA", "_AC_T",
                          "BAD", "__TERB", "OM", "NESS", "_RIGI_AL", "O_S", "B_T", "K",
                          "A", "TO"};
@@ -37,7 +37,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                              '_', '_', '_', '_', '_', '_', '_', '_',
                              '_', '_', '_', '_', '_', '_', '_', '_',
                              '_', '_'};
-  Safe_String searches[] = {"*", "T*", "*E*", "#O", "A*", "H*", "S_T", "*B", 
+  std::string searches[] = {"*", "T*", "*E*", "#O", "A*", "H*", "S_T", "*B", 
                             "B*", "*A#", "*K*", "S_I*", "#___#", "*SIT*", "##", "T__I*",
                             "", "", "BORED*", "TACIT*", "O____N*", "", "", "AS*", 
                             "#T", "##"};
@@ -49,7 +49,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
 			  2, 2, 2, 3, 5, 4, 2, 4,
 			  0, 0, 6, 6, 6, 0, 0, 3,
 			  2, 2};
-  Safe_String search_cont[] = {"EXHIBIT", "TOADS", "HEATS", "NO", "AT", "HURTS", "SIT", "BACKSTAB",
+  std::string search_cont[] = {"EXHIBIT", "TOADS", "HEATS", "NO", "AT", "HURTS", "SIT", "BACKSTAB",
                                "BORED", "SCAR", "SICKEN", "SPITS", "SPINS", "VISITS", "AA", "TACIT",
                                "", "", "BOREDOM", "TACITNESS", "ORIGINAL", "", "", "ASK",
                                "AT", "TO"};
@@ -65,7 +65,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                      true, true, true, false, false, true, false, true,
                      false, true, true, true, false, true, true, true,
                      false, false};
-  Safe_String err_msgs[] = {"", "", "", "", "", "", "", "",
+  std::string err_msgs[] = {"", "", "", "", "", "", "", "",
                             "", "", "", "", "", "", "", "",
                             "MOVE B(8,11) A(9,11) D(10,11)  REJECTED: play did not connect with any words",
                             "MOVE T(11,9) E(11,10) R(11,11) B(11,12)  REJECTED: \"ASTERB\" is not a valid word", "", "", "",
@@ -77,24 +77,24 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                                 0, 0, 13, 13, 20, 0, 0, 7, 
                                 8, 11};
   
-  Safe_Vector<Safe_Vector<pair<Safe_String, unsigned> > > compat_vectors(sizeof(starting_row)/sizeof(unsigned));
-  Safe_Vector<Safe_Vector<unsigned> > max_length_vectors(sizeof(starting_row)/sizeof(unsigned));
+  std::vector<std::vector<pair<std::string, unsigned> > > compat_vectors(sizeof(starting_row)/sizeof(unsigned));
+  std::vector<std::vector<unsigned> > max_length_vectors(sizeof(starting_row)/sizeof(unsigned));
 
   //Manually insert the compatibilities
-  compat_vectors[3].push_back(pair<Safe_String, unsigned>("I#", 1));
+  compat_vectors[3].push_back(pair<std::string, unsigned>("I#", 1));
   
-  compat_vectors[9].push_back(pair<Safe_String, unsigned>("O#", 1));
+  compat_vectors[9].push_back(pair<std::string, unsigned>("O#", 1));
 
-  compat_vectors[12].push_back(pair<Safe_String, unsigned>("SICKEN#", 6));
-  compat_vectors[12].push_back(pair<Safe_String, unsigned>("EXHIBIT#", 7));
+  compat_vectors[12].push_back(pair<std::string, unsigned>("SICKEN#", 6));
+  compat_vectors[12].push_back(pair<std::string, unsigned>("EXHIBIT#", 7));
 
-  compat_vectors[14].push_back(pair<Safe_String, unsigned>("#D", 0));
-  compat_vectors[14].push_back(pair<Safe_String, unsigned>("#S", 0));
+  compat_vectors[14].push_back(pair<std::string, unsigned>("#D", 0));
+  compat_vectors[14].push_back(pair<std::string, unsigned>("#S", 0));
 
-  compat_vectors[24].push_back(pair<Safe_String, unsigned>("#I", 0));
+  compat_vectors[24].push_back(pair<std::string, unsigned>("#I", 0));
 
-  compat_vectors[25].push_back(pair<Safe_String, unsigned>("I#", 1));
-  compat_vectors[25].push_back(pair<Safe_String, unsigned>("G#", 1));
+  compat_vectors[25].push_back(pair<std::string, unsigned>("I#", 1));
+  compat_vectors[25].push_back(pair<std::string, unsigned>("G#", 1));
   
   //Manually insert max lengths (hack for now)
   for (unsigned i = 0; i < sizeof(starting_row)/sizeof(unsigned); i++) {
@@ -150,21 +150,21 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
     test_player->remap();
 
     //send the play to the game engine
-    Safe_String real_err_msg;
+    std::string real_err_msg;
     if ( (real_err_msg = game->evaluate_play(play_obj)) != err_msgs[i]) {
-      my_static_assert(false, Safe_String("Error message: '") + real_err_msg + "'" +
+      my_static_assert(false, std::string("Error message: '") + real_err_msg + "'" +
                        " did not match expected error message: '" + err_msgs[i] + "'")
     }
     if (err_msgs[i] == "") {
       cout << "Trying: " << searches[i] << endl;
 
       //check that my search alg would have found this word
-      Safe_Vector<set<char> > req_sets;
+      std::vector<set<char> > req_sets;
       Constraint::convert_compat_req_to_set(game->get_valid_words(), compat_vectors[i], req_sets);
       Constraint constraint(searches[i], req_sets, max_length_vectors[i]);
       test_player->find_all_satisfying_strings(constraint, min_sizes[i], max_sizes[i]);
       my_static_assert(vector_contains(test_player->m_recent_result, search_cont[i]),
-                       Safe_String("contrained search failed to find valid word: ") + search_cont[i]);
+                       std::string("contrained search failed to find valid word: ") + search_cont[i]);
 
       //have game process the play
       game->process_legit_play(play_obj, test_player);
@@ -197,20 +197,20 @@ void Scrabble_Tester::test_two(Scrabble_Game* game)
   static char text[63]; //should be enough to hold a line                      
   FILE* cmd_pipe;                                                               
 
-  Safe_String letters[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
+  std::string letters[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
                            "-AOEPLM", "PLASDUI", "IMNBXCS", "LAKSJDE", "PLQ-IDS"};
 
-  Safe_String grep_searches[] = {};
+  std::string grep_searches[] = {};
 
-  Safe_String my_searches[] = {};
+  std::string my_searches[] = {};
 
-  for (unsigned i = 0; i < (sizeof(letters)/sizeof(Safe_String)); ++i) {
+  for (unsigned i = 0; i < (sizeof(letters)/sizeof(std::string)); ++i) {
     for (unsigned j = 0; j < letters[i].size(); ++j) {
       Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(test_player->m_pieces[j]);
       piece->force_letter_change(letters[i][j]);
     }
     
-    set<Safe_String> grep_results, my_results;
+    set<std::string> grep_results, my_results;
     
     //formulate grep command strings
     string cmd_str = string("grep -E ") + grep_searches[i] + " " + 
@@ -232,7 +232,7 @@ void Scrabble_Tester::test_two(Scrabble_Game* game)
     //Constraint constraint(my_searches[i], compat_vectors[i], max_length_vectors[i], game->get_valid_words());
     //test_player->find_all_satisfying_strings(constraint, min_sizes[i], max_sizes[i]);
     //my_static_assert(vector_contains(test_player->m_recent_result, search_cont[i]),
-    //                 Safe_String("contrained search failed to find valid word: ") + search_cont[i]);
+    //                 std::string("contrained search failed to find valid word: ") + search_cont[i]);
   //}
 }
 
@@ -246,7 +246,7 @@ void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
   //depth-th plays of the game
   //
 
-  Safe_String dummy;
+  std::string dummy;
 
   my_static_assert(game->m_players.size() > 0, "Game had no players");
   game->initialize();
@@ -254,27 +254,27 @@ void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
   my_static_assert(test_player, "First player needs to be AI for this test");
 
   //hard-code AI letters for repeatability
-  Safe_Vector<Safe_String*> letters_for_depth;
+  std::vector<std::string*> letters_for_depth;
 
-  Safe_String letters_1[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
+  std::string letters_1[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
                              "-AOEPLM", "PLASDUI", "IMNBXCS", "LAKSJDE", "PLQ-IDS"};
 
-  Safe_String letters_2[] = {"CJAO-AE", "QPSDOAN", "ZVUISEW", "QWEUIOV", "ASDIPNA", 
+  std::string letters_2[] = {"CJAO-AE", "QPSDOAN", "ZVUISEW", "QWEUIOV", "ASDIPNA", 
                              "-SVWEJR", "HQEOQOG", "APFIQOJ", "QPBJKSJ", "FJA-QWE"};
 
-  Safe_String letters_3[] = {"--APSDO", "BOOSAFP", "QWRNXCV", "KLGHFNV", "UIIOSDF", 
+  std::string letters_3[] = {"--APSDO", "BOOSAFP", "QWRNXCV", "KLGHFNV", "UIIOSDF", 
                              "UKLDFGH", "APSIOCS", "LLMLMS-", "ASDASUI", "ABSD-YT"};
 
-  Safe_String letters_4[] = {"PQASLFX", "DFJKGAS", "SASDDIO", "KLGERTS", "POIESTY", 
+  std::string letters_4[] = {"PQASLFX", "DFJKGAS", "SASDDIO", "KLGERTS", "POIESTY", 
                              "LOLERCO", "OMGSTSD", "QWSPX-O", "AEASESI", "BJAB-YZ"};
 
-  Safe_String letters_5[] = {"JKASJDI", "JKGIKAJ", "SPZISJH", "QLIVHAE", "QPDIVBH", 
+  std::string letters_5[] = {"JKASJDI", "JKGIKAJ", "SPZISJH", "QLIVHAE", "QPDIVBH", 
                              "LKGDFHJ", "OADSFGD", "QASDYRV", "YUIFFSD", "XCVB-CZ"};
 
-  Safe_String* letter_srcs[] = {letters_1, letters_2, letters_3, letters_4, letters_5};
+  std::string* letter_srcs[] = {letters_1, letters_2, letters_3, letters_4, letters_5};
   
-  my_static_assert(iteration < (sizeof(letters_1)/sizeof(Safe_String)), 
-            Safe_String("iteration out of bounds: ") + obj_to_str(iteration));
+  my_static_assert(iteration < (sizeof(letters_1)/sizeof(std::string)), 
+            std::string("iteration out of bounds: ") + obj_to_str(iteration));
 
   for (unsigned d = 0; d < depth; ++d) {
     for (unsigned i = 0; i < letter_srcs[d % 5][iteration].size(); ++i) {
@@ -285,7 +285,7 @@ void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
 
     const Indv_Play& the_play = test_player->play();
     
-    Safe_String real_err_msg;
+    std::string real_err_msg;
     if ( (real_err_msg = game->evaluate_play(the_play)) != "") {
       cout << real_err_msg << endl;
       cout << the_play << endl;
@@ -306,7 +306,7 @@ void Scrabble_Tester::test_four(Scrabble_Game* game, bool wait)
 ////////////////////////////////////////////////////////////////////////////////
 {
   //Ultimate test: AI plays until end of game.
-  Safe_String dummy;
+  std::string dummy;
 
   game->play();
 

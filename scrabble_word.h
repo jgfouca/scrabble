@@ -3,10 +3,10 @@
 
 #include "scrabble_square.h"
 #include "scrabble_piece.h"
-#include "safe_string.h"
 
 #include <iostream>
 #include <algorithm>
+#include <string>
 
 /**
  * This class represents a word that has been (or will be) formed on the board.
@@ -64,7 +64,7 @@ class Scrabble_Word
   /**
    * get_word_str - Returns the word in string form.
    */
-  Safe_String get_word_str() const;
+  std::string get_word_str() const;
 
   /**
    * has_piece - Returns true if the word has a piece with a certain order

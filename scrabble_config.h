@@ -1,10 +1,9 @@
 #ifndef scrabble_config_h
 #define scrabble_config_h
 
-#include "safe_vector.h"
-#include "safe_string.h"
-
 #include <iostream>
+#include <string>
+#include <vector>
 
 enum Board_Type {STANDARD_BOARD};
 enum Player_Type {HUMAN, AI, SUPERUSER};
@@ -24,32 +23,32 @@ class Scrabble_Config
  public:
   static const Scrabble_Config& instance();
   
-  const unsigned                  NUM_PLAYERS()                const { return m_num_players               ; }
-  const Safe_Vector<Player_Type>& PLAYER_TYPES()               const { return m_player_types              ; }
-  const Safe_Vector<Safe_String>& PLAYER_NAMES()               const { return m_player_names              ; }
-  const Game_Mode                 GAME_MODE()                  const { return m_game_mode                 ; }
-  const unsigned                  NUM_PLAYER_PIECES()          const { return m_num_player_pieces         ; }
-  const Board_Type                BOARD_TYPE()                 const { return m_board_type                ; }
-  const bool                      PRODUCE_OUTPUT()             const { return m_produce_output            ; }
-  const bool                      COLOR_OUTPUT()               const { return m_color_output              ; }
-  const bool                      CLEAR_SCREEN_BEFORE_OUTPUT() const { return m_clear_screen_before_output; }
-  const Safe_String&              DICTIONARY()                 const { return m_dictionary                ; }
-  const Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; } 
-  const unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; } 
-  const unsigned                  CONSTRAINED_SQUARE_LIMIT()   const { return m_constrained_square_limit  ; }
-  const Assert_Fail_Action        ASSERT_FAIL_ACTION()         const { return m_assert_fail_action        ; }
+  unsigned                  NUM_PLAYERS()                const { return m_num_players               ; }
+  const std::vector<Player_Type>& PLAYER_TYPES()               const { return m_player_types              ; }
+  const std::vector<std::string>& PLAYER_NAMES()               const { return m_player_names              ; }
+  Game_Mode                 GAME_MODE()                  const { return m_game_mode                 ; }
+  unsigned                  NUM_PLAYER_PIECES()          const { return m_num_player_pieces         ; }
+  Board_Type                BOARD_TYPE()                 const { return m_board_type                ; }
+  bool                      PRODUCE_OUTPUT()             const { return m_produce_output            ; }
+  bool                      COLOR_OUTPUT()               const { return m_color_output              ; }
+  bool                      CLEAR_SCREEN_BEFORE_OUTPUT() const { return m_clear_screen_before_output; }
+  const std::string&              DICTIONARY()                 const { return m_dictionary                ; }
+  Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; } 
+  unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; } 
+  unsigned                  CONSTRAINED_SQUARE_LIMIT()   const { return m_constrained_square_limit  ; }
+  Assert_Fail_Action        ASSERT_FAIL_ACTION()         const { return m_assert_fail_action        ; }
   
  private:
   Scrabble_Config(unsigned num_players,
-                  const Safe_Vector<Player_Type>& player_types,
-                  const Safe_Vector<Safe_String>& player_names,
+                  const std::vector<Player_Type>& player_types,
+                  const std::vector<std::string>& player_names,
                   Game_Mode game_mode,
                   unsigned num_player_pieces            = 7,
                   Board_Type board_type                 = STANDARD_BOARD,
                   bool produce_output                   = true,
                   bool color_output                     = true,
                   bool clear_screen_before_output       = true,
-                  const Safe_String& dictionary         = "TWL06.txt",
+                  const std::string& dictionary         = "TWL06.txt",
                   Piece_Source_Type piece_source_type   = STANDARD_SOURCE, 
                   unsigned max_num_log_msgs_to_displ    = 10, 
                   unsigned constrained_square_limit     = 3,
@@ -64,15 +63,15 @@ class Scrabble_Config
   static const Scrabble_Config* s_glob_instance;
 
   unsigned                 m_num_players;
-  Safe_Vector<Player_Type> m_player_types;
-  Safe_Vector<Safe_String> m_player_names;
+  std::vector<Player_Type> m_player_types;
+  std::vector<std::string> m_player_names;
   Game_Mode                m_game_mode;
   unsigned                 m_num_player_pieces;
   Board_Type               m_board_type;
   bool                     m_produce_output;
   bool                     m_color_output;
   bool                     m_clear_screen_before_output;
-  Safe_String              m_dictionary;
+  std::string              m_dictionary;
   Piece_Source_Type        m_piece_source_type; 
   unsigned                 m_max_num_log_msgs_to_displ; 
   unsigned                 m_constrained_square_limit;

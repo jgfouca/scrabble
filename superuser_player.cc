@@ -20,7 +20,7 @@ void Superuser_Player::make_play()
   cout << "  AI will search board and find the best play." << endl;
 
   //loop until we see a valid command
-  Safe_String command;
+  std::string command;
   bool flawed_command = false;
   while (true) {
     //show the user what pieces they have
@@ -63,7 +63,7 @@ void Superuser_Player::make_play()
         }
 
         //loop over the word they are trying to create
-        Safe_String word_str(word);
+        std::string word_str(word);
         for (unsigned i = 0; i < word_str.size(); ++i) {
           //anything besides '_' requires a piece from the player
           if (word_str[i] != '_') {
@@ -96,7 +96,7 @@ void Superuser_Player::make_play()
         cout << "set-tray command not formatted properly, try again" << endl;
       }
       else {
-        Safe_String new_letters(word);
+        std::string new_letters(word);
         
         if (new_letters.size() > get_num_pieces()) {
           cout << "You tried to set too many pieces, player only has "

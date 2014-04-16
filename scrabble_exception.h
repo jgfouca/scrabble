@@ -1,12 +1,12 @@
 #ifndef scrabble_exception_h
 #define scrabble_exception_h
 
-#include "safe_string.h"
 #include "scrabble_common.h"
 #include "scrabble_config.h"
 
 #include <unistd.h>
 #include <cstdlib>
+#include <string>
 
 /**
  * This class is intended to be thrown whenever an assertion fails. Since this
@@ -26,8 +26,8 @@ class Assert_Exception : public std::exception
 {
  public:
   Assert_Exception(unsigned line, 
-                   const Safe_String& file, 
-                   const Safe_String& msg) :
+                   const std::string& file, 
+                   const std::string& msg) :
     m_line(line), m_file(file), m_message(msg) 
   {
     //the calling of a constructor implies an error has occured
@@ -49,16 +49,16 @@ class Assert_Exception : public std::exception
     return m_full_msg.c_str();
   }
   
-  const Safe_String& message() const
+  const std::string& message() const
   {
     return m_message;
   }
   
  private:
   unsigned            m_line;
-  Safe_String         m_file;
-  Safe_String         m_message;
-  mutable Safe_String m_full_msg;
+  std::string         m_file;
+  std::string         m_message;
+  mutable std::string m_full_msg;
 };
 
 /**
@@ -67,7 +67,7 @@ class Assert_Exception : public std::exception
  * Use the "my_static_assert" when you don't want to (or can't) output *this
  */
 #ifndef NDEBUG
-#define my_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, Safe_String("For object: ") + obj_to_str(*this) + "\n" + message); }
+#define my_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, std::string("For object: ") + obj_to_str(*this) + "\n" + message); }
 #define my_static_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, message); }
 #else
 #define my_assert(expr, message)
@@ -86,7 +86,7 @@ class Scrabble_Exception : public std::exception
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
-  Scrabble_Exception(const Safe_String& msg) : m_message(msg) {}
+  Scrabble_Exception(const std::string& msg) : m_message(msg) {}
   
   virtual ~Scrabble_Exception() throw() {}  
   
@@ -95,12 +95,12 @@ class Scrabble_Exception : public std::exception
     return m_message.c_str();
   }
   
-  const Safe_String& message() const 
+  const std::string& message() const 
   {
     return m_message;
   }
  private:
-  Safe_String m_message;
+  std::string m_message;
 };
 
 #endif

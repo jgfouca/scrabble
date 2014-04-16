@@ -1,13 +1,12 @@
 #ifndef constraint_h
 #define constraint_h
 
-#include "safe_string.h"
-#include "safe_vector.h"
-
 #include <set>
 #include <bitset>
 #include <algorithm>
 #include <iostream>
+#include <string>
+#include <vector>
 
 /**
  * This class represents a single search through the dictionary. The
@@ -81,10 +80,10 @@
  * word satisfies the constraint, we will also determine the locations
  * of all valid placements of this word. In order to convey this
  * information, we need a point of reference. We will use the first
- * item in the mandatory section of the search Safe_String as this
- * point of reference. So, if the search Safe_String is "*THE*" and
+ * item in the mandatory section of the search std::string as this
+ * point of reference. So, if the search std::string is "*THE*" and
  * the word is "LOATHE", then we will add -3 to the
- * potential_placements Safe_Vector.
+ * potential_placements std::vector.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,9 +103,9 @@ class Constraint
    * max_lengths - Contains info on the '*' items in the reg_expr
    * valid_words - The set of all valid words in the dictionary.
    */
-  Constraint(const Safe_String& reg_expr,
-             const Safe_Vector<std::set<char> >& req_sets,
-             const Safe_Vector<unsigned>& max_lengths);
+  Constraint(const std::string& reg_expr,
+             const std::vector<std::set<char> >& req_sets,
+             const std::vector<unsigned>& max_lengths);
 
   /**
    * Destructor
@@ -147,7 +146,7 @@ class Constraint
    *                        discovered. We use this vector to store that info.
    *                        See OTHER INFO in class description for more.
    */
-  bool satisfies(const Safe_String* word, Safe_Vector<unsigned>& potential_placements) const;
+  bool satisfies(const std::string* word, std::vector<unsigned>& potential_placements) const;
 
   /**
    * get_mandatory_bitset - Examines the mandatory section, looking at difficult
@@ -164,7 +163,7 @@ class Constraint
    *                         used by the AI to construct any potential satisfying 
    *                         word.
    */
-  const Safe_Vector<char>& get_mandatory_letters() const { return m_mandatory_letters; }
+  const std::vector<char>& get_mandatory_letters() const { return m_mandatory_letters; }
 
   /**
    * operator<< - Produces a nice-looking output of the reg_expr along with
@@ -234,9 +233,9 @@ class Constraint
    * req_compatibilities - The compatibilities of the form (string, index)
    * compatibility_sets  - We will fill this vector with the computed sets
    */
-  static void convert_compat_req_to_set(const std::set<Safe_String>& valid_words,
-                                        const Safe_Vector<std::pair<Safe_String, unsigned> >& req_compatibilities,
-                                        Safe_Vector<std::set<char> >& compatibility_sets);
+  static void convert_compat_req_to_set(const std::set<std::string>& valid_words,
+                                        const std::vector<std::pair<std::string, unsigned> >& req_compatibilities,
+                                        std::vector<std::set<char> >& compatibility_sets);
   
  private: // ================ PRIVATE INTERFACE ================================
 
@@ -262,19 +261,19 @@ class Constraint
   //////////////////////////////////////////////////////////////////////////////
 
   // m_reg_expr - The regular expression in our custom regex language
-  Safe_String m_reg_expr;
+  std::string m_reg_expr;
 
   // m_mandatory_bitset - see get_mandatory_bitset
   std::bitset<26> m_mandatory_bitset;
 
   // m_mandatory_letters - see get_mandatory_letters
-  Safe_Vector<char> m_mandatory_letters;
+  std::vector<char> m_mandatory_letters;
   
   // m_req_sets - compatibility info for '#' components
-  Safe_Vector<std::set<char> > m_req_sets;
+  std::vector<std::set<char> > m_req_sets;
 
   // m_max_lengths - max number of matching for '*' components
-  Safe_Vector<unsigned> m_max_lengths;
+  std::vector<unsigned> m_max_lengths;
 
   // m_placement_type - see Placement_Type enum. This member contains the 
   //                    appropriate placement-type of this constraint.
@@ -298,11 +297,11 @@ class Constraint
   // m_mandatory_letter_indeces - The indeces, from the point of view of the
   //                              start of the mandatory section, at which the
   //                              mandatory letters lie.
-  Safe_Vector<unsigned> m_mandatory_letter_indeces;
+  std::vector<unsigned> m_mandatory_letter_indeces;
 
   // m_compat_indeces - The indeces, from the point of view of the start of the
   //                    mandatory section, at which the '#'s lie.
-  Safe_Vector<unsigned> m_compat_indeces;
+  std::vector<unsigned> m_compat_indeces;
 
 };
 

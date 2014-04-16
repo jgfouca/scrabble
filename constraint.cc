@@ -7,9 +7,9 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-Constraint::Constraint(const Safe_String& reg_expr,
-                       const Safe_Vector<set<char> >& req_sets,
-                       const Safe_Vector<unsigned>& max_lengths)
+Constraint::Constraint(const std::string& reg_expr,
+                       const std::vector<set<char> >& req_sets,
+                       const std::vector<unsigned>& max_lengths)
 ////////////////////////////////////////////////////////////////////////////////
   : m_reg_expr(reg_expr),
     m_req_sets(req_sets),
@@ -34,7 +34,7 @@ Constraint::Constraint(const Safe_String& reg_expr,
     //assert that character is recognized
     my_assert(reg_expr[i] == '*' || reg_expr[i] == '#' || reg_expr[i] == '_' ||
               Scrabble_Piece::is_valid_letter(reg_expr[i]),
-              Safe_String("Character at index") + obj_to_str(i) + " not recognized");
+              std::string("Character at index") + obj_to_str(i) + " not recognized");
   }
 #endif 
 
@@ -103,7 +103,7 @@ Constraint::Constraint(const Safe_String& reg_expr,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool Constraint::satisfies(const Safe_String* word, Safe_Vector<unsigned>& potential_placements) const
+bool Constraint::satisfies(const std::string* word, std::vector<unsigned>& potential_placements) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_assert(word->size() >= m_mandatory_sect_size, 
@@ -336,11 +336,11 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
 #endif
 
     //create copies of all main state
-    Safe_String new_reg_expr                   = m_reg_expr;
+    std::string new_reg_expr                   = m_reg_expr;
     unsigned    cpy_crit_span_begin            = crit_span_begin;
     unsigned    cpy_crit_span_end              = crit_span_end;
     unsigned    potential_mand_sect_offset_chg = 0;
-    Safe_Vector<set<char> > new_req_compats    = m_req_sets;
+    std::vector<set<char> > new_req_compats    = m_req_sets;
 
     
     //figure out visit order in the "easing tree" 
@@ -476,7 +476,7 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
       cout << "          Easing successfully completed, new reg_expr: " << new_reg_expr << endl;
 #endif
       //need to recalculate max_lengths
-      Safe_Vector<unsigned> new_max_lengths;
+      std::vector<unsigned> new_max_lengths;
 
       if (new_reg_expr[0] == '*') {
         my_assert(!m_max_lengths.empty(),
@@ -537,9 +537,9 @@ bool Constraint::is_mandatory_sect_critical_span() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Constraint::convert_compat_req_to_set(const set<Safe_String>& valid_words,
-                                           const Safe_Vector<pair<Safe_String, unsigned> >& req_compatibilities,
-                                           Safe_Vector<set<char> >& compatibility_sets)
+void Constraint::convert_compat_req_to_set(const set<std::string>& valid_words,
+                                           const std::vector<pair<std::string, unsigned> >& req_compatibilities,
+                                           std::vector<set<char> >& compatibility_sets)
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_static_assert(compatibility_sets.empty(), 
@@ -551,7 +551,7 @@ void Constraint::convert_compat_req_to_set(const set<Safe_String>& valid_words,
   //to the corresponding compatibility-set.
   for (unsigned i = 0; i < req_compatibilities.size(); ++i) {
     for (char c = 'A'; c <= 'Z'; ++c) {
-      Safe_String string_with_subst = req_compatibilities[i].first;
+      std::string string_with_subst = req_compatibilities[i].first;
       string_with_subst[req_compatibilities[i].second] = c;
 
       if (valid_words.find(string_with_subst) != valid_words.end()) {

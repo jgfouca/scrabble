@@ -7,10 +7,10 @@
 #include "indv_play.h"
 #include "scrabble_piece.h"
 #include "board_loc.h"
-#include "safe_vector.h"
 
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 /*
  * This class represents the game board, a two dimension array of squares
@@ -91,7 +91,7 @@ class Scrabble_Board
    * get_created_words - Returns all the word objects hypothetically created by
    *                     the_play. This method is of significant complexity.
    */
-  Safe_Vector<Scrabble_Word> get_created_words(const Indv_Play& the_play) const;
+  std::vector<Scrabble_Word> get_created_words(const Indv_Play& the_play) const;
 
   /**
    * get_piece - Returns the piece that was played at a certain location.
@@ -121,7 +121,7 @@ class Scrabble_Board
                                    Scrabble_Word& word) const;
 
   /**
-   * get_adjacent -  Returns a Safe_Vector of coordinates for adjacent squares
+   * get_adjacent -  Returns a std::vector of coordinates for adjacent squares
    *                 with pieces (or no piece) on them.
    *
    * row              - The row of the square whose neighbors we are examining
@@ -131,7 +131,7 @@ class Scrabble_Board
    * looking_for_free - Specifies that we are actually looking for free neighboring
    *                    squares, not occupied ones.
    */
-  Safe_Vector<Board_Loc> get_adjacent(unsigned row, unsigned col,
+  std::vector<Board_Loc> get_adjacent(unsigned row, unsigned col,
                                       bool one_per_dim = false,
                                       bool looking_for_free = false) const;
 
@@ -155,7 +155,7 @@ class Scrabble_Board
   //////////////////////////////////////////////////////////////////////////////
 
   // m_board - A two dimensional vector of squares, index by [row][col]
-  Safe_Vector<Safe_Vector<Scrabble_Square> > m_board;
+  std::vector<std::vector<Scrabble_Square> > m_board;
 
   //////////////////////////////////////////////////////////////////////////////
   /////////////////////////////// FRIENDS //////////////////////////////////////

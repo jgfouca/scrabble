@@ -3,9 +3,9 @@
 
 #include "scrabble_piece.h"
 #include "standard_board_builder.h"
-#include "safe_string.h"
 
 #include <iostream>
+#include <string>
 
 //The Bonus enum contains values for all possible bonuses on the board
 enum Bonus {NONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD};

@@ -19,7 +19,7 @@ class Superuser_Player : public AI_Player
   /**
    * Constructor - Simply handsoff args to the parent constructor
    */
-  Superuser_Player(const Safe_String& name, Scrabble_Game* the_game) : AI_Player(name, the_game) {}
+  Superuser_Player(const std::string& name, Scrabble_Game* the_game) : AI_Player(name, the_game) {}
 
  protected:
   /**

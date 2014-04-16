@@ -7,7 +7,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-Safe_Vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& the_play) const
+std::vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& the_play) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   const unsigned num_played_letters = the_play.get_size();
@@ -21,13 +21,13 @@ Safe_Vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& th
     const_col       = the_play.get_ith_col(0) == the_play.get_ith_col(1);
     primary_line_id = (const_row) ? the_play.get_ith_row(0) : the_play.get_ith_col(0);
 
-    my_assert(const_row || const_col, Safe_String("Play: ") + obj_to_str(the_play) +
+    my_assert(const_row || const_col, std::string("Play: ") + obj_to_str(the_play) +
               ", was not vertical or horizontal??");
-    my_assert(!(const_row && const_col), Safe_String("Play: ") + obj_to_str(the_play) +
+    my_assert(!(const_row && const_col), std::string("Play: ") + obj_to_str(the_play) +
               ", was both vertical or horizontal??");
   }
 
-  Safe_Vector<Scrabble_Word> rv; //will hold all of the created words
+  std::vector<Scrabble_Word> rv; //will hold all of the created words
   Scrabble_Word primary_word;    //the word formed along the primary line
 
   //find the entire word formed along the primary line AND any secondary words
@@ -44,7 +44,7 @@ Safe_Vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& th
                                  const_row ? col : row);
     
       //check for already-placed pieces along the primary line, get all adjacent pieces
-      Safe_Vector<Board_Loc> adjacent_pieces = get_adjacent(row, col);
+      std::vector<Board_Loc> adjacent_pieces = get_adjacent(row, col);
       for (unsigned a = 0; a < adjacent_pieces.size(); a++) {
         //if any adjacent piece has the same 'id'
         if ( (const_row && adjacent_pieces[a].row() == primary_line_id) ||
@@ -57,7 +57,7 @@ Safe_Vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& th
     }
 
     //check for secondary words
-    Safe_Vector<Board_Loc> adjacent_pieces = get_adjacent(row, col, true);
+    std::vector<Board_Loc> adjacent_pieces = get_adjacent(row, col, true);
     for (unsigned a = 0; a < adjacent_pieces.size(); a++) {
       //check if neighbor is NOT along the primary line
       if (!((const_row && adjacent_pieces[a].row() == primary_line_id) ||
@@ -65,9 +65,9 @@ Safe_Vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& th
         //figure out which direction the secondary word is on 
         bool vertical   = adjacent_pieces[a].row() != row;
         bool horizontal = adjacent_pieces[a].col() != col;
-        my_assert(vertical || horizontal, Safe_String("Neighboring piece: ") + obj_to_str(adjacent_pieces[a]) +
+        my_assert(vertical || horizontal, std::string("Neighboring piece: ") + obj_to_str(adjacent_pieces[a]) +
                   " was neither a veritical or horizonal neighbor??");
-        my_assert(!(vertical && horizontal), Safe_String("Neighboring piece: ") + obj_to_str(adjacent_pieces[a]) +
+        my_assert(!(vertical && horizontal), std::string("Neighboring piece: ") + obj_to_str(adjacent_pieces[a]) +
                   " was both a veritical andd horizonal neighbor??"); 
 
         //we have found a new secondary word
@@ -147,22 +147,22 @@ ostream& Scrabble_Board::operator<<(ostream& out) const
 bool Scrabble_Board::is_free(unsigned row, unsigned col) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_assert(row < m_board.size() && col < m_board.size(), Safe_String("Received loc: ") + 
+  my_assert(row < m_board.size() && col < m_board.size(), std::string("Received loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not fall within the board.");
 
   return m_board[row][col].is_free();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Safe_Vector<Board_Loc> Scrabble_Board::get_adjacent(unsigned row, 
+std::vector<Board_Loc> Scrabble_Board::get_adjacent(unsigned row, 
                                                     unsigned col, 
                                                     bool one_per_dim,
                                                     bool looking_for_free) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  Safe_Vector<Board_Loc> adjacent_squares;
+  std::vector<Board_Loc> adjacent_squares;
   const unsigned b_dim = m_board.size();
-  my_assert(row < b_dim && col < b_dim, Safe_String("Received loc: ") + 
+  my_assert(row < b_dim && col < b_dim, std::string("Received loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not fall within the board.");
   bool adj_row_found = false, adj_col_found = false;
 
@@ -207,12 +207,12 @@ void Scrabble_Board::add_all_pieces_in_direction(unsigned my_row,  unsigned my_c
 {
   const unsigned b_dim = m_board.size();
 
-  my_assert(my_row < b_dim && my_col < b_dim, Safe_String("Received my-loc: ") + 
+  my_assert(my_row < b_dim && my_col < b_dim, std::string("Received my-loc: ") + 
             obj_to_str(Board_Loc(my_row,my_col)) + " which does not fall within the board.");
   
-  my_assert(adj_row < b_dim && adj_col < b_dim, Safe_String("Received adj-loc: ") + 
+  my_assert(adj_row < b_dim && adj_col < b_dim, std::string("Received adj-loc: ") + 
             obj_to_str(Board_Loc(adj_row,adj_col)) + " which does not fall within the board.");
-  my_assert(!is_free(adj_row, adj_col), Safe_String("Asking to add pieces starting with adj-loc: ") + 
+  my_assert(!is_free(adj_row, adj_col), std::string("Asking to add pieces starting with adj-loc: ") + 
             obj_to_str(Board_Loc(adj_row,adj_col)) + " which did not have a piece on it.");
 
   unsigned starting_row = adj_row;
@@ -220,9 +220,9 @@ void Scrabble_Board::add_all_pieces_in_direction(unsigned my_row,  unsigned my_c
   int      row_diff     = adj_row - my_row;
   int      col_diff     = adj_col - my_col;
 
-  my_assert(row_diff == 0 || col_diff == 0, Safe_String("Bad values: row_diff=") + obj_to_str(row_diff) +
+  my_assert(row_diff == 0 || col_diff == 0, std::string("Bad values: row_diff=") + obj_to_str(row_diff) +
             ", col_diff=" + obj_to_str(col_diff) + ". Expected one of them to be zero.");
-  my_assert(!(row_diff == 0 && col_diff == 0), Safe_String("Bad values: row_diff=") + obj_to_str(row_diff) +
+  my_assert(!(row_diff == 0 && col_diff == 0), std::string("Bad values: row_diff=") + obj_to_str(row_diff) +
             ", col_diff=" + obj_to_str(col_diff) + ". Expected one of them to be non-zero.");
   bool is_horiz = row_diff == 0;
   
@@ -243,7 +243,7 @@ void Scrabble_Board::add_all_pieces_in_direction(unsigned my_row,  unsigned my_c
 void Scrabble_Board::place_piece(unsigned row, unsigned col, const Scrabble_Piece* the_piece)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_assert(row < m_board.size() && col < m_board.size(), Safe_String("Received loc: ") + 
+  my_assert(row < m_board.size() && col < m_board.size(), std::string("Received loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not fall within the board.");
   
   m_board[row][col].add_piece(the_piece);
@@ -253,9 +253,9 @@ void Scrabble_Board::place_piece(unsigned row, unsigned col, const Scrabble_Piec
 const Scrabble_Piece* Scrabble_Board::get_piece(unsigned row, unsigned col) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_assert(row < m_board.size() && col < m_board.size(), Safe_String("Received loc: ") + 
+  my_assert(row < m_board.size() && col < m_board.size(), std::string("Received loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not fall within the board.");
-  my_assert(!is_free(row, col), Safe_String("Received request to get_piece with loc: ") + 
+  my_assert(!is_free(row, col), std::string("Received request to get_piece with loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not have a piece on it.");
 
   return m_board[row][col].get_piece();
@@ -265,7 +265,7 @@ const Scrabble_Piece* Scrabble_Board::get_piece(unsigned row, unsigned col) cons
 bool Scrabble_Board::is_unconstrained(unsigned row, unsigned col) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_assert(row < m_board.size() && col < m_board.size(), Safe_String("Received loc: ") + 
+  my_assert(row < m_board.size() && col < m_board.size(), std::string("Received loc: ") + 
             obj_to_str(Board_Loc(row,col)) + " which does not fall within the board.");
 
   //a square is "unconstrained" if it is empty and is not adjacent to any square with a piece on it

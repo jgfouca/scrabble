@@ -30,7 +30,7 @@ unsigned Scrabble_Word::score() const
       word_multiplier *= 3;
       break;
     default:
-      my_assert(false, Safe_String("Missing case for: ") + obj_to_str(bonus));
+      my_assert(false, std::string("Missing case for: ") + obj_to_str(bonus));
     }
   }
   return pre_multiplier_total * word_multiplier;
@@ -47,10 +47,10 @@ void Scrabble_Word::add_component(const Scrabble_Piece* piece, Bonus bonus, unsi
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Safe_String Scrabble_Word::get_word_str() const
+std::string Scrabble_Word::get_word_str() const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  Safe_String rv;
+  std::string rv;
   for (std::map<unsigned, pair<const Scrabble_Piece*, Bonus> >::const_iterator itr = m_word.begin();
        itr != m_word.end(); itr++) {
     rv += itr->second.first->get_letter();

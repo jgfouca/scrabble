@@ -15,7 +15,7 @@
 
 using namespace std;
 
-const Safe_String Scrabble_Facade::HELP =
+const std::string Scrabble_Facade::HELP =
   "scrabble --mode=(test|normal|command) \n"
   "   First step: you must pick your mode, options are test,normal, and command. \n"
   "   normal is default. \n"
@@ -91,16 +91,16 @@ void Scrabble_Facade::play(int argc, char** argv) const
   // Set up parsing of argv using getopt..
   
   //allocate variables to hold the options
-  Safe_Vector<Player_Type> player_types;
-  Safe_Vector<Safe_String> player_names;
-  Safe_Vector<Safe_String> tests_to_run;
+  std::vector<Player_Type> player_types;
+  std::vector<std::string> player_names;
+  std::vector<std::string> tests_to_run;
   Game_Mode game_mode                   = INVALID;
   unsigned num_player_pieces            = 7;
   Board_Type board_type                 = STANDARD_BOARD;
   bool produce_output                   = true;
   bool color_output                     = true;
   bool clear_screen_before_output       = true;
-  Safe_String dictionary                = "TWL06.txt";
+  std::string dictionary                = "TWL06.txt";
   Piece_Source_Type piece_source_type   = STANDARD_SOURCE; 
   unsigned max_num_log_msgs_to_displ    = 10; 
   unsigned constrained_square_limit     = 3;
@@ -115,7 +115,7 @@ void Scrabble_Facade::play(int argc, char** argv) const
   }
 
   for (int opt_itr = 1; opt_itr < argc; ++opt_itr) {
-    Safe_String opt = "", arg = "", full_arg = argv[opt_itr];
+    std::string opt = "", arg = "", full_arg = argv[opt_itr];
     
     //check for presence of a an arg that looks like a help request
     if (full_arg == "-h" || full_arg == "-help" || full_arg == "--help") {
@@ -124,7 +124,7 @@ void Scrabble_Facade::play(int argc, char** argv) const
     }
 
     //if necessary, split --opt=arg into opt, arg
-    if (full_arg.find('=') != Safe_String::npos) {
+    if (full_arg.find('=') != std::string::npos) {
       opt = full_arg.substr(0, full_arg.find('='));
       arg = full_arg.substr(full_arg.find('=') + 1);
     }
@@ -167,9 +167,9 @@ void Scrabble_Facade::play(int argc, char** argv) const
           cerr << "Can only use " << opt << " in normal mode." << endl;
           return;
         }
-        Safe_String player_name, type_string;
+        std::string player_name, type_string;
         Player_Type player_type;
-        if (arg.find(',') != Safe_String::npos) {
+        if (arg.find(',') != std::string::npos) {
           player_name = arg.substr(0, arg.find(','));
           type_string = arg.substr(arg.find(',') + 1);
         }
@@ -366,8 +366,8 @@ Scrabble_Game* Scrabble_Facade::create_game() const
     my_static_assert(false, "unknown board type");
   }
 
-  Safe_Vector<Player_Type> player_types = Scrabble_Config::instance().PLAYER_TYPES();
-  Safe_Vector<Safe_String> player_names = Scrabble_Config::instance().PLAYER_NAMES();
+  std::vector<Player_Type> player_types = Scrabble_Config::instance().PLAYER_TYPES();
+  std::vector<std::string> player_names = Scrabble_Config::instance().PLAYER_NAMES();
   my_static_assert(player_types.size() == player_names.size(),
                    "Player-type vector size did not match that of player-name vector");
 

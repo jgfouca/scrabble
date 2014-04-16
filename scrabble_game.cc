@@ -27,10 +27,10 @@ void Scrabble_Game::initialize()
   my_assert(is_complete(), "Tried to initialize a game that was not fully built.");
 
   //read dictionary, put all words into set
-  Safe_String dict_name = Scrabble_Config::instance().DICTIONARY();
+  std::string dict_name = Scrabble_Config::instance().DICTIONARY();
   ifstream in(dict_name.c_str());
-  my_assert(in, Safe_String("Unable to open dictionary-file: ") + dict_name);
-  Safe_String word;
+  my_assert(in, std::string("Unable to open dictionary-file: ") + dict_name);
+  std::string word;
   while (in >> word) {
     m_valid_words.insert(word);
   }
@@ -72,7 +72,7 @@ void Scrabble_Game::play()
       while (true) {
         const Indv_Play& this_play = m_players[i]->play();
         
-        Safe_String err_str = evaluate_play(this_play);
+        std::string err_str = evaluate_play(this_play);
         if (err_str == "") {
           if (this_play.get_size() > 0) {
             not_all_null = true;
@@ -102,7 +102,7 @@ void Scrabble_Game::play()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
+std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   const unsigned num_played_letters = the_play.get_size();
@@ -123,7 +123,7 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
       }
     }
     if (!hit_center) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: the first move must cover the middle square";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: the first move must cover the middle square";
     }
   }
 
@@ -132,12 +132,12 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
     bool const_row = the_play.get_ith_row(0) == the_play.get_ith_row(1);
     bool const_col = the_play.get_ith_col(0) == the_play.get_ith_col(1);
     if (!const_row && !const_col) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: all played letters must be linear";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: all played letters must be linear";
     }
     for (unsigned i = 0; i < num_played_letters; ++i) {
       if ( (const_row && (the_play.get_ith_row(0) != the_play.get_ith_row(i))) ||
            (const_col && (the_play.get_ith_col(0) != the_play.get_ith_col(i))) ) {
-        return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: all played letters must be linear";
+        return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: all played letters must be linear";
       }
     }
   }
@@ -167,7 +167,7 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
         //piece already on board takes care of this piece in the sequence
       }
       else {
-        return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: your play was not fully connected along the play-line";
+        return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: your play was not fully connected along the play-line";
       }
     }
   }
@@ -176,7 +176,7 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   for (unsigned i = 0; i < num_played_letters; ++i) {
     unsigned row = the_play.get_ith_row(i), col = the_play.get_ith_col(i);
     if (row >= b_dim || col >= b_dim) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: your play lied outside the board";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: your play lied outside the board";
     }
   }
 
@@ -185,7 +185,7 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   for (unsigned i = 0; i < num_played_letters; ++i) {
     if (played_rows.find(the_play.get_ith_row(i)) != played_rows.end() &&
         played_cols.find(the_play.get_ith_col(i)) != played_cols.end()) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: tried to make two plays on the same square";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: tried to make two plays on the same square";
     }
     played_rows.insert(the_play.get_ith_row(i));
     played_cols.insert(the_play.get_ith_col(i));
@@ -194,7 +194,7 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   //no piece may be placed on top of another piece
   for (unsigned i = 0; i < num_played_letters; ++i) {
     if (!m_game_board->is_free(the_play.get_ith_row(i), the_play.get_ith_col(i))) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: tried to place on top of another piece";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: tried to place on top of another piece";
     }
   }
 
@@ -208,17 +208,17 @@ Safe_String Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
       }
     }
     if (!found_adjacent) {
-      return Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: play did not connect with any words";
+      return std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: play did not connect with any words";
     }
   }
 
   // Every adjacent word must continue to be a valid word, calc hypothetical score while we're at it
   m_potential_score = 0;
   m_potential_words = "";
-  const Safe_Vector<Scrabble_Word> new_words = m_game_board->get_created_words(the_play);
+  const std::vector<Scrabble_Word> new_words = m_game_board->get_created_words(the_play);
   for (unsigned i = 0; i < new_words.size(); ++i) {
     if (m_valid_words.find(new_words[i].get_word_str()) == m_valid_words.end()) {
-      return Safe_String(Safe_String("MOVE ") + obj_to_str(the_play) + " REJECTED: \"") + new_words[i].get_word_str() + "\" is not a valid word";
+      return std::string(std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: \"") + new_words[i].get_word_str() + "\" is not a valid word";
     }
     else {
       m_potential_score += new_words[i].score();
@@ -267,7 +267,7 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     ostringstream ss;
     ss << player->get_name() << " scored " << m_potential_score 
        << " with words: " << m_potential_words;
-    m_msg_log.insert(m_msg_log.begin(), Safe_String(ss.str()));
+    m_msg_log.insert(m_msg_log.begin(), std::string(ss.str()));
     //we no longer have a 'virgin' board
     m_first_play = false;
   }
@@ -290,11 +290,11 @@ unsigned Scrabble_Game::get_potential_score(const Indv_Play& the_play) const
 ////////////////////////////////////////////////////////////////////////////////
 {
 #ifndef NDEBUG
-  Safe_String rv = 
+  std::string rv = 
 #endif
     evaluate_play(the_play); //piggy back on evaluate_play
   //since this method is called by AIs, expect valid plays
-  my_assert(rv == "", Safe_String("AI attempted play: ") + obj_to_str(the_play) +
+  my_assert(rv == "", std::string("AI attempted play: ") + obj_to_str(the_play) +
             ", which failed because: " + rv); 
   
   return m_potential_score;

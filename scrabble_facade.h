@@ -1,7 +1,7 @@
 #ifndef scrabble_facade_h
 #define scrabble_facade_h
 
-#include "safe_string.h"
+#include <string>
 
 class Scrabble_Game;
 
@@ -36,7 +36,7 @@ class Scrabble_Facade
   /**
    * HELP - A string describing how to use this program
    */
-  static const Safe_String HELP;
+  static const std::string HELP;
   
  private:
 

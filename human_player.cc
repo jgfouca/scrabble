@@ -23,7 +23,7 @@ void Human_Player::make_play()
   cout << endl;
 
   //loop until we see a valid command
-  Safe_String command;
+  std::string command;
   bool flawed_command = false;
   while (true) {
     unsigned row, col; //row,col are where the player's move begin
@@ -54,7 +54,7 @@ void Human_Player::make_play()
         }
 
         //loop over the word they are trying to create
-        Safe_String word_str(word);
+        std::string word_str(word);
         for (unsigned i = 0; i < word_str.size(); ++i) {
           //anything besides '_' requires a piece from the player
           if (word_str[i] != '_') {

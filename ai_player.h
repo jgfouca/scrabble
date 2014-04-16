@@ -4,13 +4,13 @@
 #include "player.h"
 #include "scrabble_tester.h"
 #include "constraint.h"
-#include "safe_string.h"
-#include "safe_vector.h"
 
 #include <set>
 #include <bitset>
 #include <algorithm>
 #include <tuple>
+#include <string>
+#include <vector>
 
 /**
  * This class implements a scrabble-player that can find good (hopefully) moves
@@ -64,7 +64,7 @@ class AI_Player : public Player
   /**
    * Constructor
    */
-  AI_Player(const Safe_String& name, Scrabble_Game* the_game) :
+  AI_Player(const std::string& name, Scrabble_Game* the_game) :
     Player(name, the_game),
     m_valid_words(the_game->get_valid_words()) { }
 
@@ -111,11 +111,11 @@ class AI_Player : public Player
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  static bool is_subset(const Safe_Vector<unsigned char>& mandatory_bits,
+  static bool is_subset(const std::vector<unsigned char>& mandatory_bits,
                         const std::bitset<26>& superset);
 
-  static void add_to_reg_expr(Safe_String& reg_expr, bool negative_dir,
-                              const Safe_String& new_component,
+  static void add_to_reg_expr(std::string& reg_expr, bool negative_dir,
+                              const std::string& new_component,
                               unsigned& critical_sect_expansion);
 
   //////////////////////////////////////////////////////////////////////////////
@@ -123,24 +123,24 @@ class AI_Player : public Player
   //////////////////////////////////////////////////////////////////////////////
 
   // m_valid_words - All valid words in the dictionary
-  const std::set<Safe_String>& m_valid_words;
+  const std::set<std::string>& m_valid_words;
 
   // m_bitsets - All valid words with their letter-containment bitset and length
-  Safe_Vector<std::tuple<std::bitset<26>, uint8_t, const Safe_String*> > m_bitsets;
+  std::vector<std::tuple<std::bitset<26>, uint8_t, const std::string*> > m_bitsets;
 
   // m_word_reqs - Letter requirements for all valid words
-  Safe_Vector<Safe_Vector<unsigned char> > m_word_reqs;
+  std::vector<std::vector<unsigned char> > m_word_reqs;
 
   // m_word_req_indeces - vectors of relevant (1 >=) word-req indices
-  Safe_Vector<Safe_Vector<unsigned char> > m_word_req_indeces;
+  std::vector<std::vector<unsigned char> > m_word_req_indeces;
 
   // m_recent_result - contains the most recent result for
   //                   find_all_satisfying_strings. Each item contains a string
-  mutable Safe_Vector<const Safe_String*> m_recent_result;
+  mutable std::vector<const std::string*> m_recent_result;
 
   // m_result_placements - we also have a vector of all-possible-placement-vectors
   //                       (relative to the first piece of the mandatory section).
-  mutable Safe_Vector<Safe_Vector<unsigned> > m_result_placements;
+  mutable std::vector<std::vector<unsigned> > m_result_placements;
 
   //////////////////////////////////////////////////////////////////////////////
   /////////////////////////////// FRIENDS //////////////////////////////////////

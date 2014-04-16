@@ -7,7 +7,8 @@
 #include "superuser_player.h"
 #include "scrabble_board.h"
 #include "piece_source.h"
-#include "safe_string.h"
+
+#include <string>
 
 class Scrabble_Game_Builder
 {
@@ -27,7 +28,7 @@ class Scrabble_Game_Builder
   }
 
   template <class PLAYER_CLASS>
-  void build_player(const Safe_String& name)
+  void build_player(const std::string& name)
   {
     my_static_assert(m_game, "m_game was null");
     m_game->add_player(new PLAYER_CLASS(name, m_game));

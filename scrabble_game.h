@@ -5,12 +5,12 @@
 #include "piece_source.h"
 #include "indv_play.h"
 #include "scrabble_tester.h"
-#include "safe_string.h"
-#include "safe_vector.h"
 #include "scrabble_exception.h"
 
 #include <iostream>
 #include <set>
+#include <string>
+#include <vector>
 
 class Player;
 
@@ -95,7 +95,7 @@ class Scrabble_Game
    * get_valid_words - returns a reference to the dictionary. 
    *                   (AIs need to know what words are valid)
    */
-  const std::set<Safe_String>& get_valid_words() const { return m_valid_words; }
+  const std::set<std::string>& get_valid_words() const { return m_valid_words; }
 
   /**
    * operator<< - produces a nice-looking output that should convey the state
@@ -153,7 +153,7 @@ class Scrabble_Game
    *                 play was invalid. Returning an empty string implies that 
    *                 the play was valid.
    */
-  Safe_String evaluate_play(const Indv_Play& the_play) const;
+  std::string evaluate_play(const Indv_Play& the_play) const;
   
   /**
    * process_legit_play - Takes the_play and applies it to the game, changing
@@ -175,7 +175,7 @@ class Scrabble_Game
   //////////////////////////////////////////////////////////////////////////////
 
   // m_players - A vector of all players in the game
-  Safe_Vector<Player*>     m_players;
+  std::vector<Player*>     m_players;
 
   // m_game_board - The board object being used by the game
   Scrabble_Board*          m_game_board;
@@ -187,11 +187,11 @@ class Scrabble_Game
   bool                     m_first_play;
 
   // m_valid_word - A set of all the words in the dictionary
-  std::set<Safe_String>    m_valid_words;
+  std::set<std::string>    m_valid_words;
 
   // m_msg_log - A vector of strings that describe recent happenings in the 
   //             game (usually recent plays). 
-  Safe_Vector<Safe_String> m_msg_log;
+  std::vector<std::string> m_msg_log;
 
   // m_potential_score - The score that would be made if the most recently
   //                     evaluated play were made.
@@ -199,7 +199,7 @@ class Scrabble_Game
   
   // m_potential_words - The words that would be created if the most recently
   //                     evaluated play were made.
-  mutable Safe_String      m_potential_words;
+  mutable std::string      m_potential_words;
 
   // m_game_over - True if this game has been completed.
   bool                     m_game_over;

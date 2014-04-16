@@ -5,12 +5,12 @@
 #include "indv_play.h"
 #include "scrabble_piece.h"
 #include "scrabble_tester.h"
-#include "safe_string.h"
-#include "safe_vector.h"
 
 #include <set>
 #include <map>
 #include <iostream>
+#include <string>
+#include <vector>
 
 /**
  * This class represents an individual player. Responsibilities of this class
@@ -45,7 +45,7 @@ class Player
    * name     - The name of this player
    * the_game - The game this player is taking part in
    */
-  Player(const Safe_String& name, Scrabble_Game* the_game);
+  Player(const std::string& name, Scrabble_Game* the_game);
 
   /**
    * Destructor
@@ -99,7 +99,7 @@ class Player
   /**
    * get_name - Return name of player
    */
-  const Safe_String& get_name() const { return m_name; }
+  const std::string& get_name() const { return m_name; }
 
   /**
    * get_score - Return player's score
@@ -161,7 +161,7 @@ class Player
   //////////////////////////////////////////////////////////////////////////////
 
   //m_name - The player's name
-  Safe_String                                        m_name;
+  std::string                                        m_name;
 
   //m_score - The player's current score
   unsigned                                           m_score;
@@ -173,7 +173,7 @@ class Player
   Indv_Play                                          m_current_play;
 
   //m_pieces - The player's tray of pieces
-  Safe_Vector<const Scrabble_Piece*>                 m_pieces;
+  std::vector<const Scrabble_Piece*>                 m_pieces;
 
   //m_char_piece_map - Maps characters to piece objects. This map represent what
   //                   letters are available to be played. Note: this map will

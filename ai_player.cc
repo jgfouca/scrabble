@@ -29,11 +29,11 @@ void AI_Player::initialize()
   m_result_placements.reserve(m_valid_words.size());
 
   //loop over all valid words, pre-computing things that will help us later
-  for (set<Safe_String>::const_iterator word_itr = m_valid_words.begin();
+  for (set<std::string>::const_iterator word_itr = m_valid_words.begin();
        word_itr != m_valid_words.end(); ++word_itr, ++bitset_itr) {
-    //we make a copy of the Safe_String on the heap to avoid having to make additional
+    //we make a copy of the std::string on the heap to avoid having to make additional
     //copies during each individual search
-    Safe_String* new_string = new Safe_String(*word_itr);
+    std::string* new_string = new std::string(*word_itr);
     get<2>(m_bitsets[bitset_itr]) = new_string;
     get<1>(m_bitsets[bitset_itr]) = new_string->size();
 
@@ -50,7 +50,7 @@ void AI_Player::initialize()
     for (unsigned i = 0; i < word_itr->size(); i++) {
       //set the appropriate bits in the bitset for this word
       my_assert(Scrabble_Piece::is_valid_letter( (*word_itr)[i] ),
-                Safe_String("dictionary word ") + *word_itr + " had invalid character");
+                std::string("dictionary word ") + *word_itr + " had invalid character");
       unsigned idx = (*word_itr)[i] - 'A';
       my_assert(idx < 26, "idx should always be between 0 and 25");
       the_set.set(idx);
@@ -74,7 +74,7 @@ void AI_Player::make_play()
   //allocate some useful objects
   Indv_Play tmp_play;
   unsigned highest_so_far = 0;
-  Safe_String highest_word = "";
+  std::string highest_word = "";
   set<pair<Board_Loc, Board_Loc> > constraints_checked;
 
   if (m_the_game->is_first_play()) {
@@ -82,15 +82,15 @@ void AI_Player::make_play()
     //prioritize long words
     //if none, try a smaller word
     for (int l = 7; l > 0; l--) {
-      Safe_Vector<unsigned> max_lengths;
+      std::vector<unsigned> max_lengths;
       max_lengths.push_back(l);
-      Constraint constraint("*", Safe_Vector<set<char> >(), max_lengths);
+      Constraint constraint("*", std::vector<set<char> >(), max_lengths);
       find_all_satisfying_strings(constraint, l, l);
 
       if (!m_recent_result.empty()) {
         //loop over all satisfying words, looking for highest-point placement
         for (unsigned r = 0; r < m_recent_result.size(); r++) {
-          const Safe_String* word = m_recent_result[r];
+          const std::string* word = m_recent_result[r];
           my_assert(word->size() == static_cast<unsigned>(l),
                     "word did not have expected length");
 
@@ -146,15 +146,15 @@ void AI_Player::make_play()
 
           //Look at all of these potential play lines and build up vectors that have information
           //about the critical square for every viable play-line..
-          Safe_Vector<Board_Loc> critical_squares;
-          Safe_Vector<Board_Loc> enabling_free_squares; //the free square that enabled the play
-          Safe_Vector<bool> is_horiz;
-          Safe_Vector<bool> is_across;
-          Safe_Vector<bool> is_neg_dir; //free squares in the negative direction
+          std::vector<Board_Loc> critical_squares;
+          std::vector<Board_Loc> enabling_free_squares; //the free square that enabled the play
+          std::vector<bool> is_horiz;
+          std::vector<bool> is_across;
+          std::vector<bool> is_neg_dir; //free squares in the negative direction
 
           //we need to ask the board for adjacent free squares since we can only play on free sqrs.
           //each free adjacent square opens-up the possibility of two plays
-          Safe_Vector<Board_Loc> free_sqrs = the_board->get_adjacent(row, col, false, true);
+          std::vector<Board_Loc> free_sqrs = the_board->get_adjacent(row, col, false, true);
           for (unsigned f = 0; f < free_sqrs.size(); f++) {
             for (unsigned p = 0; p < 2; p++) {
               critical_squares.push_back(Board_Loc(p == 0 ? row : free_sqrs[f].row(),
@@ -165,9 +165,9 @@ void AI_Player::make_play()
               is_neg_dir.push_back(row != free_sqrs[f].row() ? free_sqrs[f].row() < row :
                                    free_sqrs[f].col() < col);
 #ifdef VERBOSE
-              Safe_String dir_str    = is_neg_dir.back() ? "negative"   : "positive";
-              Safe_String vert_str   = is_horiz.back()   ? "horizontal" : "vertical";
-              Safe_String across_str = is_across.back()  ? "across"     : "adjacent";
+              std::string dir_str    = is_neg_dir.back() ? "negative"   : "positive";
+              std::string vert_str   = is_horiz.back()   ? "horizontal" : "vertical";
+              std::string across_str = is_across.back()  ? "across"     : "adjacent";
               cout << "    " << is_horiz.size() << ") Potential " << dir_str << " " << vert_str
                    << "-line play " << across_str << " " << critical_squares.back() << endl;
 #endif
@@ -189,7 +189,7 @@ void AI_Player::make_play()
 #ifdef VERBOSE
             cout << "      Examining line (" << line+1 << ")" << endl;
 #endif
-            Safe_String mandatory_sect; //reg_expr for the mandatory section of this line
+            std::string mandatory_sect; //reg_expr for the mandatory section of this line
             const unsigned critical_row = critical_squares[line].row();
             const unsigned critical_col = critical_squares[line].col();
             const bool horizontal       = is_horiz[line];
@@ -202,7 +202,7 @@ void AI_Player::make_play()
 
             //orig_req is used to store the original compatibility requirement that is
             //and innate property of all "adjacent-line plays"
-            pair<Safe_String, unsigned> orig_req;
+            pair<std::string, unsigned> orig_req;
 
             //Get the mandatory section of the line
             if (across) {
@@ -219,7 +219,7 @@ void AI_Player::make_play()
             else {
               mandatory_sect = "#";
               //this type of play immediately involves requirement compatibilities
-              Safe_Vector<Board_Loc> adj_pieces = the_board->get_adjacent(critical_row, critical_col);
+              std::vector<Board_Loc> adj_pieces = the_board->get_adjacent(critical_row, critical_col);
               if (adj_pieces.size() > 1) {
                 continue; // this line is over-constrained
               }
@@ -233,7 +233,7 @@ void AI_Player::make_play()
               the_board->add_all_pieces_in_direction(critical_row, critical_col,
                                                      adj_pieces[0].row(), adj_pieces[0].col(),
                                                      neighbor_sw);
-              Safe_String neighbor_word = neighbor_sw.get_word_str();
+              std::string neighbor_word = neighbor_sw.get_word_str();
 
               unsigned idx;
               if (is_neg_dir[line]) {
@@ -318,11 +318,11 @@ void AI_Player::make_play()
             //large mand-section impossible
             unsigned num_constrained_sqrs = mandatory_sect.size();
 
-	    //need a Safe_Vector to hold the constraint objects created by each search
-	    Safe_Vector<Constraint*> constraints;
-            //need a Safe_Vector to hold expansions in the mandatory section in the "upstream" direction.
+	    //need a std::vector to hold the constraint objects created by each search
+	    std::vector<Constraint*> constraints;
+            //need a std::vector to hold expansions in the mandatory section in the "upstream" direction.
             //need this information so we know where to start placing the word later
-            Safe_Vector<unsigned> mandatory_sect_expansions;
+            std::vector<unsigned> mandatory_sect_expansions;
 
             const unsigned NUM_CONSTRAINED_LIMIT = Scrabble_Config::instance().CONSTRAINED_SQUARE_LIMIT();
             for (int max_constrained_sqrs_in_negative_dir = NUM_CONSTRAINED_LIMIT;
@@ -331,11 +331,11 @@ void AI_Player::make_play()
               cout << "          Beginning search with max-constrained-sqrs-in-negative-direction: "
                    << max_constrained_sqrs_in_negative_dir << endl;
 #endif
-              Safe_String reg_expr = mandatory_sect;
+              std::string reg_expr = mandatory_sect;
               unsigned num_constrained_sqrs_found = num_constrained_sqrs;
               unsigned num_req_placements = (!across) ? 1 : 0;
-              Safe_Vector<pair<Safe_String, unsigned> > req_compatibilities;
-              Safe_Vector<unsigned> max_lengths;
+              std::vector<pair<std::string, unsigned> > req_compatibilities;
+              std::vector<unsigned> max_lengths;
               if (!across) {
                 my_assert(orig_req.first != "", "orig_req should have been populated");
                 req_compatibilities.push_back(orig_req);
@@ -353,7 +353,7 @@ void AI_Player::make_play()
                 int col_dir = search_in_negative_dir ? initial_col_search_dir : second_col_search_dir;
                 unsigned max_constrained = search_in_negative_dir ? max_constrained_sqrs_in_negative_dir : NUM_CONSTRAINED_LIMIT;
 #ifdef VERBOSE
-                Safe_String is_neg_str = (s == 0) ? "negative" : "postive";
+                std::string is_neg_str = (s == 0) ? "negative" : "postive";
                 cout << "            Performing "  << is_neg_str << " phase of search." << endl;
                 cout << "              Params: "
                      << "init_row: "        << init_row << ", "
@@ -388,9 +388,9 @@ void AI_Player::make_play()
                     //3) We are adjacent to pieces further down the search-line
                     //4) Both cases 2 and 3 are true
 
-                    Safe_Vector<Board_Loc> adj_pieces = the_board->get_adjacent(r, c);
+                    std::vector<Board_Loc> adj_pieces = the_board->get_adjacent(r, c);
                     //Remove any instances of case 1
-                    for (Safe_Vector<Board_Loc>::iterator itr = adj_pieces.begin();
+                    for (std::vector<Board_Loc>::iterator itr = adj_pieces.begin();
                          itr != adj_pieces.end(); itr++) {
                       if ( (horizontal && itr->row() == r &&
                             itr->col() == (c - col_dir)) ||
@@ -427,7 +427,7 @@ void AI_Player::make_play()
                                                                adj_pieces[0].row(),
                                                                adj_pieces[0].col(),
                                                                upcoming_sw);
-                        Safe_String upcoming = upcoming_sw.get_word_str();
+                        std::string upcoming = upcoming_sw.get_word_str();
                         if (upcoming.size() + num_constrained_sqrs_found <=
                             max_constrained) {
                           add_to_reg_expr(reg_expr, search_in_negative_dir, "_", mand_sect_exp);
@@ -464,7 +464,7 @@ void AI_Player::make_play()
                                                                adj_pieces[0].row(),
                                                                adj_pieces[0].col(),
                                                                perp_word_sw);
-                        Safe_String perp_word = perp_word_sw.get_word_str();
+                        std::string perp_word = perp_word_sw.get_word_str();
                         //figure out where a letter played on the sqr we are at would lie within
                         //the perpendicular word
                         unsigned idx;
@@ -480,10 +480,10 @@ void AI_Player::make_play()
                         //manipulate state accordingly
                         if (search_in_negative_dir) {
                           req_compatibilities.insert(req_compatibilities.begin(),
-						     pair<Safe_String,unsigned>(perp_word, idx));
+						     pair<std::string,unsigned>(perp_word, idx));
                         }
                         else {
-                          req_compatibilities.push_back(pair<Safe_String,unsigned>(perp_word, idx));
+                          req_compatibilities.push_back(pair<std::string,unsigned>(perp_word, idx));
                         }
                         add_to_reg_expr(reg_expr, search_in_negative_dir, "#", mand_sect_exp);
                         num_req_placements++;
@@ -529,7 +529,7 @@ void AI_Player::make_play()
 
               //Both neg, pos search done. Record the constraint the resulted from this search
               //note that we neet to convert our req-compatibilities into req-sets first
-              Safe_Vector<set<char> > req_sets;
+              std::vector<set<char> > req_sets;
               Constraint::convert_compat_req_to_set(m_valid_words, req_compatibilities, req_sets);
 	      constraints.push_back(new Constraint(reg_expr, req_sets, max_lengths));
               mandatory_sect_expansions.push_back(mand_sect_exp);
@@ -543,11 +543,11 @@ void AI_Player::make_play()
 #endif
             // All searches done for this line
 	    //remove all duplicate constraint objects. it's OK to be inefficient here
-            Safe_Vector<unsigned>::iterator ms_i_itr = mandatory_sect_expansions.begin();
-            for (Safe_Vector<Constraint*>::iterator i_itr = constraints.begin();
+            std::vector<unsigned>::iterator ms_i_itr = mandatory_sect_expansions.begin();
+            for (std::vector<Constraint*>::iterator i_itr = constraints.begin();
                  i_itr != constraints.end(); i_itr++, ms_i_itr++) {
-              Safe_Vector<unsigned>::iterator    ms_j_itr = ms_i_itr + 1;
-              Safe_Vector<Constraint*>::iterator j_itr    = i_itr    + 1;
+              std::vector<unsigned>::iterator    ms_j_itr = ms_i_itr + 1;
+              std::vector<Constraint*>::iterator j_itr    = i_itr    + 1;
               for ( ; j_itr != constraints.end(); j_itr++, ms_j_itr++) {
                 if (*(*i_itr) == *(*j_itr)) {
                   constraints.erase(j_itr--);
@@ -607,7 +607,7 @@ void AI_Player::make_play()
                   if (!m_recent_result.empty()) {
                     //loop over all satisfying words, looking for highest-point placement
                     for (unsigned r = 0; r < m_recent_result.size(); r++) {
-                      const Safe_String* word = m_recent_result[r];
+                      const std::string* word = m_recent_result[r];
                       my_assert(word->size() >= constraint->min_word_length() &&
                                 word->size() <= constraint->max_word_length(),
                                 "word did not meet length constraint?");
@@ -626,7 +626,7 @@ void AI_Player::make_play()
                           horizontal ? critical_col - mand_exp - additional_offset : critical_col;
                         int play_row_dir = horizontal ? 0 : 1;
                         int play_col_dir = horizontal ? 1 : 0;
-                        Safe_String played_letters;
+                        std::string played_letters;
 
                         my_assert(play_row_start < b_dim && play_col_start < b_dim,
                                   "start of play is outside of board!");
@@ -726,9 +726,9 @@ void AI_Player::find_all_satisfying_strings(const Constraint& constraint,
   m_recent_result.clear();
   m_result_placements.clear();
 
-  // Put available letters into a Safe_Vector of counts and mark them in a bitset
+  // Put available letters into a std::vector of counts and mark them in a bitset
   unsigned tolerance = 0;
-  Safe_Vector<unsigned> available_letters(26, 0);
+  std::vector<unsigned> available_letters(26, 0);
   for (unsigned i = 0; i < m_pieces.size(); i++) {
     if (m_pieces[i]) {
       if (m_pieces[i]->is_wildcard()) {
@@ -744,15 +744,15 @@ void AI_Player::find_all_satisfying_strings(const Constraint& constraint,
   const bitset<26>& mandatory_bitset = constraint.get_mandatory_bitset();
 
   //find indeces
-  Safe_Vector<unsigned char> mandatory_bits;
+  std::vector<unsigned char> mandatory_bits;
   for (unsigned i = 0; i < 26; i++) {
     if (mandatory_bitset.test(i)) {
       mandatory_bits.push_back(i);
     }
   }
 
-  //get mandatory letters as a Safe_Vector, add them to available_letters
-  const Safe_Vector<char>& mandatory_letters = constraint.get_mandatory_letters();
+  //get mandatory letters as a std::vector, add them to available_letters
+  const std::vector<char>& mandatory_letters = constraint.get_mandatory_letters();
   for (unsigned i = 0; i < mandatory_letters.size(); i++) {
     available_letters[mandatory_letters[i] - 'A']++;
   }
@@ -766,7 +766,7 @@ void AI_Player::find_all_satisfying_strings(const Constraint& constraint,
     size_t word_size = get<1>(m_bitsets[i]);
     if (word_size >= min_length && word_size <= max_length) {
 
-      const Safe_String* word = get<2>(m_bitsets[i]);
+      const std::string* word = get<2>(m_bitsets[i]);
 
       if (!mandatory_letters.empty() &&
           !is_subset(mandatory_bits, get<0>(m_bitsets[i]))) {
@@ -795,7 +795,7 @@ void AI_Player::find_all_satisfying_strings(const Constraint& constraint,
       }
       //at this point, we have passed the possible-formulation filter
       //only thing left is to see if this word satisfies the constraint object
-      Safe_Vector<unsigned> potential_placements;
+      std::vector<unsigned> potential_placements;
       if (constraint.satisfies(word, potential_placements)) {
         //this word has satisfied all constraints
         m_recent_result.push_back(word);
@@ -806,8 +806,8 @@ void AI_Player::find_all_satisfying_strings(const Constraint& constraint,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void AI_Player::add_to_reg_expr(Safe_String& reg_expr, bool negative_dir,
-                                const Safe_String& new_component,
+void AI_Player::add_to_reg_expr(std::string& reg_expr, bool negative_dir,
+                                const std::string& new_component,
                                 unsigned& mandatory_sect_expansion)
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -824,7 +824,7 @@ void AI_Player::add_to_reg_expr(Safe_String& reg_expr, bool negative_dir,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool AI_Player::is_subset(const Safe_Vector<unsigned char>& mandatory_bits,
+bool AI_Player::is_subset(const std::vector<unsigned char>& mandatory_bits,
                           const bitset<26>& superset)
 ////////////////////////////////////////////////////////////////////////////////
 {

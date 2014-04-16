@@ -3,9 +3,10 @@
 
 #include "scrabble_piece.h"
 #include "scrabble_tester.h"
-#include "safe_vector.h"
 #include "scrabble_exception.h"
 #include "piece_source.h"
+
+#include <vector>
 
 /**
  * This class implements a piece source that you'd expect in a standard scrabble
@@ -71,7 +72,7 @@ class Standard_Piece_Source : public Piece_Source
   //////////////////////////////////////////////////////////////////////////////
 
   // m_source - The vector of piece objects
-  Safe_Vector<const Scrabble_Piece*> m_source;
+  std::vector<const Scrabble_Piece*> m_source;
 
   // m_curr_idx - The index of the next piece to be returned.
   mutable unsigned m_curr_idx;

@@ -4,7 +4,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-Player::Player(const Safe_String& name, Scrabble_Game* the_game) :
+Player::Player(const std::string& name, Scrabble_Game* the_game) :
   m_name(name), m_score(0), m_the_game(the_game)
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -20,7 +20,7 @@ void Player::add_piece(const Scrabble_Piece* new_piece)
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_assert(m_char_piece_map.size() == get_num_pieces(),
-            Safe_String("Piece-map and tray sizes are out of sync: ") +
+            std::string("Piece-map and tray sizes are out of sync: ") +
             " piece-map-size=" + obj_to_str(m_char_piece_map.size()) +
             " tray-size=" + obj_to_str(get_num_pieces()));
 
@@ -31,7 +31,7 @@ void Player::add_piece(const Scrabble_Piece* new_piece)
       m_char_piece_map.insert(pair<char, const Scrabble_Piece*>(new_piece->get_letter(), new_piece));
 
       my_assert(!(new_piece->is_wildcard() && new_piece->get_letter() != '-'),
-                Safe_String("wild-card piece should have had letter '-'") +
+                std::string("wild-card piece should have had letter '-'") +
                 ", instead found: " + obj_to_str(new_piece->get_letter()));
       return;
     }
@@ -45,7 +45,7 @@ void Player::remove_piece(const Scrabble_Piece* piece)
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_assert(m_char_piece_map.size() == get_num_pieces(),
-            Safe_String("Piece-map and tray sizes are out of sync: ") +
+            std::string("Piece-map and tray sizes are out of sync: ") +
             " piece-map-size=" + obj_to_str(m_char_piece_map.size()) +
             " tray-size=" + obj_to_str(get_num_pieces()));
 
@@ -127,7 +127,7 @@ const Scrabble_Piece* Player::get_piece(char c) const
   multimap<char, const Scrabble_Piece*>::iterator itr;
 
 #ifndef NDEBUG
-  //check the invariant that every piece in the map is also in the Safe_Vector
+  //check the invariant that every piece in the map is also in the std::vector
   for (itr = m_char_piece_map.begin(); itr != m_char_piece_map.end(); itr++) {
     my_assert (has_piece(itr->second), "map and tray are out of sync");
   }
@@ -135,7 +135,7 @@ const Scrabble_Piece* Player::get_piece(char c) const
 
   //check that the player is attempting to play a real letter
   if (!Scrabble_Piece::is_valid_letter(c)) {
-    throw Scrabble_Exception(Safe_String("'") + obj_to_str(c) +
+    throw Scrabble_Exception(std::string("'") + obj_to_str(c) +
                              "' is not a valid letter.");
   }
 

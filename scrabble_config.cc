@@ -19,15 +19,15 @@ const Scrabble_Config& Scrabble_Config::instance()
 
 ////////////////////////////////////////////////////////////////////////////////
 Scrabble_Config::Scrabble_Config(unsigned num_players,
-                                 const Safe_Vector<Player_Type>& player_types,
-                                 const Safe_Vector<Safe_String>& player_names,
+                                 const std::vector<Player_Type>& player_types,
+                                 const std::vector<std::string>& player_names,
                                  Game_Mode game_mode,
                                  unsigned num_player_pieces,
                                  Board_Type board_type,
                                  bool produce_output,
                                  bool color_output,
                                  bool clear_screen_before_output,
-                                 const Safe_String& dictionary,
+                                 const std::string& dictionary,
                                  Piece_Source_Type piece_source_type, 
                                  unsigned max_num_log_msgs_to_displ, 
                                  unsigned constrained_square_limit,

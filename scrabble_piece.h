@@ -3,11 +3,11 @@
 
 #include "scrabble_point_map.h"
 #include "scrabble_tester.h"
-#include "safe_string.h"
 #include "scrabble_common.h"
 #include "scrabble_exception.h"
 
 #include <iostream>
+#include <string>
 
 class Superuser_Player;
 
@@ -27,7 +27,7 @@ class Scrabble_Piece
   Scrabble_Piece(char letter) 
   {
     my_assert(is_valid_letter(letter) || letter == '-', 
-              Safe_String("'") + obj_to_str(letter) + "' is not a valid letter" );
+              std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
 
     m_letter          = letter;
     //we use the point map to figure out how many point we are worth
@@ -48,7 +48,7 @@ class Scrabble_Piece
   void played() const
   {
     my_assert(!m_played, 
-              Safe_String("Attempted to play piece '") + m_letter +  "' twice");
+              std::string("Attempted to play piece '") + m_letter +  "' twice");
     
     m_played = true;
   }
@@ -60,7 +60,7 @@ class Scrabble_Piece
   void set_wildcard_value(char c) const
   {
     my_assert(is_valid_letter(c),
-              Safe_String("Attempted to set wild-card to invalid char '") + m_letter + "'");
+              std::string("Attempted to set wild-card to invalid char '") + m_letter + "'");
     my_assert(is_wildcard(), "Attempted to set wild-card on non-wild-card piece");
     
     m_wildcard_choice = c;
@@ -138,7 +138,7 @@ class Scrabble_Piece
   void force_letter_change(char letter) 
   {
     my_assert(is_valid_letter(letter) || letter == '-', 
-              Safe_String("'") + obj_to_str(letter) + "' is not a valid letter" );
+              std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
     my_assert(!m_played, "Should not call force_letter_change on played piece");
     my_assert(!m_been_output, "Should not have been output already");
 

@@ -17,7 +17,7 @@ class Human_Player : public Player
   /**
    * Constructor - Simply handsoff args to the parent constructor
    */
-  Human_Player(const Safe_String& name, Scrabble_Game* the_game) : Player(name, the_game) {}
+  Human_Player(const std::string& name, Scrabble_Game* the_game) : Player(name, the_game) {}
 
  protected:
   /**
