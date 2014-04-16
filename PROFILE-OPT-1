@@ -1,0 +1,998 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 96.01     14.16    14.16     1734     0.01     0.01  AI_Player::find_all_satisfying_strings(Constraint const&, unsigned int, unsigned int) const
+  1.22     14.34     0.18   178691     0.00     0.00  std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert_unique(std::string const&)
+  0.47     14.41     0.07    98626     0.00     0.00  Scrabble_Game::evaluate_play(Indv_Play const&) const
+  0.27     14.45     0.04        1     0.04     0.05  AI_Player::initialize()
+  0.20     14.48     0.03   429652     0.00     0.00  Constraint::satisfies(std::string const*, std::vector<unsigned int, std::allocator<unsigned int> >&) const
+  0.20     14.51     0.03     2592     0.00     0.00  Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&)
+  0.14     14.53     0.02   954396     0.00     0.00  Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const
+  0.14     14.55     0.02   729358     0.00     0.00  std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert_unique(int const&)
+  0.14     14.57     0.02   463305     0.00     0.00  std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, int const&)
+  0.14     14.59     0.02   396885     0.00     0.00  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*)
+  0.14     14.61     0.02   178691     0.00     0.00  std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::string const&)
+  0.14     14.63     0.02        1     0.02     0.02  AI_Player::~AI_Player()
+  0.14     14.65     0.02        1     0.02     0.02  std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*)
+  0.07     14.66     0.01   872790     0.00     0.00  Scrabble_Board::is_free(unsigned int, unsigned int) const
+  0.07     14.67     0.01   690669     0.00     0.00  std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_insert_equal(std::pair<char const, Scrabble_Piece const*> const&)
+  0.07     14.68     0.01   364679     0.00     0.00  Player::get_piece(char) const
+  0.07     14.69     0.01   154070     0.00     0.00  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*)
+  0.07     14.70     0.01    98679     0.00     0.00  Player::remap() const
+  0.07     14.71     0.01    98626     0.00     0.00  Scrabble_Board::get_created_words(Indv_Play const&) const
+  0.07     14.72     0.01       10     0.00     1.44  AI_Player::make_play()
+  0.07     14.73     0.01        1     0.01     0.26  Scrabble_Game::initialize()
+  0.07     14.74     0.01                             __tcf_0
+  0.03     14.75     0.01   447932     0.00     0.00  std::vector<Board_Loc, std::allocator<Board_Loc> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Board_Loc*, std::vector<Board_Loc, std::allocator<Board_Loc> > >, Board_Loc const&)
+  0.03     14.75     0.01        1     0.01     0.01  std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::pair<std::bitset<26ul>, std::string const*>*, std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > > >, unsigned long, std::pair<std::bitset<26ul>, std::string const*> const&)
+  0.00     14.75     0.00   742530     0.00     0.00  std::vector<unsigned char, std::allocator<unsigned char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned char const&)
+  0.00     14.75     0.00   523319     0.00     0.00  Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int)
+  0.00     14.75     0.00   523319     0.00     0.00  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  0.00     14.75     0.00   523319     0.00     0.00  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  0.00     14.75     0.00   363936     0.00     0.00  std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_erase(std::_Rb_tree_node<unsigned int>*)
+  0.00     14.75     0.00   346897     0.00     0.00  Scrabble_Word::get_word_str() const
+  0.00     14.75     0.00   256703     0.00     0.00  std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*)
+  0.00     14.75     0.00   193779     0.00     0.00  std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, Scrabble_Piece const*> >*)
+  0.00     14.75     0.00   178691     0.00     0.00  std::vector<unsigned char, std::allocator<unsigned char> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned long, unsigned char const&)
+  0.00     14.75     0.00   168427     0.00     0.00  Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const
+  0.00     14.75     0.00   125703     0.00     0.00  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  0.00     14.75     0.00   122568     0.00     0.00  Scrabble_Word::score() const
+  0.00     14.75     0.00   121460     0.00     0.00  std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&)
+  0.00     14.75     0.00   110471     0.00     0.00  std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&)
+  0.00     14.75     0.00    98616     0.00     0.00  Scrabble_Game::get_potential_score(Indv_Play const&) const
+  0.00     14.75     0.00    19134     0.00     0.00  std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_insert_unique(char const&)
+  0.00     14.75     0.00    18591     0.00     0.00  Scrabble_Board::is_unconstrained(unsigned int, unsigned int) const
+  0.00     14.75     0.00    15812     0.00     0.00  std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*)
+  0.00     14.75     0.00     9158     0.00     0.00  Scrabble_Config::instance()
+  0.00     14.75     0.00     5802     0.00     0.00  std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*)
+  0.00     14.75     0.00     3577     0.00     0.00  Constraint::max_word_length() const
+  0.00     14.75     0.00     3325     0.00     0.00  Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&)
+  0.00     14.75     0.00     3212     0.00     0.00  std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::pair<std::string, unsigned int>*, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > >, std::pair<std::string, unsigned int> const&)
+  0.00     14.75     0.00     2977     0.00     0.00  std::vector<char, std::allocator<char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<char*, std::vector<char, std::allocator<char> > >, char const&)
+  0.00     14.75     0.00     2592     0.00     0.00  std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&)
+  0.00     14.75     0.00     2575     0.00     0.00  Constraint::operator==(Constraint const&) const
+  0.00     14.75     0.00     2398     0.00     0.00  std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_create_nodes(unsigned int**, unsigned int**)
+  0.00     14.75     0.00     2398     0.00     0.00  std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_initialize_map(unsigned long)
+  0.00     14.75     0.00     2292     0.00     0.00  std::vector<bool, std::allocator<bool> >::push_back(bool)
+  0.00     14.75     0.00     2250     0.00     0.00  Scrabble_Square::operator<<(std::ostream&) const
+  0.00     14.75     0.00     2250     0.00     0.00  operator<<(std::ostream&, Scrabble_Square const&)
+  0.00     14.75     0.00     2000     0.00     0.00  operator<<(std::ostream&, Bonus const&)
+  0.00     14.75     0.00     1944     0.00     0.00  std::vector<Constraint*, std::allocator<Constraint*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Constraint**, std::vector<Constraint*, std::allocator<Constraint*> > >, Constraint* const&)
+  0.00     14.75     0.00     1844     0.00     0.00  Constraint::min_word_length() const
+  0.00     14.75     0.00     1628     0.00     0.00  void std::__uninitialized_fill_n_aux<std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > >(std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&, std::__false_type)
+  0.00     14.75     0.00     1470     0.00     0.00  Constraint::~Constraint()
+  0.00     14.75     0.00      977     0.00     0.00  Constraint::can_be_eased() const
+  0.00     14.75     0.00      732     0.00     0.00  Constraint::ease(unsigned int&)
+  0.00     14.75     0.00      732     0.00     0.00  std::deque<unsigned int, std::allocator<unsigned int> >::~deque()
+  0.00     14.75     0.00      467     0.00     0.00  std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::~vector()
+  0.00     14.75     0.00      428     0.00     0.00  std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >)
+  0.00     14.75     0.00      414     0.00     0.00  Constraint::is_mandatory_sect_critical_span() const
+  0.00     14.75     0.00      250     0.00     0.00  operator<<(std::ostream&, Scrabble_Piece const&)
+  0.00     14.75     0.00      170     0.00     0.00  Scrabble_Point_Map::instance()
+  0.00     14.75     0.00      170     0.00     0.00  Scrabble_Point_Map::get_point_val(char) const
+  0.00     14.75     0.00      142     0.00     0.00  std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&)
+  0.00     14.75     0.00       71     0.00     0.00  std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::operator=(std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > const&)
+  0.00     14.75     0.00       60     0.00     0.00  Scrabble_Square::set_bonus(Bonus)
+  0.00     14.75     0.00       50     0.00     0.00  Player::add_piece(Scrabble_Piece const*)
+  0.00     14.75     0.00       50     0.00     0.00  Standard_Piece_Source::get_piece() const
+  0.00     14.75     0.00       43     0.00     0.00  Scrabble_Board::place_piece(unsigned int, unsigned int, Scrabble_Piece const*)
+  0.00     14.75     0.00       43     0.00     0.00  Scrabble_Square::add_piece(Scrabble_Piece const*)
+  0.00     14.75     0.00       43     0.00     0.00  Player::remove_piece(Scrabble_Piece const*)
+  0.00     14.75     0.00       43     0.00     0.00  Standard_Piece_Source::is_empty() const
+  0.00     14.75     0.00       27     0.00     0.00  std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&)
+  0.00     14.75     0.00       27     0.00     0.00  std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<char const, unsigned int> const&)
+  0.00     14.75     0.00       22     0.00     0.00  std::vector<unsigned int, std::allocator<unsigned int> >::reserve(unsigned long)
+  0.00     14.75     0.00       15     0.00     0.00  std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Square*, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >, unsigned long, Scrabble_Square const&)
+  0.00     14.75     0.00       12     0.00     0.00  std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long)
+  0.00     14.75     0.00       11     0.00     0.00  std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
+  0.00     14.75     0.00       10     0.00     0.00  Scrabble_Game::process_legit_play(Indv_Play const&, Player*)
+  0.00     14.75     0.00       10     0.00     1.44  Player::play()
+  0.00     14.75     0.00       10     0.00     0.00  Scrabble_Game::operator<<(std::ostream&) const
+  0.00     14.75     0.00       10     0.00     0.00  Scrabble_Board::operator<<(std::ostream&) const
+  0.00     14.75     0.00       10     0.00     0.00  Player::get_num_pieces() const
+  0.00     14.75     0.00       10     0.00     0.00  char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
+  0.00     14.75     0.00       10     0.00     0.00  operator<<(std::ostream&, Scrabble_Game const&)
+  0.00     14.75     0.00       10     0.00     0.00  operator<<(std::ostream&, Scrabble_Board const&)
+  0.00     14.75     0.00        5     0.00     0.00  std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, unsigned int> >*)
+  0.00     14.75     0.00        2     0.00     0.00  std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned char, std::allocator<unsigned char> >*, std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > > >, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&)
+  0.00     14.75     0.00        2     0.00     0.00  void std::__uninitialized_fill_n_aux<std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > >(std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::__false_type)
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN10ConstraintC2ERKSsRKSt6vectorISt3setIcSt4lessIcESaIcEESaIS7_EERKS2_IjSaIjEE
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN12Human_Player9make_playEv
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN13Scrabble_GameD2Ev
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN15Scrabble_Config15s_glob_instanceE
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN15Scrabble_Facade8instanceEv
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN15Scrabble_Square9add_pieceEPK14Scrabble_Piece
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN15Scrabble_Tester8test_oneEP13Scrabble_Gameb
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN18Scrabble_Point_Map8instanceEv
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN21Standard_Piece_SourceC2Ev
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN22Standard_Board_Builder8instanceEv
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN6PlayerC2ERKSsP13Scrabble_Game
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZN9AI_PlayerD2Ev
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZNK13Scrabble_Word5scoreEv
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZNK14Scrabble_Board17get_created_wordsERK9Indv_Play
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZNK9Board_LoclsERSo
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZNK9Indv_PlaylsERSo
+  0.00     14.75     0.00        1     0.00     0.00  global constructors keyed to _ZlsRSoRK14Scrabble_Piece
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     14.75     0.00        1     0.00     0.04  Scrabble_Game::~Scrabble_Game()
+  0.00     14.75     0.00        1     0.00     0.00  Scrabble_Config::set_global_instance(Scrabble_Config const*)
+  0.00     14.75     0.00        1     0.00     0.00  Scrabble_Config::Scrabble_Config(unsigned int, std::vector<Player_Type, std::allocator<Player_Type> > const&, std::vector<std::string, std::allocator<std::string> > const&, unsigned int, Board_Type, bool, bool, bool, std::string const&, Piece_Source_Type, unsigned int, unsigned int, Assert_Fail_Action)
+  0.00     14.75     0.00        1     0.00     0.00  Scrabble_Facade::instance()
+  0.00     14.75     0.00        1     0.00    14.70  Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool)
+  0.00     14.75     0.00        1     0.00     0.00  Scrabble_Point_Map::Scrabble_Point_Map()
+  0.00     14.75     0.00        1     0.00     0.00  Standard_Piece_Source::Standard_Piece_Source()
+  0.00     14.75     0.00        1     0.00     0.00  Standard_Piece_Source::~Standard_Piece_Source()
+  0.00     14.75     0.00        1     0.00     0.00  Standard_Board_Builder::instance()
+  0.00     14.75     0.00        1     0.00     0.00  Player::Player(std::string const&, Scrabble_Game*)
+  0.00     14.75     0.00        1     0.00     0.00  Player::~Player()
+  0.00     14.75     0.00        1     0.00     0.00  Scrabble_Facade::create_game() const
+  0.00     14.75     0.00        1     0.00    14.74  Scrabble_Facade::play(int, char**) const
+  0.00     14.75     0.00        1     0.00     0.00  Standard_Board_Builder::build_board(Scrabble_Board*) const
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<Player_Type, std::allocator<Player_Type> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player_Type*, std::vector<Player_Type, std::allocator<Player_Type> > >, Player_Type const&)
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<Player*, std::allocator<Player*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player**, std::vector<Player*, std::allocator<Player*> > >, Player* const&)
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Piece const**, std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > >, unsigned long, Scrabble_Piece const* const&)
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<std::string const*, std::allocator<std::string const*> >::reserve(unsigned long)
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > > >, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&)
+  0.00     14.75     0.00        1     0.00     0.00  std::vector<std::vector<unsigned int, std::allocator<unsigned int> >, std::allocator<std::vector<unsigned int, std::allocator<unsigned int> > > >::reserve(unsigned long)
+  0.00     14.75     0.00        1     0.00     0.00  std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::pair<char const, unsigned int> const&)
+  0.00     14.75     0.00        1     0.00     0.00  void std::__uninitialized_fill_n_aux<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >(std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&, std::__false_type)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.07% of 14.75 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     99.9    0.00   14.74                 main [1]
+                0.00   14.74       1/1           Scrabble_Facade::play(int, char**) const [2]
+                0.00    0.00       1/1           Scrabble_Facade::instance() [142]
+-----------------------------------------------
+                0.00   14.74       1/1           main [1]
+[2]     99.9    0.00   14.74       1         Scrabble_Facade::play(int, char**) const [2]
+                0.00   14.70       1/1           Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.00    0.04       1/1           Scrabble_Game::~Scrabble_Game() [14]
+                0.00    0.00       1/1           std::vector<Player_Type, std::allocator<Player_Type> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player_Type*, std::vector<Player_Type, std::allocator<Player_Type> > >, Player_Type const&) [151]
+                0.00    0.00       1/1           Scrabble_Config::set_global_instance(Scrabble_Config const*) [140]
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+                0.00    0.00       1/1           Scrabble_Config::Scrabble_Config(unsigned int, std::vector<Player_Type, std::allocator<Player_Type> > const&, std::vector<std::string, std::allocator<std::string> > const&, unsigned int, Board_Type, bool, bool, bool, std::string const&, Piece_Source_Type, unsigned int, unsigned int, Assert_Fail_Action) [141]
+                0.00    0.00       1/11          std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [96]
+-----------------------------------------------
+                0.00   14.70       1/1           Scrabble_Facade::play(int, char**) const [2]
+[3]     99.7    0.00   14.70       1         Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.00   14.45      10/10          Player::play() [4]
+                0.01    0.25       1/1           Scrabble_Game::initialize() [7]
+                0.00    0.00      10/98626       Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+                0.00    0.00      10/10          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+                0.00    0.00      10/98679       Player::remap() const [23]
+                0.00    0.00      70/170         Scrabble_Point_Map::instance() [81]
+                0.00    0.00      70/170         Scrabble_Point_Map::get_point_val(char) const [82]
+                0.00    0.00      10/10          Scrabble_Game::operator<<(std::ostream&) const [97]
+                0.00    0.00      10/10          operator<<(std::ostream&, Scrabble_Game const&) [101]
+-----------------------------------------------
+                0.00   14.45      10/10          Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+[4]     97.9    0.00   14.45      10         Player::play() [4]
+                0.01   14.44      10/10          AI_Player::make_play() [5]
+                0.00    0.00      10/98679       Player::remap() const [23]
+-----------------------------------------------
+                0.01   14.44      10/10          Player::play() [4]
+[5]     97.9    0.01   14.44      10         AI_Player::make_play() [5]
+               14.16    0.03    1734/1734        AI_Player::find_all_satisfying_strings(Constraint const&, unsigned int, unsigned int) const [6]
+                0.00    0.18   98616/98616       Scrabble_Game::get_potential_score(Indv_Play const&) const [10]
+                0.03    0.00    2592/2592        Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [16]
+                0.01    0.01   98616/98679       Player::remap() const [23]
+                0.01    0.00  364679/364679      Player::get_piece(char) const [27]
+                0.01    0.00  454729/872790      Scrabble_Board::is_free(unsigned int, unsigned int) const [25]
+                0.00    0.00   18591/18591       Scrabble_Board::is_unconstrained(unsigned int, unsigned int) const [32]
+                0.00    0.00    7610/954396      Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+                0.00    0.00    3135/396885      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [19]
+                0.00    0.00    1148/447932      std::vector<Board_Loc, std::allocator<Board_Loc> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Board_Loc*, std::vector<Board_Loc, std::allocator<Board_Loc> > >, Board_Loc const&) [30]
+                0.00    0.00    6182/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+                0.00    0.00    4593/110471      std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&) [53]
+                0.00    0.00    3577/3577        Constraint::max_word_length() const [58]
+                0.00    0.00    3212/3212        std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::pair<std::string, unsigned int>*, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > >, std::pair<std::string, unsigned int> const&) [60]
+                0.00    0.00    3135/168427      Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const [50]
+                0.00    0.00    3135/346897      Scrabble_Word::get_word_str() const [46]
+                0.00    0.00    2593/3325        Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+                0.00    0.00    2575/2575        Constraint::operator==(Constraint const&) const [63]
+                0.00    0.00    2292/2292        std::vector<bool, std::allocator<bool> >::push_back(bool) [66]
+                0.00    0.00    1944/1944        std::vector<Constraint*, std::allocator<Constraint*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Constraint**, std::vector<Constraint*, std::allocator<Constraint*> > >, Constraint* const&) [70]
+                0.00    0.00    1844/1844        Constraint::min_word_length() const [71]
+                0.00    0.00    1470/1470        Constraint::~Constraint() [73]
+                0.00    0.00     977/977         Constraint::can_be_eased() const [74]
+                0.00    0.00     732/732         Constraint::ease(unsigned int&) [75]
+                0.00    0.00     648/9158        Scrabble_Config::instance() [56]
+                0.00    0.00     414/414         Constraint::is_mandatory_sect_critical_span() const [79]
+                0.00    0.00     142/142         std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) [83]
+                0.00    0.00      71/71          std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::operator=(std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > const&) [84]
+                0.00    0.00      20/22          std::vector<unsigned int, std::allocator<unsigned int> >::reserve(unsigned long) [93]
+                0.00    0.00      10/12          std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long) [95]
+-----------------------------------------------
+               14.16    0.03    1734/1734        AI_Player::make_play() [5]
+[6]     96.2   14.16    0.03    1734         AI_Player::find_all_satisfying_strings(Constraint const&, unsigned int, unsigned int) const [6]
+                0.03    0.00  429652/429652      Constraint::satisfies(std::string const*, std::vector<unsigned int, std::allocator<unsigned int> >&) const [15]
+-----------------------------------------------
+                0.01    0.25       1/1           Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+[7]      1.7    0.01    0.25       1         Scrabble_Game::initialize() [7]
+                0.18    0.02  178691/178691      std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert_unique(std::string const&) [8]
+                0.04    0.01       1/1           AI_Player::initialize() [12]
+                0.00    0.00       7/50          Player::add_piece(Scrabble_Piece const*) [34]
+                0.00    0.00       7/50          Standard_Piece_Source::get_piece() const [86]
+                0.00    0.00       2/9158        Scrabble_Config::instance() [56]
+-----------------------------------------------
+                0.18    0.02  178691/178691      Scrabble_Game::initialize() [7]
+[8]      1.4    0.18    0.02  178691         std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert_unique(std::string const&) [8]
+                0.02    0.00  178691/178691      std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::string const&) [20]
+-----------------------------------------------
+                0.00    0.00      10/98626       Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.07    0.11   98616/98626       Scrabble_Game::get_potential_score(Indv_Play const&) const [10]
+[9]      1.2    0.07    0.11   98626         Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+                0.01    0.04   98626/98626       Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+                0.02    0.02  729358/729358      std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert_unique(int const&) [13]
+                0.01    0.00  237981/396885      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [19]
+                0.00    0.00  200536/954396      Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+                0.00    0.00  418061/872790      Scrabble_Board::is_free(unsigned int, unsigned int) const [25]
+                0.00    0.00  363936/363936      std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_erase(std::_Rb_tree_node<unsigned int>*) [45]
+                0.00    0.00  256703/256703      std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*) [47]
+                0.00    0.00  245136/346897      Scrabble_Word::get_word_str() const [46]
+                0.00    0.00  122568/122568      Scrabble_Word::score() const [52]
+-----------------------------------------------
+                0.00    0.18   98616/98616       AI_Player::make_play() [5]
+[10]     1.2    0.00    0.18   98616         Scrabble_Game::get_potential_score(Indv_Play const&) const [10]
+                0.07    0.11   98616/98626       Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+-----------------------------------------------
+                0.01    0.04   98626/98626       Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[11]     0.3    0.01    0.04   98626         Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+                0.02    0.00  727659/954396      Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+                0.00    0.01  121460/121460      std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&) [24]
+                0.01    0.00  124267/396885      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [19]
+                0.00    0.00    1108/154070      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [28]
+                0.00    0.00  388621/523319      Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int) [42]
+                0.00    0.00  165292/168427      Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const [50]
+                0.00    0.00   98626/346897      Scrabble_Word::get_word_str() const [46]
+-----------------------------------------------
+                0.04    0.01       1/1           Scrabble_Game::initialize() [7]
+[12]     0.3    0.04    0.01       1         AI_Player::initialize() [12]
+                0.01    0.00       1/1           std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::pair<std::bitset<26ul>, std::string const*>*, std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > > >, unsigned long, std::pair<std::bitset<26ul>, std::string const*> const&) [31]
+                0.00    0.00  742530/742530      std::vector<unsigned char, std::allocator<unsigned char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned char const&) [41]
+                0.00    0.00  178691/178691      std::vector<unsigned char, std::allocator<unsigned char> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned long, unsigned char const&) [49]
+                0.00    0.00       2/2           std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned char, std::allocator<unsigned char> >*, std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > > >, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&) [104]
+                0.00    0.00       1/1           std::vector<std::string const*, std::allocator<std::string const*> >::reserve(unsigned long) [154]
+                0.00    0.00       1/1           std::vector<std::vector<unsigned int, std::allocator<unsigned int> >, std::allocator<std::vector<unsigned int, std::allocator<unsigned int> > > >::reserve(unsigned long) [156]
+-----------------------------------------------
+                0.02    0.02  729358/729358      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[13]     0.3    0.02    0.02  729358         std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert_unique(int const&) [13]
+                0.02    0.00  463305/463305      std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, int const&) [18]
+-----------------------------------------------
+                0.00    0.04       1/1           Scrabble_Facade::play(int, char**) const [2]
+[14]     0.3    0.00    0.04       1         Scrabble_Game::~Scrabble_Game() [14]
+                0.02    0.00       1/1           AI_Player::~AI_Player() [21]
+                0.02    0.00       1/1           std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*) [22]
+                0.00    0.00       1/1           Standard_Piece_Source::~Standard_Piece_Source() [145]
+-----------------------------------------------
+                0.03    0.00  429652/429652      AI_Player::find_all_satisfying_strings(Constraint const&, unsigned int, unsigned int) const [6]
+[15]     0.2    0.03    0.00  429652         Constraint::satisfies(std::string const*, std::vector<unsigned int, std::allocator<unsigned int> >&) const [15]
+                0.00    0.00   98609/110471      std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&) [53]
+-----------------------------------------------
+                0.03    0.00    2592/2592        AI_Player::make_play() [5]
+[16]     0.2    0.03    0.00    2592         Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [16]
+                0.00    0.00   19134/19134       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_insert_unique(char const&) [54]
+                0.00    0.00    2592/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+                0.00    0.00    2592/2592        std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&) [62]
+-----------------------------------------------
+                0.00    0.00    7610/954396      AI_Player::make_play() [5]
+                0.00    0.00   18591/954396      Scrabble_Board::is_unconstrained(unsigned int, unsigned int) const [32]
+                0.00    0.00  200536/954396      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+                0.02    0.00  727659/954396      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+[17]     0.2    0.02    0.00  954396         Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+                0.00    0.00  446784/447932      std::vector<Board_Loc, std::allocator<Board_Loc> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Board_Loc*, std::vector<Board_Loc, std::allocator<Board_Loc> > >, Board_Loc const&) [30]
+-----------------------------------------------
+                0.02    0.00  463305/463305      std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert_unique(int const&) [13]
+[18]     0.1    0.02    0.00  463305         std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, int const&) [18]
+-----------------------------------------------
+                0.00    0.00    3135/396885      AI_Player::make_play() [5]
+                0.00    0.00   31502/396885      std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&) [24]
+                0.01    0.00  124267/396885      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+                0.01    0.00  237981/396885      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[19]     0.1    0.02    0.00  396885         std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [19]
+-----------------------------------------------
+                0.02    0.00  178691/178691      std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert_unique(std::string const&) [8]
+[20]     0.1    0.02    0.00  178691         std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::string const&) [20]
+-----------------------------------------------
+                0.02    0.00       1/1           Scrabble_Game::~Scrabble_Game() [14]
+[21]     0.1    0.02    0.00       1         AI_Player::~AI_Player() [21]
+                0.00    0.00       1/1           Player::~Player() [148]
+-----------------------------------------------
+                               28205             std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*) [22]
+                0.02    0.00       1/1           Scrabble_Game::~Scrabble_Game() [14]
+[22]     0.1    0.02    0.00       1+28205   std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*) [22]
+                               28205             std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*) [22]
+-----------------------------------------------
+                0.00    0.00      10/98679       Player::play() [4]
+                0.00    0.00      10/98679       Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.00    0.00      43/98679       Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+                0.01    0.01   98616/98679       AI_Player::make_play() [5]
+[23]     0.1    0.01    0.01   98679         Player::remap() const [23]
+                0.01    0.00  690619/690669      std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_insert_equal(std::pair<char const, Scrabble_Piece const*> const&) [26]
+                0.00    0.00  193778/193779      std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, Scrabble_Piece const*> >*) [48]
+-----------------------------------------------
+                0.00    0.01  121460/121460      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+[24]     0.1    0.00    0.01  121460         std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&) [24]
+                0.01    0.00  152962/154070      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [28]
+                0.00    0.00   31502/396885      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [19]
+-----------------------------------------------
+                0.00    0.00  418061/872790      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+                0.01    0.00  454729/872790      AI_Player::make_play() [5]
+[25]     0.1    0.01    0.00  872790         Scrabble_Board::is_free(unsigned int, unsigned int) const [25]
+-----------------------------------------------
+                0.00    0.00      50/690669      Player::add_piece(Scrabble_Piece const*) [34]
+                0.01    0.00  690619/690669      Player::remap() const [23]
+[26]     0.1    0.01    0.00  690669         std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_insert_equal(std::pair<char const, Scrabble_Piece const*> const&) [26]
+-----------------------------------------------
+                0.01    0.00  364679/364679      AI_Player::make_play() [5]
+[27]     0.1    0.01    0.00  364679         Player::get_piece(char) const [27]
+-----------------------------------------------
+                              247116             std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [28]
+                0.00    0.00    1108/154070      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+                0.01    0.00  152962/154070      std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&) [24]
+[28]     0.1    0.01    0.00  154070+247116  std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [28]
+                              247116             std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*) [28]
+-----------------------------------------------
+                                                 <spontaneous>
+[29]     0.1    0.01    0.00                 __tcf_0 [29]
+-----------------------------------------------
+                0.00    0.00    1148/447932      AI_Player::make_play() [5]
+                0.00    0.00  446784/447932      Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+[30]     0.0    0.01    0.00  447932         std::vector<Board_Loc, std::allocator<Board_Loc> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Board_Loc*, std::vector<Board_Loc, std::allocator<Board_Loc> > >, Board_Loc const&) [30]
+-----------------------------------------------
+                0.01    0.00       1/1           AI_Player::initialize() [12]
+[31]     0.0    0.01    0.00       1         std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::pair<std::bitset<26ul>, std::string const*>*, std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > > >, unsigned long, std::pair<std::bitset<26ul>, std::string const*> const&) [31]
+-----------------------------------------------
+                0.00    0.00   18591/18591       AI_Player::make_play() [5]
+[32]     0.0    0.00    0.00   18591         Scrabble_Board::is_unconstrained(unsigned int, unsigned int) const [32]
+                0.00    0.00   18591/954396      Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [17]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+[33]     0.0    0.00    0.00      10         Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+                0.00    0.00      43/98679       Player::remap() const [23]
+                0.00    0.00      43/50          Player::add_piece(Scrabble_Piece const*) [34]
+                0.00    0.00      43/43          Scrabble_Square::add_piece(Scrabble_Piece const*) [88]
+                0.00    0.00      43/43          Scrabble_Board::place_piece(unsigned int, unsigned int, Scrabble_Piece const*) [87]
+                0.00    0.00      43/43          Player::remove_piece(Scrabble_Piece const*) [89]
+                0.00    0.00      43/50          Standard_Piece_Source::get_piece() const [86]
+                0.00    0.00      43/43          Standard_Piece_Source::is_empty() const [90]
+                0.00    0.00      10/10          char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag) [100]
+                0.00    0.00      10/10          Player::get_num_pieces() const [99]
+                0.00    0.00      10/11          std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [96]
+-----------------------------------------------
+                0.00    0.00       7/50          Scrabble_Game::initialize() [7]
+                0.00    0.00      43/50          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[34]     0.0    0.00    0.00      50         Player::add_piece(Scrabble_Piece const*) [34]
+                0.00    0.00      50/690669      std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_insert_equal(std::pair<char const, Scrabble_Piece const*> const&) [26]
+-----------------------------------------------
+                0.00    0.00  742530/742530      AI_Player::initialize() [12]
+[41]     0.0    0.00    0.00  742530         std::vector<unsigned char, std::allocator<unsigned char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned char const&) [41]
+-----------------------------------------------
+                0.00    0.00  134698/523319      Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const [50]
+                0.00    0.00  388621/523319      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+[42]     0.0    0.00    0.00  523319         Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int) [42]
+                0.00    0.00  523319/523319      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [43]
+-----------------------------------------------
+                0.00    0.00  523319/523319      Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int) [42]
+[43]     0.0    0.00    0.00  523319         std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [43]
+                0.00    0.00  397616/523319      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [44]
+                0.00    0.00  125703/125703      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [51]
+-----------------------------------------------
+                0.00    0.00  125703/523319      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [51]
+                0.00    0.00  397616/523319      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [43]
+[44]     0.0    0.00    0.00  523319         std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [44]
+-----------------------------------------------
+                0.00    0.00  363936/363936      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[45]     0.0    0.00    0.00  363936         std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_erase(std::_Rb_tree_node<unsigned int>*) [45]
+-----------------------------------------------
+                0.00    0.00    3135/346897      AI_Player::make_play() [5]
+                0.00    0.00   98626/346897      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+                0.00    0.00  245136/346897      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[46]     0.0    0.00    0.00  346897         Scrabble_Word::get_word_str() const [46]
+-----------------------------------------------
+                0.00    0.00  256703/256703      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[47]     0.0    0.00    0.00  256703         std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*) [47]
+-----------------------------------------------
+                0.00    0.00       1/193779      Player::~Player() [148]
+                0.00    0.00  193778/193779      Player::remap() const [23]
+[48]     0.0    0.00    0.00  193779         std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, Scrabble_Piece const*> >*) [48]
+-----------------------------------------------
+                0.00    0.00  178691/178691      AI_Player::initialize() [12]
+[49]     0.0    0.00    0.00  178691         std::vector<unsigned char, std::allocator<unsigned char> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned long, unsigned char const&) [49]
+-----------------------------------------------
+                0.00    0.00    3135/168427      AI_Player::make_play() [5]
+                0.00    0.00  165292/168427      Scrabble_Board::get_created_words(Indv_Play const&) const [11]
+[50]     0.0    0.00    0.00  168427         Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const [50]
+                0.00    0.00  134698/523319      Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int) [42]
+-----------------------------------------------
+                0.00    0.00  125703/125703      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [43]
+[51]     0.0    0.00    0.00  125703         std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [51]
+                0.00    0.00  125703/523319      std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&) [44]
+-----------------------------------------------
+                0.00    0.00  122568/122568      Scrabble_Game::evaluate_play(Indv_Play const&) const [9]
+[52]     0.0    0.00    0.00  122568         Scrabble_Word::score() const [52]
+-----------------------------------------------
+                0.00    0.00     403/110471      Constraint::ease(unsigned int&) [75]
+                0.00    0.00    4593/110471      AI_Player::make_play() [5]
+                0.00    0.00    6866/110471      Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+                0.00    0.00   98609/110471      Constraint::satisfies(std::string const*, std::vector<unsigned int, std::allocator<unsigned int> >&) const [15]
+[53]     0.0    0.00    0.00  110471         std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&) [53]
+-----------------------------------------------
+                0.00    0.00   19134/19134       Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [16]
+[54]     0.0    0.00    0.00   19134         std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_insert_unique(char const&) [54]
+-----------------------------------------------
+                0.00    0.00     845/15812       std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::~vector() [77]
+                0.00    0.00    1085/15812       Constraint::ease(unsigned int&) [75]
+                0.00    0.00    1407/15812       std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >) [78]
+                0.00    0.00    2592/15812       Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [16]
+                0.00    0.00    3701/15812       Constraint::~Constraint() [73]
+                0.00    0.00    6182/15812       AI_Player::make_play() [5]
+[55]     0.0    0.00    0.00   15812         std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+-----------------------------------------------
+                0.00    0.00       1/9158        Player::Player(std::string const&, Scrabble_Game*) [147]
+                0.00    0.00       2/9158        Scrabble_Game::initialize() [7]
+                0.00    0.00       4/9158        Scrabble_Facade::create_game() const [149]
+                0.00    0.00      30/9158        Scrabble_Game::operator<<(std::ostream&) const [97]
+                0.00    0.00     250/9158        operator<<(std::ostream&, Scrabble_Piece const&) [80]
+                0.00    0.00     648/9158        AI_Player::make_play() [5]
+                0.00    0.00    4000/9158        Scrabble_Square::operator<<(std::ostream&) const [67]
+                0.00    0.00    4223/9158        Constraint::max_word_length() const [58]
+[56]     0.0    0.00    0.00    9158         Scrabble_Config::instance() [56]
+-----------------------------------------------
+                               18631             std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+                0.00    0.00     431/5802        std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >) [78]
+                0.00    0.00    1987/5802        Constraint::ease(unsigned int&) [75]
+                0.00    0.00    3384/5802        Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+[57]     0.0    0.00    0.00    5802+18631   std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+                               18631             std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+-----------------------------------------------
+                0.00    0.00    3577/3577        AI_Player::make_play() [5]
+[58]     0.0    0.00    0.00    3577         Constraint::max_word_length() const [58]
+                0.00    0.00    4223/9158        Scrabble_Config::instance() [56]
+-----------------------------------------------
+                0.00    0.00     732/3325        Constraint::ease(unsigned int&) [75]
+                0.00    0.00    2593/3325        AI_Player::make_play() [5]
+[59]     0.0    0.00    0.00    3325         Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+                0.00    0.00    6866/110471      std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&) [53]
+                0.00    0.00    3384/5802        std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+                0.00    0.00    2977/2977        std::vector<char, std::allocator<char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<char*, std::vector<char, std::allocator<char> > >, char const&) [61]
+-----------------------------------------------
+                0.00    0.00    3212/3212        AI_Player::make_play() [5]
+[60]     0.0    0.00    0.00    3212         std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::pair<std::string, unsigned int>*, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > >, std::pair<std::string, unsigned int> const&) [60]
+-----------------------------------------------
+                0.00    0.00    2977/2977        Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+[61]     0.0    0.00    0.00    2977         std::vector<char, std::allocator<char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<char*, std::vector<char, std::allocator<char> > >, char const&) [61]
+-----------------------------------------------
+                0.00    0.00    2592/2592        Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [16]
+[62]     0.0    0.00    0.00    2592         std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&) [62]
+                0.00    0.00    1628/1628        void std::__uninitialized_fill_n_aux<std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > >(std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&, std::__false_type) [72]
+-----------------------------------------------
+                0.00    0.00    2575/2575        AI_Player::make_play() [5]
+[63]     0.0    0.00    0.00    2575         Constraint::operator==(Constraint const&) const [63]
+-----------------------------------------------
+                0.00    0.00    2398/2398        std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_initialize_map(unsigned long) [65]
+[64]     0.0    0.00    0.00    2398         std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_create_nodes(unsigned int**, unsigned int**) [64]
+-----------------------------------------------
+                0.00    0.00    2398/2398        Constraint::ease(unsigned int&) [75]
+[65]     0.0    0.00    0.00    2398         std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_initialize_map(unsigned long) [65]
+                0.00    0.00    2398/2398        std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_create_nodes(unsigned int**, unsigned int**) [64]
+-----------------------------------------------
+                0.00    0.00    2292/2292        AI_Player::make_play() [5]
+[66]     0.0    0.00    0.00    2292         std::vector<bool, std::allocator<bool> >::push_back(bool) [66]
+-----------------------------------------------
+                0.00    0.00    2250/2250        Scrabble_Board::operator<<(std::ostream&) const [98]
+[67]     0.0    0.00    0.00    2250         Scrabble_Square::operator<<(std::ostream&) const [67]
+                0.00    0.00    4000/9158        Scrabble_Config::instance() [56]
+                0.00    0.00    2000/2000        operator<<(std::ostream&, Bonus const&) [69]
+                0.00    0.00     250/250         operator<<(std::ostream&, Scrabble_Piece const&) [80]
+-----------------------------------------------
+                0.00    0.00    2250/2250        Scrabble_Board::operator<<(std::ostream&) const [98]
+[68]     0.0    0.00    0.00    2250         operator<<(std::ostream&, Scrabble_Square const&) [68]
+-----------------------------------------------
+                0.00    0.00    2000/2000        Scrabble_Square::operator<<(std::ostream&) const [67]
+[69]     0.0    0.00    0.00    2000         operator<<(std::ostream&, Bonus const&) [69]
+-----------------------------------------------
+                0.00    0.00    1944/1944        AI_Player::make_play() [5]
+[70]     0.0    0.00    0.00    1944         std::vector<Constraint*, std::allocator<Constraint*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Constraint**, std::vector<Constraint*, std::allocator<Constraint*> > >, Constraint* const&) [70]
+-----------------------------------------------
+                0.00    0.00    1844/1844        AI_Player::make_play() [5]
+[71]     0.0    0.00    0.00    1844         Constraint::min_word_length() const [71]
+-----------------------------------------------
+                0.00    0.00    1628/1628        std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&) [62]
+[72]     0.0    0.00    0.00    1628         void std::__uninitialized_fill_n_aux<std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > >(std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&, std::__false_type) [72]
+-----------------------------------------------
+                0.00    0.00    1470/1470        AI_Player::make_play() [5]
+[73]     0.0    0.00    0.00    1470         Constraint::~Constraint() [73]
+                0.00    0.00    3701/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+-----------------------------------------------
+                0.00    0.00     977/977         AI_Player::make_play() [5]
+[74]     0.0    0.00    0.00     977         Constraint::can_be_eased() const [74]
+-----------------------------------------------
+                0.00    0.00     732/732         AI_Player::make_play() [5]
+[75]     0.0    0.00    0.00     732         Constraint::ease(unsigned int&) [75]
+                0.00    0.00    2398/2398        std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_initialize_map(unsigned long) [65]
+                0.00    0.00    1987/5802        std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+                0.00    0.00    1085/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+                0.00    0.00     732/3325        Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [59]
+                0.00    0.00     732/732         std::deque<unsigned int, std::allocator<unsigned int> >::~deque() [76]
+                0.00    0.00     467/467         std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::~vector() [77]
+                0.00    0.00     428/428         std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >) [78]
+                0.00    0.00     403/110471      std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&) [53]
+-----------------------------------------------
+                0.00    0.00     732/732         Constraint::ease(unsigned int&) [75]
+[76]     0.0    0.00    0.00     732         std::deque<unsigned int, std::allocator<unsigned int> >::~deque() [76]
+-----------------------------------------------
+                0.00    0.00     467/467         Constraint::ease(unsigned int&) [75]
+[77]     0.0    0.00    0.00     467         std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::~vector() [77]
+                0.00    0.00     845/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+-----------------------------------------------
+                0.00    0.00     428/428         Constraint::ease(unsigned int&) [75]
+[78]     0.0    0.00    0.00     428         std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >) [78]
+                0.00    0.00    1407/15812       std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*) [55]
+                0.00    0.00     431/5802        std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*) [57]
+-----------------------------------------------
+                0.00    0.00     414/414         AI_Player::make_play() [5]
+[79]     0.0    0.00    0.00     414         Constraint::is_mandatory_sect_critical_span() const [79]
+-----------------------------------------------
+                0.00    0.00     250/250         Scrabble_Square::operator<<(std::ostream&) const [67]
+[80]     0.0    0.00    0.00     250         operator<<(std::ostream&, Scrabble_Piece const&) [80]
+                0.00    0.00     250/9158        Scrabble_Config::instance() [56]
+-----------------------------------------------
+                0.00    0.00      70/170         Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.00    0.00     100/170         Standard_Piece_Source::Standard_Piece_Source() [144]
+[81]     0.0    0.00    0.00     170         Scrabble_Point_Map::instance() [81]
+                0.00    0.00       1/1           Scrabble_Point_Map::Scrabble_Point_Map() [143]
+-----------------------------------------------
+                0.00    0.00      70/170         Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+                0.00    0.00     100/170         Standard_Piece_Source::Standard_Piece_Source() [144]
+[82]     0.0    0.00    0.00     170         Scrabble_Point_Map::get_point_val(char) const [82]
+-----------------------------------------------
+                0.00    0.00     142/142         AI_Player::make_play() [5]
+[83]     0.0    0.00    0.00     142         std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) [83]
+-----------------------------------------------
+                0.00    0.00      71/71          AI_Player::make_play() [5]
+[84]     0.0    0.00    0.00      71         std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::operator=(std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > const&) [84]
+-----------------------------------------------
+                0.00    0.00      60/60          Standard_Board_Builder::build_board(Scrabble_Board*) const [150]
+[85]     0.0    0.00    0.00      60         Scrabble_Square::set_bonus(Bonus) [85]
+-----------------------------------------------
+                0.00    0.00       7/50          Scrabble_Game::initialize() [7]
+                0.00    0.00      43/50          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[86]     0.0    0.00    0.00      50         Standard_Piece_Source::get_piece() const [86]
+-----------------------------------------------
+                0.00    0.00      43/43          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[87]     0.0    0.00    0.00      43         Scrabble_Board::place_piece(unsigned int, unsigned int, Scrabble_Piece const*) [87]
+-----------------------------------------------
+                0.00    0.00      43/43          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[88]     0.0    0.00    0.00      43         Scrabble_Square::add_piece(Scrabble_Piece const*) [88]
+-----------------------------------------------
+                0.00    0.00      43/43          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[89]     0.0    0.00    0.00      43         Player::remove_piece(Scrabble_Piece const*) [89]
+-----------------------------------------------
+                0.00    0.00      43/43          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[90]     0.0    0.00    0.00      43         Standard_Piece_Source::is_empty() const [90]
+-----------------------------------------------
+                0.00    0.00      27/27          Scrabble_Point_Map::Scrabble_Point_Map() [143]
+[91]     0.0    0.00    0.00      27         std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&) [91]
+                0.00    0.00      26/27          std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<char const, unsigned int> const&) [92]
+                0.00    0.00       1/1           std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::pair<char const, unsigned int> const&) [157]
+-----------------------------------------------
+                0.00    0.00       1/27          std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::pair<char const, unsigned int> const&) [157]
+                0.00    0.00      26/27          std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&) [91]
+[92]     0.0    0.00    0.00      27         std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<char const, unsigned int> const&) [92]
+-----------------------------------------------
+                0.00    0.00       2/22          Player::Player(std::string const&, Scrabble_Game*) [147]
+                0.00    0.00      20/22          AI_Player::make_play() [5]
+[93]     0.0    0.00    0.00      22         std::vector<unsigned int, std::allocator<unsigned int> >::reserve(unsigned long) [93]
+-----------------------------------------------
+                0.00    0.00      15/15          Standard_Board_Builder::build_board(Scrabble_Board*) const [150]
+[94]     0.0    0.00    0.00      15         std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Square*, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >, unsigned long, Scrabble_Square const&) [94]
+-----------------------------------------------
+                0.00    0.00       1/12          Player::Player(std::string const&, Scrabble_Game*) [147]
+                0.00    0.00       1/12          Standard_Piece_Source::Standard_Piece_Source() [144]
+                0.00    0.00      10/12          AI_Player::make_play() [5]
+[95]     0.0    0.00    0.00      12         std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long) [95]
+-----------------------------------------------
+                0.00    0.00       1/11          Scrabble_Facade::play(int, char**) const [2]
+                0.00    0.00      10/11          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[96]     0.0    0.00    0.00      11         std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [96]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+[97]     0.0    0.00    0.00      10         Scrabble_Game::operator<<(std::ostream&) const [97]
+                0.00    0.00      30/9158        Scrabble_Config::instance() [56]
+                0.00    0.00      10/10          Scrabble_Board::operator<<(std::ostream&) const [98]
+                0.00    0.00      10/10          operator<<(std::ostream&, Scrabble_Board const&) [102]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Game::operator<<(std::ostream&) const [97]
+[98]     0.0    0.00    0.00      10         Scrabble_Board::operator<<(std::ostream&) const [98]
+                0.00    0.00    2250/2250        Scrabble_Square::operator<<(std::ostream&) const [67]
+                0.00    0.00    2250/2250        operator<<(std::ostream&, Scrabble_Square const&) [68]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[99]     0.0    0.00    0.00      10         Player::get_num_pieces() const [99]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [33]
+[100]    0.0    0.00    0.00      10         char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag) [100]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [3]
+[101]    0.0    0.00    0.00      10         operator<<(std::ostream&, Scrabble_Game const&) [101]
+-----------------------------------------------
+                0.00    0.00      10/10          Scrabble_Game::operator<<(std::ostream&) const [97]
+[102]    0.0    0.00    0.00      10         operator<<(std::ostream&, Scrabble_Board const&) [102]
+-----------------------------------------------
+                0.00    0.00       5/5           __tcf_0 [232]
+[103]    0.0    0.00    0.00       5         std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, unsigned int> >*) [103]
+-----------------------------------------------
+                0.00    0.00       2/2           AI_Player::initialize() [12]
+[104]    0.0    0.00    0.00       2         std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned char, std::allocator<unsigned char> >*, std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > > >, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&) [104]
+                0.00    0.00       2/2           void std::__uninitialized_fill_n_aux<std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > >(std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::__false_type) [105]
+-----------------------------------------------
+                0.00    0.00       2/2           std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned char, std::allocator<unsigned char> >*, std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > > >, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&) [104]
+[105]    0.0    0.00    0.00       2         void std::__uninitialized_fill_n_aux<std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > >(std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::__false_type) [105]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[106]    0.0    0.00    0.00       1         global constructors keyed to _ZN10ConstraintC2ERKSsRKSt6vectorISt3setIcSt4lessIcESaIcEESaIS7_EERKS2_IjSaIjEE [106]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[107]    0.0    0.00    0.00       1         global constructors keyed to _ZN12Human_Player9make_playEv [107]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[108]    0.0    0.00    0.00       1         global constructors keyed to _ZN13Scrabble_GameD2Ev [108]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[109]    0.0    0.00    0.00       1         global constructors keyed to _ZN15Scrabble_Config15s_glob_instanceE [109]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[110]    0.0    0.00    0.00       1         global constructors keyed to _ZN15Scrabble_Facade8instanceEv [110]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[111]    0.0    0.00    0.00       1         global constructors keyed to _ZN15Scrabble_Square9add_pieceEPK14Scrabble_Piece [111]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[112]    0.0    0.00    0.00       1         global constructors keyed to _ZN15Scrabble_Tester8test_oneEP13Scrabble_Gameb [112]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[113]    0.0    0.00    0.00       1         global constructors keyed to _ZN18Scrabble_Point_Map8instanceEv [113]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[114]    0.0    0.00    0.00       1         global constructors keyed to _ZN21Standard_Piece_SourceC2Ev [114]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[115]    0.0    0.00    0.00       1         global constructors keyed to _ZN22Standard_Board_Builder8instanceEv [115]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[116]    0.0    0.00    0.00       1         global constructors keyed to _ZN6PlayerC2ERKSsP13Scrabble_Game [116]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[117]    0.0    0.00    0.00       1         global constructors keyed to _ZN9AI_PlayerD2Ev [117]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[118]    0.0    0.00    0.00       1         global constructors keyed to _ZNK13Scrabble_Word5scoreEv [118]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[119]    0.0    0.00    0.00       1         global constructors keyed to _ZNK14Scrabble_Board17get_created_wordsERK9Indv_Play [119]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[120]    0.0    0.00    0.00       1         global constructors keyed to _ZNK9Board_LoclsERSo [120]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[121]    0.0    0.00    0.00       1         global constructors keyed to _ZNK9Indv_PlaylsERSo [121]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[122]    0.0    0.00    0.00       1         global constructors keyed to _ZlsRSoRK14Scrabble_Piece [122]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[123]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [123]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[124]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [124]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[125]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [125]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[126]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [126]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[127]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [127]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[128]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [128]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[129]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [129]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[130]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [130]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[131]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [131]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[132]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [132]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[133]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [133]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[134]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [134]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[135]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [135]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[136]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [136]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[137]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [137]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[138]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [138]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [216]
+[139]    0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [139]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::play(int, char**) const [2]
+[140]    0.0    0.00    0.00       1         Scrabble_Config::set_global_instance(Scrabble_Config const*) [140]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::play(int, char**) const [2]
+[141]    0.0    0.00    0.00       1         Scrabble_Config::Scrabble_Config(unsigned int, std::vector<Player_Type, std::allocator<Player_Type> > const&, std::vector<std::string, std::allocator<std::string> > const&, unsigned int, Board_Type, bool, bool, bool, std::string const&, Piece_Source_Type, unsigned int, unsigned int, Assert_Fail_Action) [141]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[142]    0.0    0.00    0.00       1         Scrabble_Facade::instance() [142]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Point_Map::instance() [81]
+[143]    0.0    0.00    0.00       1         Scrabble_Point_Map::Scrabble_Point_Map() [143]
+                0.00    0.00      27/27          std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&) [91]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+[144]    0.0    0.00    0.00       1         Standard_Piece_Source::Standard_Piece_Source() [144]
+                0.00    0.00     100/170         Scrabble_Point_Map::instance() [81]
+                0.00    0.00     100/170         Scrabble_Point_Map::get_point_val(char) const [82]
+                0.00    0.00       1/12          std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long) [95]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Game::~Scrabble_Game() [14]
+[145]    0.0    0.00    0.00       1         Standard_Piece_Source::~Standard_Piece_Source() [145]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+[146]    0.0    0.00    0.00       1         Standard_Board_Builder::instance() [146]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+[147]    0.0    0.00    0.00       1         Player::Player(std::string const&, Scrabble_Game*) [147]
+                0.00    0.00       2/22          std::vector<unsigned int, std::allocator<unsigned int> >::reserve(unsigned long) [93]
+                0.00    0.00       1/12          std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long) [95]
+                0.00    0.00       1/9158        Scrabble_Config::instance() [56]
+                0.00    0.00       1/1           std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Piece const**, std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > >, unsigned long, Scrabble_Piece const* const&) [153]
+-----------------------------------------------
+                0.00    0.00       1/1           AI_Player::~AI_Player() [21]
+[148]    0.0    0.00    0.00       1         Player::~Player() [148]
+                0.00    0.00       1/193779      std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, Scrabble_Piece const*> >*) [48]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::play(int, char**) const [2]
+[149]    0.0    0.00    0.00       1         Scrabble_Facade::create_game() const [149]
+                0.00    0.00       4/9158        Scrabble_Config::instance() [56]
+                0.00    0.00       1/1           Standard_Board_Builder::instance() [146]
+                0.00    0.00       1/1           Standard_Board_Builder::build_board(Scrabble_Board*) const [150]
+                0.00    0.00       1/1           Player::Player(std::string const&, Scrabble_Game*) [147]
+                0.00    0.00       1/1           std::vector<Player*, std::allocator<Player*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player**, std::vector<Player*, std::allocator<Player*> > >, Player* const&) [152]
+                0.00    0.00       1/1           Standard_Piece_Source::Standard_Piece_Source() [144]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+[150]    0.0    0.00    0.00       1         Standard_Board_Builder::build_board(Scrabble_Board*) const [150]
+                0.00    0.00      60/60          Scrabble_Square::set_bonus(Bonus) [85]
+                0.00    0.00      15/15          std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Square*, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >, unsigned long, Scrabble_Square const&) [94]
+                0.00    0.00       1/1           std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > > >, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&) [155]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::play(int, char**) const [2]
+[151]    0.0    0.00    0.00       1         std::vector<Player_Type, std::allocator<Player_Type> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player_Type*, std::vector<Player_Type, std::allocator<Player_Type> > >, Player_Type const&) [151]
+-----------------------------------------------
+                0.00    0.00       1/1           Scrabble_Facade::create_game() const [149]
+[152]    0.0    0.00    0.00       1         std::vector<Player*, std::allocator<Player*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player**, std::vector<Player*, std::allocator<Player*> > >, Player* const&) [152]
+-----------------------------------------------
+                0.00    0.00       1/1           Player::Player(std::string const&, Scrabble_Game*) [147]
+[153]    0.0    0.00    0.00       1         std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Piece const**, std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > >, unsigned long, Scrabble_Piece const* const&) [153]
+-----------------------------------------------
+                0.00    0.00       1/1           AI_Player::initialize() [12]
+[154]    0.0    0.00    0.00       1         std::vector<std::string const*, std::allocator<std::string const*> >::reserve(unsigned long) [154]
+-----------------------------------------------
+                0.00    0.00       1/1           Standard_Board_Builder::build_board(Scrabble_Board*) const [150]
+[155]    0.0    0.00    0.00       1         std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > > >, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&) [155]
+                0.00    0.00       1/1           void std::__uninitialized_fill_n_aux<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >(std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&, std::__false_type) [158]
+-----------------------------------------------
+                0.00    0.00       1/1           AI_Player::initialize() [12]
+[156]    0.0    0.00    0.00       1         std::vector<std::vector<unsigned int, std::allocator<unsigned int> >, std::allocator<std::vector<unsigned int, std::allocator<unsigned int> > > >::reserve(unsigned long) [156]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&) [91]
+[157]    0.0    0.00    0.00       1         std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::pair<char const, unsigned int> const&) [157]
+                0.00    0.00       1/27          std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<char const, unsigned int> const&) [92]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > > >, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&) [155]
+[158]    0.0    0.00    0.00       1         void std::__uninitialized_fill_n_aux<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >(std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&, std::__false_type) [158]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+ [106] global constructors keyed to _ZN10ConstraintC2ERKSsRKSt6vectorISt3setIcSt4lessIcESaIcEESaIS7_EERKS2_IjSaIjEE [143] Scrabble_Point_Map::Scrabble_Point_Map() [95] std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::reserve(unsigned long)
+ [107] global constructors keyed to _ZN12Human_Player9make_playEv [144] Standard_Piece_Source::Standard_Piece_Source() [84] std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::operator=(std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > const&)
+ [108] global constructors keyed to _ZN13Scrabble_GameD2Ev [145] Standard_Piece_Source::~Standard_Piece_Source() [154] std::vector<std::string const*, std::allocator<std::string const*> >::reserve(unsigned long)
+ [109] global constructors keyed to _ZN15Scrabble_Config15s_glob_instanceE [146] Standard_Board_Builder::instance() [155] std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, std::vector<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >, std::allocator<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > > > >, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&)
+ [110] global constructors keyed to _ZN15Scrabble_Facade8instanceEv [89] Player::remove_piece(Scrabble_Piece const*) [104] std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<unsigned char, std::allocator<unsigned char> >*, std::vector<std::vector<unsigned char, std::allocator<unsigned char> >, std::allocator<std::vector<unsigned char, std::allocator<unsigned char> > > > >, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&)
+ [111] global constructors keyed to _ZN15Scrabble_Square9add_pieceEPK14Scrabble_Piece [4] Player::play() [156] std::vector<std::vector<unsigned int, std::allocator<unsigned int> >, std::allocator<std::vector<unsigned int, std::allocator<unsigned int> > > >::reserve(unsigned long)
+ [112] global constructors keyed to _ZN15Scrabble_Tester8test_oneEP13Scrabble_Gameb [34] Player::add_piece(Scrabble_Piece const*) [96] std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
+ [113] global constructors keyed to _ZN18Scrabble_Point_Map8instanceEv [147] Player::Player(std::string const&, Scrabble_Game*) [62] std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&)
+ [114] global constructors keyed to _ZN21Standard_Piece_SourceC2Ev [148] Player::~Player() [78] std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::erase(__gnu_cxx::__normal_iterator<std::set<char, std::less<char>, std::allocator<char> >*, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > >)
+ [115] global constructors keyed to _ZN22Standard_Board_Builder8instanceEv [12] AI_Player::initialize() [77] std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >::~vector()
+ [116] global constructors keyed to _ZN6PlayerC2ERKSsP13Scrabble_Game [5] AI_Player::make_play() [60] std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::pair<std::string, unsigned int>*, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > >, std::pair<std::string, unsigned int> const&)
+ [117] global constructors keyed to _ZN9AI_PlayerD2Ev [21] AI_Player::~AI_Player() [31] std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::pair<std::bitset<26ul>, std::string const*>*, std::vector<std::pair<std::bitset<26ul>, std::string const*>, std::allocator<std::pair<std::bitset<26ul>, std::string const*> > > >, unsigned long, std::pair<std::bitset<26ul>, std::string const*> const&)
+ [118] global constructors keyed to _ZNK13Scrabble_Word5scoreEv [74] Constraint::can_be_eased() const [66] std::vector<bool, std::allocator<bool> >::push_back(bool)
+ [119] global constructors keyed to _ZNK14Scrabble_Board17get_created_wordsERK9Indv_Play [58] Constraint::max_word_length() const [61] std::vector<char, std::allocator<char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<char*, std::vector<char, std::allocator<char> > >, char const&)
+ [120] global constructors keyed to _ZNK9Board_LoclsERSo [71] Constraint::min_word_length() const [41] std::vector<unsigned char, std::allocator<unsigned char> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned char const&)
+ [121] global constructors keyed to _ZNK9Indv_PlaylsERSo [79] Constraint::is_mandatory_sect_critical_span() const [49] std::vector<unsigned char, std::allocator<unsigned char> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned char*, std::vector<unsigned char, std::allocator<unsigned char> > >, unsigned long, unsigned char const&)
+ [122] global constructors keyed to _ZlsRSoRK14Scrabble_Piece [15] Constraint::satisfies(std::string const*, std::vector<unsigned int, std::allocator<unsigned int> >&) const [53] std::vector<unsigned int, std::allocator<unsigned int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >, unsigned int const&)
+ [123] __static_initialization_and_destruction_0(int, int) [63] Constraint::operator==(Constraint const&) const [93] std::vector<unsigned int, std::allocator<unsigned int> >::reserve(unsigned long)
+ [124] __static_initialization_and_destruction_0(int, int) [9] Scrabble_Game::evaluate_play(Indv_Play const&) const [83] std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&)
+ [125] __static_initialization_and_destruction_0(int, int) [10] Scrabble_Game::get_potential_score(Indv_Play const&) const [8] std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert_unique(std::string const&)
+ [126] __static_initialization_and_destruction_0(int, int) [97] Scrabble_Game::operator<<(std::ostream&) const [22] std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_erase(std::_Rb_tree_node<std::string>*)
+ [127] __static_initialization_and_destruction_0(int, int) [46] Scrabble_Word::get_word_str() const [20] std::_Rb_tree<std::string, std::string, std::_Identity<std::string>, std::less<std::string>, std::allocator<std::string> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::string const&)
+ [128] __static_initialization_and_destruction_0(int, int) [52] Scrabble_Word::score() const [26] std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_insert_equal(std::pair<char const, Scrabble_Piece const*> const&)
+ [129] __static_initialization_and_destruction_0(int, int) [17] Scrabble_Board::get_adjacent(unsigned int, unsigned int, bool, bool) const [48] std::_Rb_tree<char, std::pair<char const, Scrabble_Piece const*>, std::_Select1st<std::pair<char const, Scrabble_Piece const*> >, std::less<char>, std::allocator<std::pair<char const, Scrabble_Piece const*> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, Scrabble_Piece const*> >*)
+ [130] __static_initialization_and_destruction_0(int, int) [32] Scrabble_Board::is_unconstrained(unsigned int, unsigned int) const [157] std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::pair<char const, unsigned int> const&)
+ [131] __static_initialization_and_destruction_0(int, int) [11] Scrabble_Board::get_created_words(Indv_Play const&) const [91] std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<char const, unsigned int> >, std::pair<char const, unsigned int> const&)
+ [132] __static_initialization_and_destruction_0(int, int) [50] Scrabble_Board::add_all_pieces_in_direction(unsigned int, unsigned int, unsigned int, unsigned int, Scrabble_Word&) const [103] std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_erase(std::_Rb_tree_node<std::pair<char const, unsigned int> >*)
+ [133] __static_initialization_and_destruction_0(int, int) [25] Scrabble_Board::is_free(unsigned int, unsigned int) const [92] std::_Rb_tree<char, std::pair<char const, unsigned int>, std::_Select1st<std::pair<char const, unsigned int> >, std::less<char>, std::allocator<std::pair<char const, unsigned int> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<char const, unsigned int> const&)
+ [134] __static_initialization_and_destruction_0(int, int) [98] Scrabble_Board::operator<<(std::ostream&) const [54] std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_insert_unique(char const&)
+ [135] __static_initialization_and_destruction_0(int, int) [149] Scrabble_Facade::create_game() const [57] std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_copy(std::_Rb_tree_node<char> const*, std::_Rb_tree_node<char>*)
+ [136] __static_initialization_and_destruction_0(int, int) [2] Scrabble_Facade::play(int, char**) const [55] std::_Rb_tree<char, char, std::_Identity<char>, std::less<char>, std::allocator<char> >::_M_erase(std::_Rb_tree_node<char>*)
+ [137] __static_initialization_and_destruction_0(int, int) [67] Scrabble_Square::operator<<(std::ostream&) const [13] std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert_unique(int const&)
+ [138] __static_initialization_and_destruction_0(int, int) [82] Scrabble_Point_Map::get_point_val(char) const [47] std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*)
+ [139] __static_initialization_and_destruction_0(int, int) [90] Standard_Piece_Source::is_empty() const [18] std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, int const&)
+  [16] Constraint::convert_compat_req_to_set(std::set<std::string, std::less<std::string>, std::allocator<std::string> > const&, std::vector<std::pair<std::string, unsigned int>, std::allocator<std::pair<std::string, unsigned int> > > const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > >&) [86] Standard_Piece_Source::get_piece() const [51] std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  [75] Constraint::ease(unsigned int&) [150] Standard_Board_Builder::build_board(Scrabble_Board*) const [43] std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert_unique(std::_Rb_tree_iterator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  [59] Constraint::Constraint(std::string const&, std::vector<std::set<char, std::less<char>, std::allocator<char> >, std::allocator<std::set<char, std::less<char>, std::allocator<char> > > > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&) [99] Player::get_num_pieces() const [28] std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_copy(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > const*, std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*)
+  [73] Constraint::~Constraint() [23] Player::remap() const [19] std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_erase(std::_Rb_tree_node<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >*)
+   [7] Scrabble_Game::initialize() [27] Player::get_piece(char) const [44] std::_Rb_tree<unsigned int, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> >, std::_Select1st<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<unsigned int const, std::pair<Scrabble_Piece const*, Bonus> > const&)
+  [33] Scrabble_Game::process_legit_play(Indv_Play const&, Player*) [6] AI_Player::find_all_satisfying_strings(Constraint const&, unsigned int, unsigned int) const [45] std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_erase(std::_Rb_tree_node<unsigned int>*)
+  [14] Scrabble_Game::~Scrabble_Game() [100] char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag) [72] void std::__uninitialized_fill_n_aux<std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > >(std::set<char, std::less<char>, std::allocator<char> >*, unsigned long, std::set<char, std::less<char>, std::allocator<char> > const&, std::__false_type)
+  [42] Scrabble_Word::add_component(Scrabble_Piece const*, Bonus, unsigned int) [64] std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_create_nodes(unsigned int**, unsigned int**) [158] void std::__uninitialized_fill_n_aux<std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >(std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >*, unsigned long, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > const&, std::__false_type)
+  [87] Scrabble_Board::place_piece(unsigned int, unsigned int, Scrabble_Piece const*) [65] std::_Deque_base<unsigned int, std::allocator<unsigned int> >::_M_initialize_map(unsigned long) [105] void std::__uninitialized_fill_n_aux<std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > >(std::vector<unsigned char, std::allocator<unsigned char> >*, unsigned long, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::__false_type)
+ [140] Scrabble_Config::set_global_instance(Scrabble_Config const*) [76] std::deque<unsigned int, std::allocator<unsigned int> >::~deque() [101] operator<<(std::ostream&, Scrabble_Game const&)
+  [56] Scrabble_Config::instance() [151] std::vector<Player_Type, std::allocator<Player_Type> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player_Type*, std::vector<Player_Type, std::allocator<Player_Type> > >, Player_Type const&) [102] operator<<(std::ostream&, Scrabble_Board const&)
+ [141] Scrabble_Config::Scrabble_Config(unsigned int, std::vector<Player_Type, std::allocator<Player_Type> > const&, std::vector<std::string, std::allocator<std::string> > const&, unsigned int, Board_Type, bool, bool, bool, std::string const&, Piece_Source_Type, unsigned int, unsigned int, Assert_Fail_Action) [24] std::vector<Scrabble_Word, std::allocator<Scrabble_Word> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Scrabble_Word*, std::vector<Scrabble_Word, std::allocator<Scrabble_Word> > >, Scrabble_Word const&) [80] operator<<(std::ostream&, Scrabble_Piece const&)
+ [142] Scrabble_Facade::instance() [94] std::vector<Scrabble_Square, std::allocator<Scrabble_Square> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Square*, std::vector<Scrabble_Square, std::allocator<Scrabble_Square> > >, unsigned long, Scrabble_Square const&) [68] operator<<(std::ostream&, Scrabble_Square const&)
+  [88] Scrabble_Square::add_piece(Scrabble_Piece const*) [30] std::vector<Board_Loc, std::allocator<Board_Loc> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Board_Loc*, std::vector<Board_Loc, std::allocator<Board_Loc> > >, Board_Loc const&) [69] operator<<(std::ostream&, Bonus const&)
+  [85] Scrabble_Square::set_bonus(Bonus) [70] std::vector<Constraint*, std::allocator<Constraint*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Constraint**, std::vector<Constraint*, std::allocator<Constraint*> > >, Constraint* const&) [29] __tcf_0
+   [3] Scrabble_Tester::test_three(Scrabble_Game*, unsigned int, unsigned int, bool) [152] std::vector<Player*, std::allocator<Player*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Player**, std::vector<Player*, std::allocator<Player*> > >, Player* const&)
+  [81] Scrabble_Point_Map::instance() [153] std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> >::_M_fill_insert(__gnu_cxx::__normal_iterator<Scrabble_Piece const**, std::vector<Scrabble_Piece const*, std::allocator<Scrabble_Piece const*> > >, unsigned long, Scrabble_Piece const* const&)
