@@ -15,7 +15,7 @@ std::vector<Scrabble_Word> Scrabble_Board::get_created_words(const Indv_Play& th
   
   //determine the line of the primary word
   bool const_row = false, const_col = false;
-  unsigned primary_line_id = static_cast<unsigned>(-1);
+  unsigned primary_line_id = static_cast<unsigned>(-1); 
   if (num_played_letters > 1) {
     const_row       = the_play.get_ith_row(0) == the_play.get_ith_row(1);
     const_col       = the_play.get_ith_col(0) == the_play.get_ith_col(1);
