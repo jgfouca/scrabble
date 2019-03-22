@@ -115,9 +115,10 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
 
   //if first play, one piece must cover the 7,7 square
   if (m_first_play) {
+    const unsigned mid_dim = b_dim / 2;
     bool hit_center = false;
     for (unsigned i = 0; i < num_played_letters; ++i) {
-      if (the_play.get_ith_row(i) == 7 && the_play.get_ith_col(i) == 7) {
+      if (the_play.get_ith_row(i) == mid_dim && the_play.get_ith_col(i) == mid_dim) {
         hit_center = true;
         break;
       }

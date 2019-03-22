@@ -15,7 +15,7 @@ class Board_Builder
 {
  public:
   virtual ~Board_Builder() {}
-  
+
   virtual void build_board(Scrabble_Board* board) const = 0;
 };
 

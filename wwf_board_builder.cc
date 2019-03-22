@@ -22,9 +22,9 @@ void Wwf_Board_Builder::build_board(Scrabble_Board* board) const
     board->m_board[row].resize(BOARD_DIM);
   }
 
+  // Inner diamond
   Bonus bonus;
-  for (unsigned row = 10, col = 5; col < 10; --row, ++col) {
-    std::cout << "Base row, col " << row << ", " << col << std::endl;
+  for (unsigned row = 9, col = 5; col < 10; --row, ++col) {
     if (row == 5 || col == 5) {
       bonus = DBL_WRD;
     }
@@ -38,21 +38,64 @@ void Wwf_Board_Builder::build_board(Scrabble_Board* board) const
       my_assert(false, "All tiles in this routine have a bonus");
     }
 
-    int diff_from_mid_row = row - 5;
-    int diff_from_mid_col = col - 5;
+    set_4way_symm(board, row, col, bonus);
+  }
 
-    for (int i = -1; i < 1; ++i) {
-      for (int j = -1; j < 1; ++j) {
-        unsigned real_row = row + (i * diff_from_mid_row);
-        unsigned real_col = col + (j * diff_from_mid_col);
-        cout << "Trying to set " << real_row << ", " << real_col << std::endl;
-        Scrabble_Square& square = board->m_board[real_row][real_col];
-        if (square.get_bonus() == NONE) {
-          square.set_bonus(bonus);
-        }
-        else {
-          my_assert(square.get_bonus() == bonus, "Bonus mismatch");
-        }
+  for (unsigned row = 8, col = 8; col < 11; ++row, ++col) {
+    if (row == 8) {
+      bonus = DBL_LET;
+    }
+    else if (row == 9) {
+      bonus = DBL_WRD;
+    }
+    else if (row == 10) {
+      bonus = TRP_LET;
+    }
+    else {
+      my_assert(false, "All tiles in this routine have a bonus");
+    }
+
+    set_4way_symm(board, row, col, bonus);
+  }
+
+  for (unsigned row = 10, col = 8; col < 11; --row, ++col) {
+    if (row == 8) {
+      bonus = TRP_WRD;
+    }
+    else if (row == 9) {
+      bonus = DBL_WRD;
+    }
+    else if (row == 10) {
+      bonus = TRP_WRD;
+    }
+    else {
+      my_assert(false, "All tiles in this routine have a bonus");
+    }
+
+    set_4way_symm(board, row, col, bonus);
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Wwf_Board_Builder::set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const
+///////////////////////////////////////////////////////////////////////////////
+{
+  Bonus bonus = static_cast<Bonus>(arg_bonus);
+  int mid = board->get_board_dim() / 2;
+
+  int diff_from_mid_row = hi_row - mid;
+  int diff_from_mid_col = hi_col - mid;
+
+  for (int i = -1; i < 1; ++i) {
+    for (int j = -1; j < 1; ++j) {
+      unsigned real_row = hi_row + (2 * i * diff_from_mid_row);
+      unsigned real_col = hi_col + (2 * j * diff_from_mid_col);
+      Scrabble_Square& square = board->m_board[real_row][real_col];
+      if (square.get_bonus() == NONE) {
+        square.set_bonus(bonus);
+      }
+      else {
+        my_assert(square.get_bonus() == bonus, "Bonus mismatch");
       }
     }
   }

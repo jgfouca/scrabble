@@ -42,6 +42,8 @@ class Wwf_Board_Builder : public Board_Builder
   //////////////////////////////////////////////////////////////////////////////
 
   Wwf_Board_Builder() {}
+
+  void set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const;
 };
 
 #endif
