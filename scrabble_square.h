@@ -3,6 +3,7 @@
 
 #include "scrabble_piece.h"
 #include "standard_board_builder.h"
+#include "wwf_board_builder.h"
 
 #include <iostream>
 #include <string>
@@ -14,7 +15,7 @@ enum Bonus {NONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD};
  * This class represents a single square on the scrabble board. In other words
  * a Scrabble_Board is made up of instances of Scrabble_Square. Scrabble_Squares
  * are responsible for knowing if a piece has been placed on them, if so, what
- * piece object has been placed on them, and what bonuses apply to this square. 
+ * piece object has been placed on them, and what bonuses apply to this square.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +29,7 @@ class Scrabble_Square
   Scrabble_Square() : m_piece(NULL), m_bonus(NONE) {}
 
   /**
-   * Destructor 
+   * Destructor
    */
   ~Scrabble_Square() {}
 
@@ -56,7 +57,7 @@ class Scrabble_Square
    * get_bonus() - Returns the bonus associated with this square
    */
   Bonus get_bonus() const { return m_bonus; }
-  
+
   /**
    * get_piece() - Returns the piece played on this square. We return NULL if
    *               this square is free.
@@ -72,11 +73,11 @@ class Scrabble_Square
 
   // OUTPUT_LEN - The number of characters of output created when operator<<
   //              is called on a scrabble_square. This is difficult to enforce,
-  //              but it's useful 
+  //              but it's useful
   static const unsigned OUTPUT_LEN = 6;
 
  private: // ================== PRIVATE INTERFACE ==============================
-  
+
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// CONSTRUCTION METHODS //////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -91,11 +92,11 @@ class Scrabble_Square
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
   // m_piece - A pointer to whatever piece has been played on this square. This
   //           is NULL if no piece has been played.
   const Scrabble_Piece* m_piece;
-  
+
   // m_bonus - The bonus associated with this square.
   Bonus                 m_bonus;
 
@@ -104,6 +105,7 @@ class Scrabble_Square
   //////////////////////////////////////////////////////////////////////////////
 
   friend class Standard_Board_Builder;
+  friend class Wwf_Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

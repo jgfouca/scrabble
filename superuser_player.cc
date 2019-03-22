@@ -69,7 +69,7 @@ void Superuser_Player::make_play()
           continue;
         }
 
-        if (force) {
+        if (force == 'y') {
           m_current_play.force();
         }
 

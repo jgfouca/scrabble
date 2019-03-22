@@ -4,6 +4,7 @@
 #include "scrabble_board.h"
 #include "scrabble_game_builder.h"
 #include "standard_board_builder.h"
+#include "wwf_board_builder.h"
 #include "standard_piece_source.h"
 #include "scrabble_game.h"
 #include "scrabble_tester.h"
@@ -40,7 +41,7 @@ const std::string Scrabble_Facade::HELP =
   "   of the time, you won't need to change these: \n"
   "   --num-player-pieces=<num> \n"
   "       Change the number of pieces that go in players' trays. Default is 7. \n"
-  "   --board-type=(STANDARD|<no other options at this time>) \n"
+  "   --board-type=(STANDARD|WWF) \n"
   "       Change the type of board to be used. Default is STANDARD. \n"
   "   --produce-output=(yes|no) \n"
   "       Turn on all game output. Default is yes. \n"
@@ -197,6 +198,9 @@ void Scrabble_Facade::play(int argc, char** argv) const
       else if (opt == "--board-type") {
         if (arg == "STANDARD") {
           board_type = STANDARD_BOARD;
+        }
+        else if (arg == "WWF") {
+          board_type = WWF_BOARD;
         }
         else {
           cerr << "Unknown board type: " << arg << endl;
@@ -361,6 +365,9 @@ Scrabble_Game* Scrabble_Facade::create_game() const
 
   if (Scrabble_Config::instance().BOARD_TYPE() == STANDARD_BOARD) {
     builder.build_game_board<Standard_Board_Builder>();
+  }
+  else if (Scrabble_Config::instance().BOARD_TYPE() == WWF_BOARD) {
+    builder.build_game_board<Wwf_Board_Builder>();
   }
   else {
     my_static_assert(false, "unknown board type");
