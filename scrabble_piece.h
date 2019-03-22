@@ -24,9 +24,9 @@ class Scrabble_Piece
   /**
    * Constructor - Initializes state.
    */
-  Scrabble_Piece(char letter) 
+  Scrabble_Piece(char letter)
   {
-    my_assert(is_valid_letter(letter) || letter == '-', 
+    my_assert(is_valid_letter(letter) || letter == '-',
               std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
 
     m_letter          = letter;
@@ -47,9 +47,9 @@ class Scrabble_Piece
    */
   void played() const
   {
-    my_assert(!m_played, 
+    my_assert(!m_played,
               std::string("Attempted to play piece '") + m_letter +  "' twice");
-    
+
     m_played = true;
   }
 
@@ -62,19 +62,19 @@ class Scrabble_Piece
     my_assert(is_valid_letter(c),
               std::string("Attempted to set wild-card to invalid char '") + m_letter + "'");
     my_assert(is_wildcard(), "Attempted to set wild-card on non-wild-card piece");
-    
+
     m_wildcard_choice = c;
-  }  
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// QUERIES /////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * get_letter - Returns the letter of this piece (reflect wildcard changes).
    */
   char get_letter() const { return m_wildcard_choice; }
-  
+
   /**
    * get_point_val - Returns the point value of this piece
    */
@@ -105,12 +105,12 @@ class Scrabble_Piece
     m_been_output = true;
     return out;
   }
-  
+
   /**
    * is_wildcard - Returns true is this piece is a wild-card piece
    */
   bool is_wildcard() const { return m_letter == '-'; }
-  
+
   /**
    * is_valid_letter - A static method that returns true if the argument
    *                   is a valid normal letter.
@@ -125,19 +125,19 @@ class Scrabble_Piece
 
   Scrabble_Piece(const Scrabble_Piece&);
   Scrabble_Piece& operator=(const Scrabble_Piece&);
-  
+
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
   /**
    * force_letter_change - Artificially forces a piece to change value. This
-   *                       should only be called by Scrabble_Tester or 
+   *                       should only be called by Scrabble_Tester or
    *                       Superuser_Player.
    */
-  void force_letter_change(char letter) 
+  void force_letter_change(char letter)
   {
-    my_assert(is_valid_letter(letter) || letter == '-', 
+    my_assert(is_valid_letter(letter) || letter == '-',
               std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
     my_assert(!m_played, "Should not call force_letter_change on played piece");
     my_assert(!m_been_output, "Should not have been output already");
@@ -153,14 +153,14 @@ class Scrabble_Piece
 
   // m_letter - The letter of this piece
   char         m_letter;
-  
+
   // m_wildcard_choice - The letter the wildcard piece is assuming
   mutable char m_wildcard_choice;
 
   // m_point_val - The point-value of this piece
   unsigned     m_point_val;
 
-  // m_been_output - Specifies if this piece has been output before. Pieces that  
+  // m_been_output - Specifies if this piece has been output before. Pieces that
   //                 are output for the first time appear red.
   mutable bool m_been_output;
 

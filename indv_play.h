@@ -30,16 +30,17 @@ class Indv_Play
     m_rows.reserve(Standard_Board_Builder::BOARD_DIM);
     m_cols.reserve(Standard_Board_Builder::BOARD_DIM);
     m_pieces.reserve(Standard_Board_Builder::BOARD_DIM);
+    m_force = false;
   }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////// PRIMARY INTERFACE ///////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * place_piece - Adds a piece-placement to this play
    */
-  void place_piece(unsigned row, unsigned col, const Scrabble_Piece* placed_piece) 
+  void place_piece(unsigned row, unsigned col, const Scrabble_Piece* placed_piece)
   {
     my_assert(placed_piece, "Tried to play a NULL piece");
 
@@ -56,27 +57,35 @@ class Indv_Play
     m_rows.clear();
     m_cols.clear();
     m_pieces.clear();
+    m_force = false;
   }
+
+  /**
+   * force - Set up play to not check word
+   */
+  void force() { m_force = true; }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// QUERIES /////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
+  bool is_forced() const { return m_force; }
+
   /**
    * get_size - Return the number of piece-placements involved in this play
    */
-  unsigned get_size() const 
+  unsigned get_size() const
   {
     my_assert(m_rows.size() == m_cols.size(),   "Row, col vectors out of sync");
     my_assert(m_rows.size() == m_pieces.size(), "Row, piece vectors out of sync");
-    
-    return m_rows.size(); 
+
+    return m_rows.size();
   }
 
   /**
    * get_ith_row - Return the row component of the i-th piece placement
    */
-  unsigned get_ith_row(unsigned idx) const 
+  unsigned get_ith_row(unsigned idx) const
   {
     my_assert(idx < get_size(), "Recieved out of bounds index");
 
@@ -86,17 +95,17 @@ class Indv_Play
   /**
    * get_ith_col - Return the col component of the i-th piece placement
    */
-  unsigned get_ith_col(unsigned idx) const 
+  unsigned get_ith_col(unsigned idx) const
   {
     my_assert(idx < get_size(), "Recieved out of bounds index");
 
     return m_cols[idx];
   }
-  
+
   /**
    * get_ith_piece - Return the piece component of the i-th piece placement
    */
-  const Scrabble_Piece* get_ith_piece(unsigned idx) const 
+  const Scrabble_Piece* get_ith_piece(unsigned idx) const
   {
     my_assert(idx < get_size(), "Recieved out of bounds index");
 
@@ -113,7 +122,7 @@ class Indv_Play
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
   Indv_Play(const Indv_Play&);
 
   //////////////////////////////////////////////////////////////////////////////
@@ -128,6 +137,9 @@ class Indv_Play
 
   //m_pieces - The piece components of the piece-placements
   std::vector<const Scrabble_Piece*> m_pieces;
+
+  //m_force - Do not check word
+  bool m_force;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

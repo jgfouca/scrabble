@@ -1,4 +1,4 @@
-CPP         = mpicxx
+CPP         = g++
 
 CPPFLAGS    = -g -Wall -Woverloaded-virtual -Wnon-virtual-dtor -Wreturn-type -Wswitch-enum -Wsign-compare -Wfloat-equal -Wparentheses -Wreorder -Wshadow -Wold-style-cast -Wextra -D_GLIBCXX_DEBUG -std=c++11 -stdlib=libc++
 #CPPFLAGS   += -pg

@@ -89,7 +89,7 @@ void Scrabble_Facade::play(int argc, char** argv) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   // Set up parsing of argv using getopt..
-  
+
   //allocate variables to hold the options
   std::vector<Player_Type> player_types;
   std::vector<std::string> player_names;
@@ -101,12 +101,12 @@ void Scrabble_Facade::play(int argc, char** argv) const
   bool color_output                     = true;
   bool clear_screen_before_output       = true;
   std::string dictionary                = "TWL06.txt";
-  Piece_Source_Type piece_source_type   = STANDARD_SOURCE; 
-  unsigned max_num_log_msgs_to_displ    = 10; 
+  Piece_Source_Type piece_source_type   = STANDARD_SOURCE;
+  unsigned max_num_log_msgs_to_displ    = 10;
   unsigned constrained_square_limit     = 3;
   Assert_Fail_Action assert_fail_action = GDB_ATTACH;
   unsigned rand_seed                    = time(0);
-  
+
   //do the options parsing:
   if (argc == 1) {
     //if no args given, provide help
@@ -116,7 +116,7 @@ void Scrabble_Facade::play(int argc, char** argv) const
 
   for (int opt_itr = 1; opt_itr < argc; ++opt_itr) {
     std::string opt = "", arg = "", full_arg = argv[opt_itr];
-    
+
     //check for presence of a an arg that looks like a help request
     if (full_arg == "-h" || full_arg == "-help" || full_arg == "--help") {
       cout << HELP << endl;
@@ -153,8 +153,8 @@ void Scrabble_Facade::play(int argc, char** argv) const
         cerr << "Please choose mode option first." << endl;
         return;
       }
-      
-      if (opt == "--test-one"   || opt == "--test-two" || 
+
+      if (opt == "--test-one"   || opt == "--test-two" ||
           opt == "--test-three" || opt == "--test-four" || opt == "--all") {
         if (game_mode != TEST) {
           cerr << "Can only use " << opt << " in test mode." << endl;
@@ -298,7 +298,7 @@ void Scrabble_Facade::play(int argc, char** argv) const
 
   static Scrabble_Config global_config(player_types.size(), player_types, player_names,
                                        game_mode, num_player_pieces, board_type,
-                                       produce_output, color_output, clear_screen_before_output, 
+                                       produce_output, color_output, clear_screen_before_output,
                                        dictionary, piece_source_type, max_num_log_msgs_to_displ,
                                        constrained_square_limit, assert_fail_action);
 
@@ -358,7 +358,7 @@ Scrabble_Game* Scrabble_Facade::create_game() const
 
   //build up the game
   builder.build_scrabble_game();
-  
+
   if (Scrabble_Config::instance().BOARD_TYPE() == STANDARD_BOARD) {
     builder.build_game_board<Standard_Board_Builder>();
   }
@@ -385,13 +385,13 @@ Scrabble_Game* Scrabble_Facade::create_game() const
       my_static_assert(false, "unknown player type");
     }
   }
-  
+
   if (Scrabble_Config::instance().PIECE_SOURCE_TYPE() == STANDARD_SOURCE) {
     builder.build_piece_source<Standard_Piece_Source>();
   }
   else {
     my_static_assert(false, "unknown source type");
   }
-  
+
   return builder.get_game();
 }

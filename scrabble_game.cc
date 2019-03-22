@@ -59,19 +59,19 @@ void Scrabble_Game::play()
   //continue having players make plays until the game is over
   while (!m_game_over) {
     //need to track if all players make a null move, this implies the game is stuck and needs to end
-    bool not_all_null = false; 
+    bool not_all_null = false;
     //begin a new round of plays (loop over each player, have them play once)
     for (unsigned i = 0; i < m_players.size() && !m_game_over; i++) {
       //display the state of the game
       if (produce_output) {
         cout << *this << endl;
       }
-      
+
       //this player will go until he has made a valid move
       //(placing no letters is a valid move (equiv to skip)
       while (true) {
         const Indv_Play& this_play = m_players[i]->play();
-        
+
         std::string err_str = evaluate_play(this_play);
         if (err_str == "") {
           if (this_play.get_size() > 0) {
@@ -152,7 +152,7 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
       col_plays.insert(the_play.get_ith_col(i));
     }
     unsigned row_begin = *(row_plays.begin()), col_begin = *(col_plays.begin());
-    unsigned row_end   = *(--row_plays.end()), col_end   = *(--col_plays.end()); 
+    unsigned row_end   = *(--row_plays.end()), col_end   = *(--col_plays.end());
     unsigned row_dir = const_row ? 0 : 1;
     unsigned col_dir = const_col ? 0 : 1;
     multiset<unsigned>::const_iterator row_play_itr = row_plays.begin();
@@ -171,7 +171,7 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
       }
     }
   }
-  
+
   //all played letters must lie within the game board
   for (unsigned i = 0; i < num_played_letters; ++i) {
     unsigned row = the_play.get_ith_row(i), col = the_play.get_ith_col(i);
@@ -217,7 +217,7 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   m_potential_words = "";
   const std::vector<Scrabble_Word> new_words = m_game_board->get_created_words(the_play);
   for (unsigned i = 0; i < new_words.size(); ++i) {
-    if (m_valid_words.find(new_words[i].get_word_str()) == m_valid_words.end()) {
+    if (!the_play.is_forced() && m_valid_words.find(new_words[i].get_word_str()) == m_valid_words.end()) {
       return std::string(std::string("MOVE ") + obj_to_str(the_play) + " REJECTED: \"") + new_words[i].get_word_str() + "\" is not a valid word";
     }
     else {
@@ -234,7 +234,7 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player) 
+void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player)
 ////////////////////////////////////////////////////////////////////////////////
 {
   const unsigned num_played_letters = the_play.get_size();
@@ -242,7 +242,7 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
   //calculate score, add it to that player's score
   player->add_score(m_potential_score);
 
-  //add pieces to board 
+  //add pieces to board
   for (unsigned i = 0; i < num_played_letters; ++i) {
     m_game_board->place_piece(the_play.get_ith_row(i), the_play.get_ith_col(i),
                               the_play.get_ith_piece(i));
@@ -260,12 +260,12 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     }
     player->add_piece(m_piece_source->get_piece());
   }
-    
+
   //check if play was a non-null play
   if (num_played_letters > 0) {
     //add it to the log
     ostringstream ss;
-    ss << player->get_name() << " scored " << m_potential_score 
+    ss << player->get_name() << " scored " << m_potential_score
        << " with words: " << m_potential_words;
     m_msg_log.insert(m_msg_log.begin(), std::string(ss.str()));
     //we no longer have a 'virgin' board
@@ -290,13 +290,13 @@ unsigned Scrabble_Game::get_potential_score(const Indv_Play& the_play) const
 ////////////////////////////////////////////////////////////////////////////////
 {
 #ifndef NDEBUG
-  std::string rv = 
+  std::string rv =
 #endif
     evaluate_play(the_play); //piggy back on evaluate_play
   //since this method is called by AIs, expect valid plays
   my_assert(rv == "", std::string("AI attempted play: ") + obj_to_str(the_play) +
-            ", which failed because: " + rv); 
-  
+            ", which failed because: " + rv);
+
   return m_potential_score;
 }
 
