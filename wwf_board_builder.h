@@ -1,5 +1,5 @@
-#ifndef standard_board_builder_h
-#define standard_board_builder_h
+#ifndef wwf_board_builder_h
+#define wwf_board_builder_h
 
 #include "board_builder.h"
 
@@ -7,13 +7,13 @@ class Scrabble_Board;
 
 /**
  * This class implements the Board_Builder interface and is designed to
- * construct a standard scrabble board.
+ * construct a words-with-friends-2 vs AI scrabble board.
  *
  * Note that this class is a singleton.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-class Standard_Board_Builder : public Board_Builder
+class Wwf_Board_Builder : public Board_Builder
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
@@ -22,11 +22,11 @@ class Standard_Board_Builder : public Board_Builder
   //////////////////////////// PRIMARY INTERFACE ///////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  static const Standard_Board_Builder& instance();
+  static const Wwf_Board_Builder& instance();
 
   virtual void build_board(Scrabble_Board* board) const;
 
-  static const unsigned BOARD_DIM = 15;
+  static const unsigned BOARD_DIM = 11;
 
  private: // ================ PRIVATE INTERFACE ================================
 
@@ -34,14 +34,16 @@ class Standard_Board_Builder : public Board_Builder
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Standard_Board_Builder(const Standard_Board_Builder&);
-  Standard_Board_Builder& operator=(const Standard_Board_Builder&);
+  Wwf_Board_Builder(const Wwf_Board_Builder&);
+  Wwf_Board_Builder& operator=(const Wwf_Board_Builder&);
 
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Standard_Board_Builder() {}
+  Wwf_Board_Builder() {}
+
+  void set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const;
 };
 
 #endif

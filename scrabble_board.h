@@ -3,6 +3,7 @@
 
 #include "scrabble_square.h"
 #include "standard_board_builder.h"
+#include "wwf_board_builder.h"
 #include "scrabble_word.h"
 #include "indv_play.h"
 #include "scrabble_piece.h"
@@ -163,6 +164,7 @@ class Scrabble_Board
 
   //Scrabble_Tester is a friend of all classes
   friend class Standard_Board_Builder;
+  friend class Wwf_Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

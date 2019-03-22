@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-enum Board_Type {STANDARD_BOARD};
+enum Board_Type {STANDARD_BOARD, WWF_BOARD};
 enum Player_Type {HUMAN, AI, SUPERUSER};
 enum Piece_Source_Type {STANDARD_SOURCE};
 enum Assert_Fail_Action {GDB_ATTACH, EXCEPTION};
@@ -22,7 +22,7 @@ class Scrabble_Config
 {
  public:
   static const Scrabble_Config& instance();
-  
+
   unsigned                  NUM_PLAYERS()                const { return m_num_players               ; }
   const std::vector<Player_Type>& PLAYER_TYPES()               const { return m_player_types              ; }
   const std::vector<std::string>& PLAYER_NAMES()               const { return m_player_names              ; }
@@ -33,11 +33,11 @@ class Scrabble_Config
   bool                      COLOR_OUTPUT()               const { return m_color_output              ; }
   bool                      CLEAR_SCREEN_BEFORE_OUTPUT() const { return m_clear_screen_before_output; }
   const std::string&              DICTIONARY()                 const { return m_dictionary                ; }
-  Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; } 
-  unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; } 
+  Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; }
+  unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; }
   unsigned                  CONSTRAINED_SQUARE_LIMIT()   const { return m_constrained_square_limit  ; }
   Assert_Fail_Action        ASSERT_FAIL_ACTION()         const { return m_assert_fail_action        ; }
-  
+
  private:
   Scrabble_Config(unsigned num_players,
                   const std::vector<Player_Type>& player_types,
@@ -49,17 +49,17 @@ class Scrabble_Config
                   bool color_output                     = true,
                   bool clear_screen_before_output       = true,
                   const std::string& dictionary         = "TWL06.txt",
-                  Piece_Source_Type piece_source_type   = STANDARD_SOURCE, 
-                  unsigned max_num_log_msgs_to_displ    = 10, 
+                  Piece_Source_Type piece_source_type   = STANDARD_SOURCE,
+                  unsigned max_num_log_msgs_to_displ    = 10,
                   unsigned constrained_square_limit     = 3,
                   Assert_Fail_Action assert_fail_action = GDB_ATTACH);
-  
+
   //forbidden methods
   Scrabble_Config(const Scrabble_Config&);
   Scrabble_Config& operator=(const Scrabble_Config&);
-  
+
   static void set_global_instance(const Scrabble_Config* new_inst);
-  
+
   static const Scrabble_Config* s_glob_instance;
 
   unsigned                 m_num_players;
@@ -72,11 +72,11 @@ class Scrabble_Config
   bool                     m_color_output;
   bool                     m_clear_screen_before_output;
   std::string              m_dictionary;
-  Piece_Source_Type        m_piece_source_type; 
-  unsigned                 m_max_num_log_msgs_to_displ; 
+  Piece_Source_Type        m_piece_source_type;
+  unsigned                 m_max_num_log_msgs_to_displ;
   unsigned                 m_constrained_square_limit;
   Assert_Fail_Action       m_assert_fail_action;
-  
+
   friend class Scrabble_Facade;
 };
 

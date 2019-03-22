@@ -21,7 +21,7 @@ void Standard_Board_Builder::build_board(Scrabble_Board* board) const
     board->m_board[row].resize(BOARD_DIM);
   }
 
-  //main diag bonuses 
+  //main diag bonuses
   for (unsigned row = 0, col = 0; row < BOARD_DIM; row++, col++) {
     Bonus bonus;
     if (row == 0 || row == BOARD_DIM - 1) {
@@ -39,7 +39,7 @@ void Standard_Board_Builder::build_board(Scrabble_Board* board) const
     else {
       //no bonus on this square
       my_assert(row == 7, "Only 7,7 should be without any bonus");
-      continue; 
+      continue;
     }
 
     board->m_board[row][col].set_bonus(bonus);
@@ -69,7 +69,7 @@ void Standard_Board_Builder::build_board(Scrabble_Board* board) const
     else if (itr == 4) {
       row += 4;
     }
-    
+
     //add to the four places in the board
     board->m_board[row][col].set_bonus(bonus);
     board->m_board[col][row].set_bonus(bonus);

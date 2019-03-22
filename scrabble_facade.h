@@ -13,7 +13,7 @@ class Scrabble_Game;
  * will need to be familiar with a fairly complex option-set:
  *
  * (see HELP string in cc file)
- * 
+ *
  * Note: this class follows both the "singleton" and "facade" patterns.
  */
 
@@ -37,7 +37,7 @@ class Scrabble_Facade
    * HELP - A string describing how to use this program
    */
   static const std::string HELP;
-  
+
  private:
 
   //////////////////////////////////////////////////////////////////////////////
@@ -53,11 +53,11 @@ class Scrabble_Facade
 
   /**
    * Constructor - Private because this is a singleton class.
-   */ 
+   */
   Scrabble_Facade() {}
-  
+
   /**
-   * create_game - Creates and returns a Scrabble_Game option based on the 
+   * create_game - Creates and returns a Scrabble_Game option based on the
    *               configuration provided in the options.
    */
   Scrabble_Game* create_game() const;

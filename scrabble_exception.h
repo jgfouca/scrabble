@@ -25,10 +25,10 @@ class Assert_Exception : public std::exception
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
-  Assert_Exception(unsigned line, 
-                   const std::string& file, 
+  Assert_Exception(unsigned line,
+                   const std::string& file,
                    const std::string& msg) :
-    m_line(line), m_file(file), m_message(msg) 
+    m_line(line), m_file(file), m_message(msg)
   {
     //the calling of a constructor implies an error has occured
     //what we do from here depends on the configuration
@@ -39,21 +39,21 @@ class Assert_Exception : public std::exception
       sleep(999999999);
     }
   }
-  
+
   virtual ~Assert_Exception() throw() {}
-  
+
   virtual const char* what() const throw()
   {
-    m_full_msg = m_file + ":" + obj_to_str<unsigned>(m_line) 
+    m_full_msg = m_file + ":" + obj_to_str<unsigned>(m_line)
       + " " + m_message + "\n";
     return m_full_msg.c_str();
   }
-  
+
   const std::string& message() const
   {
     return m_message;
   }
-  
+
  private:
   unsigned            m_line;
   std::string         m_file;
@@ -72,12 +72,12 @@ class Assert_Exception : public std::exception
 #else
 #define my_assert(expr, message)
 #define my_static_assert(expr, message)
-#endif 
+#endif
 
 
 /**
  * On very rare occasions (such as when human input is in correct) the throwing
- * of an exception is not correlated with a program bug. For those purposes, 
+ * of an exception is not correlated with a program bug. For those purposes,
  * the exception class below should be used.
  */
 
@@ -87,15 +87,15 @@ class Scrabble_Exception : public std::exception
 {
  public:
   Scrabble_Exception(const std::string& msg) : m_message(msg) {}
-  
-  virtual ~Scrabble_Exception() throw() {}  
-  
+
+  virtual ~Scrabble_Exception() throw() {}
+
   virtual const char* what() const throw()
   {
     return m_message.c_str();
   }
-  
-  const std::string& message() const 
+
+  const std::string& message() const
   {
     return m_message;
   }

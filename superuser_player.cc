@@ -12,7 +12,7 @@ void Superuser_Player::make_play()
 {
   //provide some info to the user as to how to formulate a command
   cout << "Commands: \n";
-  cout << "  \"play <row> <col> <word> <is-horiz(y/n)>\"\n";
+  cout << "  \"play <row> <col> <word> <is-horiz(y/n)> <force(y/n)>\"\n";
   cout << "  (Use '_' to represent components of your word that are already on the board\n\n";
   cout << "  \"set-tray <letters>\"\n";
   cout << "  Example: 'set-tray AES-TRU'\n\n";
@@ -34,12 +34,13 @@ void Superuser_Player::make_play()
 
     unsigned row, col; //row,col are where the player's move begin
     char is_horiz;     //is_horiz - specifies if the player is playing a horizontal word
+    char force;        //force - specifies that the word should be played even if it's not recognized
     char word[50];     //buffer to hold <word>
     flawed_command = false; //specifies if we have confirmed the last command is invalid
 
     m_current_play.clear(); //ensure the last play is cleared
     remap();                //remapping refreshes the char-map
-    
+
     cout << "> ";
     if (!getline(cin, command)) { //grab a line of text
       cout << "please enter command" << endl;
@@ -50,8 +51,8 @@ void Superuser_Player::make_play()
       //way to encapsulate and reuse it.
 
       //scanf based on the expected command format
-      int rv = sscanf(command.c_str(), "play %d %d %s %c", &row, &col, word, &is_horiz);
-      if (rv != 4) {
+      int rv = sscanf(command.c_str(), "play %d %d %s %c %c", &row, &col, word, &is_horiz, &force);
+      if (rv != 5) {
         //the grabbing of one or more essential values from the command failed
         cout << "play command not formatted properly, try again" << endl;
       }
@@ -60,6 +61,16 @@ void Superuser_Player::make_play()
           //is_horiz did not have an expected value
           cout << "The fourth argument must be either 'y' or 'n'" << endl;
           continue;
+        }
+
+        if (force != 'y' && force != 'n') {
+          //is_horiz did not have an expected value
+          cout << "The fifth argument must be either 'y' or 'n'" << endl;
+          continue;
+        }
+
+        if (force == 'y') {
+          m_current_play.force();
         }
 
         //loop over the word they are trying to create
@@ -79,8 +90,8 @@ void Superuser_Player::make_play()
             }
             //this part of the play succeeded, add it to m_current_play
             m_current_play.place_piece(row + (is_horiz == 'y' ? 0 : i),
-                                       col + (is_horiz == 'y' ? i : 0), 
-                                       piece);            
+                                       col + (is_horiz == 'y' ? i : 0),
+                                       piece);
           }
         }
         if (!flawed_command) {
@@ -97,7 +108,7 @@ void Superuser_Player::make_play()
       }
       else {
         std::string new_letters(word);
-        
+
         if (new_letters.size() > get_num_pieces()) {
           cout << "You tried to set too many pieces, player only has "
                << get_num_pieces() << " left to set." << endl;
@@ -129,5 +140,5 @@ void Superuser_Player::make_play()
     else {
       cout << "Unknown command, try again" << endl;
     }
-  } 
+  }
 }
