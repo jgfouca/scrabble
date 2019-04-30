@@ -1,6 +1,6 @@
-#include "scrabble_point_map.h"
-#include "scrabble_common.h"
-#include "scrabble_exception.h"
+#include "scrabble_point_map.hpp"
+#include "scrabble_common.hpp"
+#include "scrabble_exception.hpp"
 
 using namespace std;
 

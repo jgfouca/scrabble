@@ -1,7 +1,7 @@
 #ifndef human_player_h
 #define human_player_h
 
-#include "player.h"
+#include "player.hpp"
 
 /**
  * This class represents a human-controlled player. This class is fairly simple.

@@ -12,12 +12,12 @@ CPPFLAGS    = -g -Wall -Woverloaded-virtual -Wnon-virtual-dtor -Wreturn-type -Ws
 
 .PHONY : clean
 
-OBJECTS = $(patsubst %.cc, %.o,$(wildcard *.cc))
+OBJECTS = $(patsubst %.cpp, %.o,$(wildcard *.cpp))
 
 scrabble: $(OBJECTS)
-	$(CPP) $(CPPFLAGS) $(OBJECTS) -o scrabble
+	$(CPP) $(CPPFLAGS) $(OBJECTS) main.C -o scrabble
 
-$(OBJECTS): %.o: %.cc
+$(OBJECTS): %.o: %.cpp
 	$(CPP) -c $(CPPFLAGS) $< -o $@
 	-@echo
 

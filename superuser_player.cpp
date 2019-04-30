@@ -1,5 +1,5 @@
-#include "superuser_player.h"
-#include "scrabble_piece.h"
+#include "superuser_player.hpp"
+#include "scrabble_piece.hpp"
 
 #include <iostream>
 #include <stdio.h>

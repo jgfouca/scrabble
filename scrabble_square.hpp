@@ -1,9 +1,9 @@
 #ifndef scrabble_square_h
 #define scrabble_square_h
 
-#include "scrabble_piece.h"
-#include "standard_board_builder.h"
-#include "wwf_board_builder.h"
+#include "scrabble_piece.hpp"
+#include "standard_board_builder.hpp"
+#include "wwf_board_builder.hpp"
 
 #include <iostream>
 #include <string>

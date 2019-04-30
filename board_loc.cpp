@@ -1,4 +1,4 @@
-#include "board_loc.h"
+#include "board_loc.hpp"
 
 using namespace std;
 

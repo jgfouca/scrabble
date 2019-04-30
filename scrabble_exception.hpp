@@ -1,8 +1,8 @@
 #ifndef scrabble_exception_h
 #define scrabble_exception_h
 
-#include "scrabble_common.h"
-#include "scrabble_config.h"
+#include "scrabble_common.hpp"
+#include "scrabble_config.hpp"
 
 #include <unistd.h>
 #include <cstdlib>

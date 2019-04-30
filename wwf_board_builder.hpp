@@ -1,7 +1,7 @@
 #ifndef wwf_board_builder_h
 #define wwf_board_builder_h
 
-#include "board_builder.h"
+#include "board_builder.hpp"
 
 class Scrabble_Board;
 

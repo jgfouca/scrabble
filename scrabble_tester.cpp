@@ -1,12 +1,12 @@
-#include "scrabble_tester.h"
-#include "scrabble_game.h"
-#include "player.h"
-#include "scrabble_piece.h"
-#include "indv_play.h"
-#include "constraint.h"
-#include "ai_player.h"
-#include "scrabble_exception.h"
-#include "scrabble_common.h"
+#include "scrabble_tester.hpp"
+#include "scrabble_game.hpp"
+#include "player.hpp"
+#include "scrabble_piece.hpp"
+#include "indv_play.hpp"
+#include "constraint.hpp"
+#include "ai_player.hpp"
+#include "scrabble_exception.hpp"
+#include "scrabble_common.hpp"
 
 #include <iostream>
 

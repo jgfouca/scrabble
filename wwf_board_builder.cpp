@@ -1,6 +1,6 @@
-#include "scrabble_board.h"
-#include "scrabble_exception.h"
-#include "wwf_board_builder.h"
+#include "scrabble_board.hpp"
+#include "scrabble_exception.hpp"
+#include "wwf_board_builder.hpp"
 
 using namespace std;
 

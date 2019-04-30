@@ -1,8 +1,8 @@
 #ifndef scrabble_word_h
 #define scrabble_word_h
 
-#include "scrabble_square.h"
-#include "scrabble_piece.h"
+#include "scrabble_square.hpp"
+#include "scrabble_piece.hpp"
 
 #include <iostream>
 #include <algorithm>

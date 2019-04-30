@@ -1,4 +1,4 @@
-#include "indv_play.h"
+#include "indv_play.hpp"
 
 using namespace std;
 

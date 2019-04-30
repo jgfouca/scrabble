@@ -1,4 +1,4 @@
-#include "scrabble_word.h"
+#include "scrabble_word.hpp"
 
 using namespace std;
 

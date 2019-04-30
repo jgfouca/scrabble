@@ -1,4 +1,4 @@
-#include "scrabble_piece.h"
+#include "scrabble_piece.hpp"
 
 using namespace std;
 

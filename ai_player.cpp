@@ -1,7 +1,7 @@
-#include "ai_player.h"
-#include "scrabble_piece.h"
-#include "scrabble_board.h"
-#include "board_loc.h"
+#include "ai_player.hpp"
+#include "scrabble_piece.hpp"
+#include "scrabble_board.hpp"
+#include "board_loc.hpp"
 
 #include <set>
 

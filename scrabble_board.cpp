@@ -1,5 +1,5 @@
-#include "scrabble_board.h"
-#include "scrabble_square.h"
+#include "scrabble_board.hpp"
+#include "scrabble_square.hpp"
 
 #include <iomanip>
 #include <set>

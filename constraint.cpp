@@ -1,6 +1,6 @@
-#include "constraint.h"
-#include "scrabble_piece.h"
-#include "scrabble_exception.h"
+#include "constraint.hpp"
+#include "scrabble_piece.hpp"
+#include "scrabble_exception.hpp"
 
 #include <stack>
 

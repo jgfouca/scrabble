@@ -1,4 +1,4 @@
-#include "standard_piece_source.h"
+#include "standard_piece_source.hpp"
 
 #include <cstdlib>
 #include <ctime>

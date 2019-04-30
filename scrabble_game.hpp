@@ -1,11 +1,11 @@
 #ifndef scrabble_game_h
 #define scrabble_game_h
 
-#include "scrabble_board.h"
-#include "piece_source.h"
-#include "indv_play.h"
-#include "scrabble_tester.h"
-#include "scrabble_exception.h"
+#include "scrabble_board.hpp"
+#include "piece_source.hpp"
+#include "indv_play.hpp"
+#include "scrabble_tester.hpp"
+#include "scrabble_exception.hpp"
 
 #include <iostream>
 #include <set>

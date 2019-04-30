@@ -1,10 +1,10 @@
 #ifndef player_h
 #define player_h
 
-#include "scrabble_game.h"
-#include "indv_play.h"
-#include "scrabble_piece.h"
-#include "scrabble_tester.h"
+#include "scrabble_game.hpp"
+#include "indv_play.hpp"
+#include "scrabble_piece.hpp"
+#include "scrabble_tester.hpp"
 
 #include <set>
 #include <map>

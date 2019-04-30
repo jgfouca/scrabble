@@ -1,4 +1,4 @@
-#include "scrabble_facade.h"
+#include "scrabble_facade.hpp"
 
 using namespace std;
 

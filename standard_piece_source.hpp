@@ -1,10 +1,10 @@
 #ifndef standard_piece_source_h
 #define standard_piece_source_h
 
-#include "scrabble_piece.h"
-#include "scrabble_tester.h"
-#include "scrabble_exception.h"
-#include "piece_source.h"
+#include "scrabble_piece.hpp"
+#include "scrabble_tester.hpp"
+#include "scrabble_exception.hpp"
+#include "piece_source.hpp"
 
 #include <vector>
 

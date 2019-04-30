@@ -1,10 +1,10 @@
 #ifndef scrabble_piece_h
 #define scrabble_piece_h
 
-#include "scrabble_point_map.h"
-#include "scrabble_tester.h"
-#include "scrabble_common.h"
-#include "scrabble_exception.h"
+#include "scrabble_point_map.hpp"
+#include "scrabble_tester.hpp"
+#include "scrabble_common.hpp"
+#include "scrabble_exception.hpp"
 
 #include <iostream>
 #include <string>

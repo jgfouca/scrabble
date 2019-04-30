@@ -1,7 +1,7 @@
-#include "scrabble_game.h"
-#include "scrabble_word.h"
-#include "player.h"
-#include "scrabble_config.h"
+#include "scrabble_game.hpp"
+#include "scrabble_word.hpp"
+#include "player.hpp"
+#include "scrabble_config.hpp"
 
 #include <fstream>
 #include <sstream>

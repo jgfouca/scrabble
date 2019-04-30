@@ -1,7 +1,7 @@
 #ifndef superuser_player_h
 #define superuser_player_h
 
-#include "ai_player.h"
+#include "ai_player.hpp"
 
 /**
  * This class represents a superuser-controlled player. This class is similar to Human_Player.

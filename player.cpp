@@ -1,5 +1,5 @@
-#include "player.h"
-#include "scrabble_config.h"
+#include "player.hpp"
+#include "scrabble_config.hpp"
 
 using namespace std;
 

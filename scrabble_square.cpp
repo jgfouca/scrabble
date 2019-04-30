@@ -1,5 +1,5 @@
-#include "scrabble_square.h"
-#include "scrabble_exception.h"
+#include "scrabble_square.hpp"
+#include "scrabble_exception.hpp"
 
 #include <cassert>
 

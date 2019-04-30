@@ -1,5 +1,5 @@
-#include "scrabble_board.h"
-#include "scrabble_exception.h"
+#include "scrabble_board.hpp"
+#include "scrabble_exception.hpp"
 
 using namespace std;
 

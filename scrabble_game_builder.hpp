@@ -1,12 +1,12 @@
 #ifndef scrabble_game_builder_h
 #define scrabble_game_builder_h
 
-#include "scrabble_game.h"
-#include "ai_player.h"
-#include "human_player.h"
-#include "superuser_player.h"
-#include "scrabble_board.h"
-#include "piece_source.h"
+#include "scrabble_game.hpp"
+#include "ai_player.hpp"
+#include "human_player.hpp"
+#include "superuser_player.hpp"
+#include "scrabble_board.hpp"
+#include "piece_source.hpp"
 
 #include <string>
 

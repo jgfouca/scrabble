@@ -1,7 +1,7 @@
 #ifndef piece_source_h
 #define piece_source_h
 
-#include "scrabble_piece.h"
+#include "scrabble_piece.hpp"
 
 /**
  * This abstract class defines the interface that needs to be supported by any

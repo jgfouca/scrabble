@@ -1,9 +1,9 @@
 #ifndef ai_player_h
 #define ai_player_h
 
-#include "player.h"
-#include "scrabble_tester.h"
-#include "constraint.h"
+#include "player.hpp"
+#include "scrabble_tester.hpp"
+#include "constraint.hpp"
 
 #include <set>
 #include <bitset>

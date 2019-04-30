@@ -1,13 +1,13 @@
 #ifndef scrabble_board_h
 #define scrabble_board_h
 
-#include "scrabble_square.h"
-#include "standard_board_builder.h"
-#include "wwf_board_builder.h"
-#include "scrabble_word.h"
-#include "indv_play.h"
-#include "scrabble_piece.h"
-#include "board_loc.h"
+#include "scrabble_square.hpp"
+#include "standard_board_builder.hpp"
+#include "wwf_board_builder.hpp"
+#include "scrabble_word.hpp"
+#include "indv_play.hpp"
+#include "scrabble_piece.hpp"
+#include "board_loc.hpp"
 
 #include <iostream>
 #include <algorithm>
