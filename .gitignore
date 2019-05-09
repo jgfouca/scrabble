@@ -10,4 +10,4 @@
 .*.sw[op]
 tmp.tempFile*
 .DS_Store
-scrabble
+build

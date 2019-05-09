@@ -11,3 +11,8 @@ add_library(libscrabble ${LIB_SRCS})
 
 add_executable(scrabble main.C)
 target_link_libraries(scrabble libscrabble)
+
+set(DICTS MEGA_WORD_LIST.txt SIMPLE_WORD_LIST.txt TWL06.txt)
+foreach(DICT ${DICTS})
+  configure_file(${CMAKE_SOURCE_DIR}/dictionaries/${DICT} ${DICT} COPYONLY)
+endforeach()
