@@ -1,5 +1,5 @@
 # scrabble
-Scrabble/Words with friends program + AI
+Scrabble/Words with friends program + artificial intelligence (AI)
 
 This project is for scrabble/words with friends enthusiasts. It supports human vs. human, 
 human vs. AI, and AI vs. AI modes. The human interface is a bit clunky, so the primary use 
