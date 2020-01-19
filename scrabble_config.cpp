@@ -18,6 +18,36 @@ const Scrabble_Config& Scrabble_Config::instance()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+Board_Type str_to_board(const std::string& board_str)
+////////////////////////////////////////////////////////////////////////////////
+{
+  if (board_str == "scrabble") {
+    return STANDARD_BOARD;
+  }
+  else if (board_str == "wwf") {
+    return WWF_BOARD;
+  }
+  else {
+    my_require(false, std::string("Unknown board string: ") + board_str);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+Piece_Source_Type str_to_tileset(const std::string& tileset_str)
+////////////////////////////////////////////////////////////////////////////////
+{
+  if (tileset_str == "scrabble") {
+    return STANDARD_SOURCE;
+  }
+  else if (tileset_str == "wwf") {
+    return STANDARD_SOURCE; // TODO: Need WWF tileset
+  }
+  else {
+    my_require(false, std::string("Unknown tileset string: ") + tileset_str);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 Scrabble_Config::Scrabble_Config(unsigned num_players,
                                  const std::vector<Player_Type>& player_types,
                                  const std::vector<std::string>& player_names,
@@ -28,8 +58,8 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
                                  bool color_output,
                                  bool clear_screen_before_output,
                                  const std::string& dictionary,
-                                 Piece_Source_Type piece_source_type, 
-                                 unsigned max_num_log_msgs_to_displ, 
+                                 Piece_Source_Type piece_source_type,
+                                 unsigned max_num_log_msgs_to_displ,
                                  unsigned constrained_square_limit,
                                  Assert_Fail_Action assert_fail_action) :
   m_num_players(num_players),
@@ -47,16 +77,16 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
   m_constrained_square_limit(constrained_square_limit),
   m_assert_fail_action(assert_fail_action)
 ////////////////////////////////////////////////////////////////////////////////
-{ 
-  my_static_assert(num_players == player_types.size(), 
+{
+  my_static_assert(num_players == player_types.size(),
                    "num_players did not match player_types.size()");
 }
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 void Scrabble_Config::set_global_instance(const Scrabble_Config* new_inst)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_static_assert(!s_glob_instance, 
+  my_static_assert(!s_glob_instance,
                    "instance() was called before set_global_instance");
   s_glob_instance = new_inst;
 }

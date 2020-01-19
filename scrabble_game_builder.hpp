@@ -4,7 +4,6 @@
 #include "scrabble_game.hpp"
 #include "ai_player.hpp"
 #include "human_player.hpp"
-#include "superuser_player.hpp"
 #include "scrabble_board.hpp"
 #include "piece_source.hpp"
 
@@ -41,9 +40,9 @@ class Scrabble_Game_Builder
     m_game->add_piece_source(new LETTER_SOURCE_CLASS());
   }
 
-  Scrabble_Game* get_game() const 
+  Scrabble_Game* get_game() const
   {
-    return m_game; 
+    return m_game;
   }
 
  private:

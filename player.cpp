@@ -134,10 +134,7 @@ const Scrabble_Piece* Player::get_piece(char c) const
 #endif
 
   //check that the player is attempting to play a real letter
-  if (!Scrabble_Piece::is_valid_letter(c)) {
-    throw Scrabble_Exception(std::string("'") + obj_to_str(c) +
-                             "' is not a valid letter.");
-  }
+  my_require(Scrabble_Piece::is_valid_letter(c), std::string("'") + obj_to_str(c) + "' is not a valid letter.");
 
   //look up the letter in the map, NOT the tray
   itr = m_char_piece_map.find(c);
@@ -145,11 +142,8 @@ const Scrabble_Piece* Player::get_piece(char c) const
   if (itr == m_char_piece_map.end()) {
     //we don't have the exact piece, but we can use a wildcard piece instead
     itr = m_char_piece_map.find('-');
-    if (itr == m_char_piece_map.end()) {
-      //we had no wild-cards left
-      throw Scrabble_Exception("Player tried to play, but does not have '" +
-                               obj_to_str(c) + "'");
-    }
+    my_require(itr != m_char_piece_map.end(), "Player tried to play, but does not have '" + obj_to_str(c) + "'");
+
     //a wild-card is required to meet this request, change it's wildcard value
     itr->second->set_wildcard_value(c);
   }

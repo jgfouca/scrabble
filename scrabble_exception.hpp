@@ -62,23 +62,9 @@ class Assert_Exception : public std::exception
 };
 
 /**
- * Below, we define our assertion macros. Note that is does nothing when we are
- * not in debug mode.
- * Use the "my_static_assert" when you don't want to (or can't) output *this
- */
-#ifndef NDEBUG
-#define my_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, std::string("For object: ") + obj_to_str(*this) + "\n" + message); }
-#define my_static_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, message); }
-#else
-#define my_assert(expr, message)
-#define my_static_assert(expr, message)
-#endif
-
-
-/**
- * On very rare occasions (such as when human input is in correct) the throwing
- * of an exception is not correlated with a program bug. For those purposes,
- * the exception class below should be used.
+ * When human input is in correct, the throwing of an exception is not
+ * correlated with a program bug. For those purposes, the exception
+ * class below should be used.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,5 +88,22 @@ class Scrabble_Exception : public std::exception
  private:
   std::string m_message;
 };
+
+/**
+ * Below, we define our assertion macros. Note that asserts do nothing when we are
+ * not in debug mode.
+ *
+ * Use the "my_static_assert" when you don't want to (or can't) output *this
+ *
+ * Use my_require to check user input
+ */
+#ifndef NDEBUG
+#define my_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, std::string("For object: ") + obj_to_str(*this) + "\n" + message); }
+#define my_static_assert(expr, message) if (!static_cast<bool>(expr)) { throw Assert_Exception(__LINE__, __FILE__, message); }
+#else
+#define my_assert(expr, message)
+#define my_static_assert(expr, message)
+#endif
+#define my_require(expr, message) if (!static_cast<bool>(expr)) { throw Scrabble_Exception(message); }
 
 #endif
