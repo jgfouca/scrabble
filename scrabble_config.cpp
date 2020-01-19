@@ -18,7 +18,7 @@ const Scrabble_Config& Scrabble_Config::instance()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Board_Type str_to_board(const std::string& board_str)
+Board_Type Scrabble_Config::str_to_board(const std::string& board_str)
 ////////////////////////////////////////////////////////////////////////////////
 {
   if (board_str == "scrabble") {
@@ -33,7 +33,7 @@ Board_Type str_to_board(const std::string& board_str)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Piece_Source_Type str_to_tileset(const std::string& tileset_str)
+Piece_Source_Type Scrabble_Config::str_to_tileset(const std::string& tileset_str)
 ////////////////////////////////////////////////////////////////////////////////
 {
   if (tileset_str == "scrabble") {

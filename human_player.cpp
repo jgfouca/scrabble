@@ -1,5 +1,4 @@
 #include "human_player.hpp"
-#include "ai_player.hpp"
 #include "scrabble_piece.hpp"
 
 #include <iostream>

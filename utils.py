@@ -24,13 +24,13 @@ def expect(condition, error_msg, exc_type=SystemExit, error_prefix="ERROR:"):
 ###############################################################################
 def to_cstr(item):
 ###############################################################################
-    return bytes(item)
+    return bytes(item, "utf-8")
 
 ###############################################################################
 def to_cstr_list(items):
 ###############################################################################
     arr = (ctypes.c_char_p * len(items))()
-    arr[:] = to_cstr(items)
+    arr[:] = [to_cstr(item) for item in items]
 
     return arr
 

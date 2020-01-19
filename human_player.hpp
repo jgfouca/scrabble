@@ -23,7 +23,7 @@ class Human_Player : public AI_Player
  protected:
   /**
    * make_play - Processes stdin commands until it receives a valid command. The
-   *             valid command is encoded into m_current_play and the method 
+   *             valid command is encoded into m_current_play and the method
    *             terminates.
    */
   virtual void make_play();
