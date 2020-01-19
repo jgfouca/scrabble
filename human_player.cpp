@@ -47,9 +47,6 @@ void Human_Player::make_play()
       continue;
     }
     else if (command.find("play ") == 0) {
-      //The code below was copied from human_player.cc. There didn't seem to be any elegant
-      //way to encapsulate and reuse it.
-
       //scanf based on the expected command format
       int rv = sscanf(command.c_str(), "play %d %d %s %c %c", &row, &col, word, &is_horiz, &force);
       if (rv != 5) {
