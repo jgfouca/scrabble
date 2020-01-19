@@ -137,6 +137,9 @@ void Human_Player::make_play()
       AI_Player::make_play();
       cout << "AI recommends: " << m_current_play << endl;
     }
+    else if (command.find("quit") == 0 || command.find("exit") == 0) {
+      break;
+    }
     else {
       cout << "Unknown command, try again" << endl;
     }

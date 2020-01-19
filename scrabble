@@ -116,9 +116,6 @@ The supported modes are:
 ###############################################################################
 def _play_driver(game, players, ais, dictionary, board, tileset, random_seed):
 ###############################################################################
-    # TODO
-    print (game, players, ais, dictionary, board, tileset, random_seed)
-
     clib = ctypes.CDLL("libscrabble.so")
     clib.c_scrabble(len(players), to_cstr_list(players),
                     len(ais),     to_cstr_list(ais),
