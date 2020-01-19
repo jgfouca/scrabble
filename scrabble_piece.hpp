@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 
-class Superuser_Player;
+class Human_Player;
 
 /**
  * This class represents a single piece that can be played on the board. Pieces
@@ -133,7 +133,7 @@ class Scrabble_Piece
   /**
    * force_letter_change - Artificially forces a piece to change value. This
    *                       should only be called by Scrabble_Tester or
-   *                       Superuser_Player.
+   *                       Human_Player.
    */
   void force_letter_change(char letter)
   {
@@ -172,7 +172,7 @@ class Scrabble_Piece
   //////////////////////////////////////////////////////////////////////////////
 
   friend class Scrabble_Tester;
-  friend class Superuser_Player;
+  friend class Human_Player;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

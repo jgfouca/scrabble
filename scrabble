@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+
+"""
+Launch the scrabble platform.
+"""
+
+from utils import expect, to_cstr, to_cstr_list
+
+import argparse, sys, os, ctypes, time
+
+_DICTS = {
+    "scrabble" : "TWL06.txt",
+    "wwf"      : "WWF.txt"
+    }
+
+###############################################################################
+def _parse_play_cmd(args):
+###############################################################################
+    parser = argparse.ArgumentParser(
+        usage="""\n{0} play [<args>]
+OR
+{0} play help
+
+\033[1mEXAMPLES:\033[0m
+    \033[1;32m# Play a scrabble game with two players, one human "me" and one AI "bot" \033[0m
+    > {0} -p me -a bot
+
+""".format(os.path.basename(sys.argv[0])),
+        description="play a game of scrabble",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+
+    parser.add_argument("-g", "--game", default="scrabble", choices=("scrabble", "wwf"),
+                        help="Select the game type. This will affect default "
+                        "board, dictionary, tile points, etc.")
+
+    parser.add_argument("-p", "--player", dest="players", action="append", default=[],
+                        help="Add a human player with the given name")
+
+    parser.add_argument("-a", "--ai", dest="ais", action="append", default=[],
+                        help="Add an AI player with the given name")
+
+    parser.add_argument("-d", "--dictionary",
+                        help="Force game to use a specific word dictionary (use filepath)")
+
+    parser.add_argument("-b", "--board", choices=("scrabble", "wwf", "wwf-solo"),
+                        help="Force game to use a specific word dictionary (use filepath)")
+
+    parser.add_argument("-t", "--tileset", choices=("scrabble", "wwf"),
+                        help="Force game to use a specific tileset (tiles and point values)")
+
+    parser.add_argument("-r", "--random-seed", type=int, default=-1,
+                        help="Choose the random seed. This can allow you to repeat test results etc. "
+                        "Default is -1, which means the 'time' function will be used to produce "
+                        "a pseudo-random seed.")
+
+    if "help" in args:
+        parser.print_help()
+        sys.exit(0)
+
+    args = parser.parse_args(args)
+
+    if args.random_seed == -1:
+        args.random_seed = int(time.time())
+
+    # Set defaults based on game
+    if args.dictionary is None:
+        args.dictionary = _DICTS[args.game]
+    if args.board is None:
+        args.board = args.game
+    if args.tileset is None:
+        args.tileset = args.game
+
+    expect(len(args.players) + len(args.ais) > 0, "Need at least one player")
+    expect(os.path.exists(args.dictionary), "Missing dictionary '{}'".format(args.dictionary))
+
+    return args
+
+###############################################################################
+def _parse_exp_cmd(args):
+###############################################################################
+    expect(False, "Experiment mode not supported yet")
+
+###############################################################################
+def _parse_command_line(args, description):
+###############################################################################
+    parser = argparse.ArgumentParser(
+        usage="""\n{0} <mode> [<args>]
+OR
+{0} --help
+
+The supported modes are:
+  play    play a game of scrabble
+  exp     set up a non-interactive experiment
+""".format(os.path.basename(args[0])),
+        description=description,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument("mode", help="mode to run")
+
+    args = parser.parse_args(sys.argv[1:2])
+
+    if args.mode == "help":
+        parser.print_help()
+        sys.exit(0)
+    else:
+        parser_name = "_parse_{}_cmd".format(args.mode)
+        good_name = (parser_name in globals() and callable(globals()[parser_name]))
+        if good_name:
+            return args.mode, globals()[parser_name](sys.argv[2:])
+        else:
+            parser.print_help()
+            expect(False, "Unknown mode '{}'".format(args.mode))
+
+###############################################################################
+def _play_driver(game, players, ais, dictionary, board, tileset, random_seed):
+###############################################################################
+    clib = ctypes.CDLL("libscrabble.so")
+    clib.c_scrabble(len(players), to_cstr_list(players),
+                    len(ais),     to_cstr_list(ais),
+                    to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed)
+
+###############################################################################
+def _exp_driver(args):
+###############################################################################
+    pass
+
+###############################################################################
+def _main_func(description):
+###############################################################################
+    mode, args = _parse_command_line(sys.argv, description)
+
+    driver_name = "_{}_driver".format(mode)
+    assert driver_name in globals() and callable(globals()[driver_name]), \
+        "Missing driver '{}'".format(driver_name)
+    globals()[driver_name](**vars(args))
+
+###############################################################################
+
+if (__name__ == "__main__"):
+    _main_func(__doc__)

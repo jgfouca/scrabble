@@ -6,7 +6,7 @@
 #include <vector>
 
 enum Board_Type {STANDARD_BOARD, WWF_BOARD};
-enum Player_Type {HUMAN, AI, SUPERUSER};
+enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE};
 enum Assert_Fail_Action {GDB_ATTACH, EXCEPTION};
 enum Game_Mode {TEST, NORMAL, COMMAND, INVALID};
@@ -24,19 +24,23 @@ class Scrabble_Config
   static const Scrabble_Config& instance();
 
   unsigned                  NUM_PLAYERS()                const { return m_num_players               ; }
-  const std::vector<Player_Type>& PLAYER_TYPES()               const { return m_player_types              ; }
-  const std::vector<std::string>& PLAYER_NAMES()               const { return m_player_names              ; }
+  const std::vector<Player_Type>& PLAYER_TYPES()         const { return m_player_types              ; }
+  const std::vector<std::string>& PLAYER_NAMES()         const { return m_player_names              ; }
   Game_Mode                 GAME_MODE()                  const { return m_game_mode                 ; }
   unsigned                  NUM_PLAYER_PIECES()          const { return m_num_player_pieces         ; }
   Board_Type                BOARD_TYPE()                 const { return m_board_type                ; }
   bool                      PRODUCE_OUTPUT()             const { return m_produce_output            ; }
   bool                      COLOR_OUTPUT()               const { return m_color_output              ; }
   bool                      CLEAR_SCREEN_BEFORE_OUTPUT() const { return m_clear_screen_before_output; }
-  const std::string&              DICTIONARY()                 const { return m_dictionary                ; }
+  const std::string&        DICTIONARY()                 const { return m_dictionary                ; }
   Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; }
   unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; }
   unsigned                  CONSTRAINED_SQUARE_LIMIT()   const { return m_constrained_square_limit  ; }
   Assert_Fail_Action        ASSERT_FAIL_ACTION()         const { return m_assert_fail_action        ; }
+
+  static Board_Type str_to_board(const std::string& board_str);
+
+  static Piece_Source_Type str_to_tileset(const std::string& tileset_str);
 
  private:
   Scrabble_Config(unsigned num_players,

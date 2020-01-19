@@ -1,6 +1,7 @@
 #ifndef human_player_h
 #define human_player_h
 
+#include "ai_player.hpp"
 #include "player.hpp"
 
 /**
@@ -10,19 +11,19 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-class Human_Player : public Player
+class Human_Player : public AI_Player
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
   /**
    * Constructor - Simply handsoff args to the parent constructor
    */
-  Human_Player(const std::string& name, Scrabble_Game* the_game) : Player(name, the_game) {}
+  Human_Player(const std::string& name, Scrabble_Game* the_game) : AI_Player(name, the_game) {}
 
  protected:
   /**
    * make_play - Processes stdin commands until it receives a valid command. The
-   *             valid command is encoded into m_current_play and the method 
+   *             valid command is encoded into m_current_play and the method
    *             terminates.
    */
   virtual void make_play();
