@@ -6,7 +6,7 @@ Launch the scrabble platform.
 
 from utils import expect, to_cstr, to_cstr_list
 
-import argparse, sys, os, ctypes, time
+import argparse, sys, os, ctypes, time, platform
 
 _DICTS = {
     "scrabble" : "TWL06.txt",
@@ -116,7 +116,7 @@ The supported modes are:
 ###############################################################################
 def _play_driver(game, players, ais, dictionary, board, tileset, random_seed):
 ###############################################################################
-    clib = ctypes.CDLL("libscrabble.so")
+    clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
     clib.c_scrabble(len(players), to_cstr_list(players),
                     len(ais),     to_cstr_list(ais),
                     to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed)
