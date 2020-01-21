@@ -40,13 +40,13 @@ class Scrabble_Game
   /**
    * Constructor - sets up a "null" game state that is not playable.
    */
-  Scrabble_Game() 
-    : m_game_board(NULL), 
-      m_piece_source(NULL), 
-      m_first_play(true), 
+  Scrabble_Game()
+    : m_game_board(NULL),
+      m_piece_source(NULL),
+      m_first_play(true),
       m_game_over(false)
   {}
-  
+
   /**
    * Destructor - cleans up memory
    */
@@ -92,7 +92,7 @@ class Scrabble_Game
   const Scrabble_Board* get_board() const { return m_game_board; }
 
   /**
-   * get_valid_words - returns a reference to the dictionary. 
+   * get_valid_words - returns a reference to the dictionary.
    *                   (AIs need to know what words are valid)
    */
   const std::set<std::string>& get_valid_words() const { return m_valid_words; }
@@ -111,10 +111,10 @@ class Scrabble_Game
    * add_board - called by the builders, this method sets what board object will
    *             be used during play.
    */
-  void add_board(Scrabble_Board* board) 
+  void add_board(Scrabble_Board* board)
   {
-    my_assert(!m_game_board,  
-              "add_board was called twice on the same scrabble_game obj"); 
+    my_assert(!m_game_board,
+              "add_board was called twice on the same scrabble_game obj");
     m_game_board = board;
   }
 
@@ -127,22 +127,22 @@ class Scrabble_Game
    * add_piece_source - called by the builders, this method sets what letter
    *                    source will be used during play.
    */
-  void add_piece_source(Piece_Source* ls) 
+  void add_piece_source(Piece_Source* ls)
   {
-    my_assert(!m_piece_source, 
+    my_assert(!m_piece_source,
               "add_piece_source was called twice on the same scrabble_game obj");
     m_piece_source = ls;
   }
 
  private: // ================ PRIVATE INTERFACE ================================
-  
+
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
   Scrabble_Game(const Scrabble_Game&);
   Scrabble_Game& operator=(const Scrabble_Game&);
-  
+
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -150,11 +150,11 @@ class Scrabble_Game
   /**
    * evaluate_play - Checks the the_play does not violate any rules. If the play
    *                 does violate a rule, we return a string describing why the
-   *                 play was invalid. Returning an empty string implies that 
+   *                 play was invalid. Returning an empty string implies that
    *                 the play was valid.
    */
   std::string evaluate_play(const Indv_Play& the_play) const;
-  
+
   /**
    * process_legit_play - Takes the_play and applies it to the game, changing
    *                      many peices of game-state and player-state.
@@ -165,7 +165,7 @@ class Scrabble_Game
   void process_legit_play(const Indv_Play& the_play, Player* player);
 
   /**
-   * initialize - Called after the game has been fully built... sets up the 
+   * initialize - Called after the game has been fully built... sets up the
    *              dictionary and gives all players their initial pieces.
    */
   void initialize();
@@ -189,14 +189,14 @@ class Scrabble_Game
   // m_valid_word - A set of all the words in the dictionary
   std::set<std::string>    m_valid_words;
 
-  // m_msg_log - A vector of strings that describe recent happenings in the 
-  //             game (usually recent plays). 
+  // m_msg_log - A vector of strings that describe recent happenings in the
+  //             game (usually recent plays).
   std::vector<std::string> m_msg_log;
 
   // m_potential_score - The score that would be made if the most recently
   //                     evaluated play were made.
   mutable unsigned         m_potential_score;
-  
+
   // m_potential_words - The words that would be created if the most recently
   //                     evaluated play were made.
   mutable std::string      m_potential_words;

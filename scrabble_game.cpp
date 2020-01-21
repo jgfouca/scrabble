@@ -108,6 +108,9 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   const unsigned num_played_letters = the_play.get_size();
   const unsigned b_dim              = m_game_board->get_board_dim();
 
+  m_potential_score = 0;
+  m_potential_words = "";
+
   //null plays are always allowed
   if (num_played_letters == 0) {
     return "";
@@ -214,8 +217,6 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
   }
 
   // Every adjacent word must continue to be a valid word, calc hypothetical score while we're at it
-  m_potential_score = 0;
-  m_potential_words = "";
   const std::vector<Scrabble_Word> new_words = m_game_board->get_created_words(the_play);
   for (unsigned i = 0; i < new_words.size(); ++i) {
     if (!the_play.is_forced() && m_valid_words.find(new_words[i].get_word_str()) == m_valid_words.end()) {

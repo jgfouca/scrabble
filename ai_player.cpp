@@ -81,6 +81,7 @@ void AI_Player::make_play()
     //Need special case for first-play
     //prioritize long words
     //if none, try a smaller word
+    const unsigned center_square = m_the_game->get_board()->get_board_dim() / 2;
     for (int l = 7; l > 0; l--) {
       std::vector<unsigned> max_lengths;
       max_lengths.push_back(l);
@@ -100,7 +101,7 @@ void AI_Player::make_play()
 
             for (unsigned w = 0; w < word->size(); w++) {
               //note that the call below can change wildcard status
-              tmp_play.place_piece(7, 7+p+w, get_piece((*word)[w]));
+              tmp_play.place_piece(center_square, center_square+p+w, get_piece((*word)[w]));
             }
 	    remap();
 

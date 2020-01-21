@@ -24,7 +24,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
   game->initialize();
   AI_Player* test_player = dynamic_cast<AI_Player*>(game->m_players[0]);
   my_static_assert(test_player, "First player needs to be AI for this test");
-  
+
   Indv_Play play_obj;
 
   // We hard-code a number of plays to test the engine:
@@ -37,9 +37,9 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                              '_', '_', '_', '_', '_', '_', '_', '_',
                              '_', '_', '_', '_', '_', '_', '_', '_',
                              '_', '_'};
-  std::string searches[] = {"*", "T*", "*E*", "#O", "A*", "H*", "S_T", "*B", 
+  std::string searches[] = {"*", "T*", "*E*", "#O", "A*", "H*", "S_T", "*B",
                             "B*", "*A#", "*K*", "S_I*", "#___#", "*SIT*", "##", "T__I*",
-                            "", "", "BORED*", "TACIT*", "O____N*", "", "", "AS*", 
+                            "", "", "BORED*", "TACIT*", "O____N*", "", "", "AS*",
                             "#T", "##"};
   unsigned max_sizes[] = {15, 8, 10, 2, 8,  8,  3, 8,
 			  8,  8, 15, 7, 5,  12, 2, 8,
@@ -53,11 +53,11 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                                "BORED", "SCAR", "SICKEN", "SPITS", "SPINS", "VISITS", "AA", "TACIT",
                                "", "", "BOREDOM", "TACITNESS", "ORIGINAL", "", "", "ASK",
                                "AT", "TO"};
-  unsigned starting_row[] = {7, 8, 6, 8, 9, 8, 10, 0, 
+  unsigned starting_row[] = {7, 8, 6, 8, 9, 8, 10, 0,
                              0, 1, 3, 1, 3, 10, 10, 5,
                              8, 11, 0, 5, 0, 1, 11, 11,
                              9, 2};
-  unsigned starting_col[] = {2, 8, 2, 7, 9, 4, 3, 6, 
+  unsigned starting_col[] = {2, 8, 2, 7, 9, 4, 3, 6,
                              7, 4, 3, 4, 9, 0, 7, 6,
                              11, 7, 11, 11, 11, 10, 6, 9,
                              1, 12};
@@ -70,19 +70,19 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
                             "MOVE B(8,11) A(9,11) D(10,11)  REJECTED: play did not connect with any words",
                             "MOVE T(11,9) E(11,10) R(11,11) B(11,12)  REJECTED: \"ASTERB\" is not a valid word", "", "", "",
                             "MOVE O(1,10) S(2,12)  REJECTED: all played letters must be linear",
-                            "MOVE B(11,6) T(11,8)  REJECTED: tried to place on top of another piece", "", 
+                            "MOVE B(11,6) T(11,8)  REJECTED: tried to place on top of another piece", "",
                             "", ""};
-  unsigned expected_scores[] = {61, 7, 13, 4, 4, 16, 3, 70, 
-                                24, 14, 26, 14, 34, 9, 9, 7, 
-                                0, 0, 13, 13, 20, 0, 0, 7, 
+  unsigned expected_scores[] = {61, 7, 13, 4, 4, 16, 3, 70,
+                                24, 14, 26, 14, 34, 9, 9, 7,
+                                0, 0, 13, 13, 20, 0, 0, 7,
                                 8, 11};
-  
+
   std::vector<std::vector<pair<std::string, unsigned> > > compat_vectors(sizeof(starting_row)/sizeof(unsigned));
   std::vector<std::vector<unsigned> > max_length_vectors(sizeof(starting_row)/sizeof(unsigned));
 
   //Manually insert the compatibilities
   compat_vectors[3].push_back(pair<std::string, unsigned>("I#", 1));
-  
+
   compat_vectors[9].push_back(pair<std::string, unsigned>("O#", 1));
 
   compat_vectors[12].push_back(pair<std::string, unsigned>("SICKEN#", 6));
@@ -95,7 +95,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
 
   compat_vectors[25].push_back(pair<std::string, unsigned>("I#", 1));
   compat_vectors[25].push_back(pair<std::string, unsigned>("G#", 1));
-  
+
   //Manually insert max lengths (hack for now)
   for (unsigned i = 0; i < sizeof(starting_row)/sizeof(unsigned); i++) {
     for (unsigned j = 0; j < searches[i].size(); j++) {
@@ -123,7 +123,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
       Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(test_player->m_pieces[piece_itr++]);
       piece->force_letter_change('E');
     }
-    test_player->remap();        
+    test_player->remap();
 
     //create the play-object needed to create the expected word
     unsigned row = starting_row[i], col = starting_col[i];
@@ -136,7 +136,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
           piece->set_wildcard_value(wildcard_choices[i]);
         }
 	//cout << *test_player << endl;
-        play_obj.place_piece(row, col, (words[i][p] == '-') ? test_player->get_piece(wildcard_choices[i]) : 
+        play_obj.place_piece(row, col, (words[i][p] == '-') ? test_player->get_piece(wildcard_choices[i]) :
                                                               test_player->get_piece(words[i][p]));
       }
       row += (is_horiz[i] ? 0 : 1);
@@ -171,7 +171,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
       my_static_assert(game->m_potential_score == expected_scores[i],
                        obj_to_str(game->m_potential_score) + " did not match expected score: " +
                        obj_to_str(expected_scores[i]));
-      
+
       cout << "Created words: " << game->m_potential_words << endl;
       cout << *game << endl;
       if (wait) {
@@ -179,7 +179,7 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
         cin >> dummy;
       }
     }
-  
+
     play_obj.clear();
   }
 }
@@ -187,17 +187,17 @@ void Scrabble_Tester::test_one(Scrabble_Game* game, bool wait)
 ////////////////////////////////////////////////////////////////////////////////
 void Scrabble_Tester::test_two(Scrabble_Game* game)
 ////////////////////////////////////////////////////////////////////////////////
-{  
+{
   my_static_assert(game->m_players.size() > 0, "Game had no players");
   game->initialize();
   AI_Player* test_player = dynamic_cast<AI_Player*>(game->m_players[0]);
   my_static_assert(test_player, "First player needs to be AI for this test");
-  
-  /*
-  static char text[63]; //should be enough to hold a line                      
-  FILE* cmd_pipe;                                                               
 
-  std::string letters[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
+  /*
+  static char text[63]; //should be enough to hold a line
+  FILE* cmd_pipe;
+
+  std::string letters[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP",
                            "-AOEPLM", "PLASDUI", "IMNBXCS", "LAKSJDE", "PLQ-IDS"};
 
   std::string grep_searches[] = {};
@@ -209,11 +209,11 @@ void Scrabble_Tester::test_two(Scrabble_Game* game)
       Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(test_player->m_pieces[j]);
       piece->force_letter_change(letters[i][j]);
     }
-    
+
     set<std::string> grep_results, my_results;
-    
+
     //formulate grep command strings
-    string cmd_str = string("grep -E ") + grep_searches[i] + " " + 
+    string cmd_str = string("grep -E ") + grep_searches[i] + " " +
       Scrabble_Config::instance().DICTIONARY();
 
     //run grep with popen
@@ -224,7 +224,7 @@ void Scrabble_Tester::test_two(Scrabble_Game* game)
       output = string(text);
       grep_results.insert(output);
     }
-    pclose(cmd_pipe);  
+    pclose(cmd_pipe);
   */
 
     //JGF:
@@ -237,7 +237,7 @@ void Scrabble_Tester::test_two(Scrabble_Game* game)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration, 
+void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
                                  unsigned depth, bool wait)
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -256,24 +256,24 @@ void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
   //hard-code AI letters for repeatability
   std::vector<std::string*> letters_for_depth;
 
-  std::string letters_1[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP", 
+  std::string letters_1[] = {"TIBIHXE", "SODKWEW", "QPEOR-E", "LMSCEIU", "MNBOIUP",
                              "-AOEPLM", "PLASDUI", "IMNBXCS", "LAKSJDE", "PLQ-IDS"};
 
-  std::string letters_2[] = {"CJAO-AE", "QPSDOAN", "ZVUISEW", "QWEUIOV", "ASDIPNA", 
+  std::string letters_2[] = {"CJAO-AE", "QPSDOAN", "ZVUISEW", "QWEUIOV", "ASDIPNA",
                              "-SVWEJR", "HQEOQOG", "APFIQOJ", "QPBJKSJ", "FJA-QWE"};
 
-  std::string letters_3[] = {"--APSDO", "BOOSAFP", "QWRNXCV", "KLGHFNV", "UIIOSDF", 
+  std::string letters_3[] = {"--APSDO", "BOOSAFP", "QWRNXCV", "KLGHFNV", "UIIOSDF",
                              "UKLDFGH", "APSIOCS", "LLMLMS-", "ASDASUI", "ABSD-YT"};
 
-  std::string letters_4[] = {"PQASLFX", "DFJKGAS", "SASDDIO", "KLGERTS", "POIESTY", 
+  std::string letters_4[] = {"PQASLFX", "DFJKGAS", "SASDDIO", "KLGERTS", "POIESTY",
                              "LOLERCO", "OMGSTSD", "QWSPX-O", "AEASESI", "BJAB-YZ"};
 
-  std::string letters_5[] = {"JKASJDI", "JKGIKAJ", "SPZISJH", "QLIVHAE", "QPDIVBH", 
+  std::string letters_5[] = {"JKASJDI", "JKGIKAJ", "SPZISJH", "QLIVHAE", "QPDIVBH",
                              "LKGDFHJ", "OADSFGD", "QASDYRV", "YUIFFSD", "XCVB-CZ"};
 
   std::string* letter_srcs[] = {letters_1, letters_2, letters_3, letters_4, letters_5};
-  
-  my_static_assert(iteration < (sizeof(letters_1)/sizeof(std::string)), 
+
+  my_static_assert(iteration < (sizeof(letters_1)/sizeof(std::string)),
             std::string("iteration out of bounds: ") + obj_to_str(iteration));
 
   for (unsigned d = 0; d < depth; ++d) {
@@ -281,17 +281,17 @@ void Scrabble_Tester::test_three(Scrabble_Game* game, unsigned iteration,
       Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(test_player->m_pieces[i]);
       piece->force_letter_change(letter_srcs[d % 5][iteration][i]);
     }
-    test_player->remap();        
+    test_player->remap();
 
     const Indv_Play& the_play = test_player->play();
-    
+
     std::string real_err_msg;
     if ( (real_err_msg = game->evaluate_play(the_play)) != "") {
       cout << real_err_msg << endl;
       cout << the_play << endl;
       my_static_assert(false, "AIs should never make invalid play");
     }
-  
+
     game->process_legit_play(the_play, test_player);
     cout << *game << endl;
     if (wait) {
