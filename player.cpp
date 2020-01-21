@@ -9,7 +9,7 @@ Player::Player(const std::string& name, Scrabble_Game* the_game) :
 ////////////////////////////////////////////////////////////////////////////////
 {
   //fill player's tray with NULL pieces
-  m_pieces.resize(Scrabble_Config::instance().NUM_PLAYER_PIECES());
+  m_pieces.resize(the_game->get_config().NUM_PLAYER_PIECES());
   for (unsigned i = 0; i < m_pieces.size(); i++) {
     m_pieces[i] = NULL;
   }

@@ -76,13 +76,14 @@ void AI_Player::make_play()
   unsigned highest_so_far = 0;
   std::string highest_word = "";
   set<pair<Board_Loc, Board_Loc> > constraints_checked;
+  const int num_pieces = get_num_pieces();
 
   if (m_the_game->is_first_play()) {
     //Need special case for first-play
     //prioritize long words
     //if none, try a smaller word
     const unsigned center_square = m_the_game->get_board()->get_board_dim() / 2;
-    for (int l = 7; l > 0; l--) {
+    for (int l = num_pieces; l > 0; l--) {
       std::vector<unsigned> max_lengths;
       max_lengths.push_back(l);
       Constraint constraint("*", std::vector<set<char> >(), max_lengths);
@@ -113,7 +114,7 @@ void AI_Player::make_play()
 	    }
           }
         }
-        if (l == 7) {
+        if (l == num_pieces) {
           break; //the 50 pt bonus will not be improved upon
         }
       }
@@ -258,7 +259,7 @@ void AI_Player::make_play()
 #endif
 
             //Search the line, collecting squares until:
-            //1) We have processed 7 squares
+            //1) We have processed open squares equal to number of pieces in player's hand
             //2) We have hit our CONSTRAINED_SQR_LIMIT-th highly constrained square
             //3) We have reached the end of the board
             //Searching will be done as follows:
@@ -325,7 +326,7 @@ void AI_Player::make_play()
             //need this information so we know where to start placing the word later
             std::vector<unsigned> mandatory_sect_expansions;
 
-            const unsigned NUM_CONSTRAINED_LIMIT = Scrabble_Config::instance().CONSTRAINED_SQUARE_LIMIT();
+            const unsigned NUM_CONSTRAINED_LIMIT = m_the_game->get_config().CONSTRAINED_SQUARE_LIMIT();
             for (int max_constrained_sqrs_in_negative_dir = NUM_CONSTRAINED_LIMIT;
                  max_constrained_sqrs_in_negative_dir >= 0; --max_constrained_sqrs_in_negative_dir) {
 #ifdef VERBOSE
@@ -368,7 +369,7 @@ void AI_Player::make_play()
                 //perform the initial search
                 for (unsigned r = init_row, c = init_col;
                      r < b_dim && c < b_dim &&
-                       num_req_placements < 7;
+                       num_req_placements < num_pieces;
                      r += row_dir, c += col_dir) {
 #ifdef VERBOSE
                   cout << "              Searching square: " << Board_Loc(r, c)
@@ -590,12 +591,12 @@ void AI_Player::make_play()
 
                   unsigned min_len = constraint->min_word_length();
                   my_assert(min_len >= mandatory_sect.size(),
-                            "contraint should be reporting a min_length that at least covers the mandatort section");
+                            "contraint should be reporting a min_length that at least covers the mandatory section");
                   if (across && min_len == mandatory_sect.size() &&
                       constraint->is_mandatory_sect_critical_span()) {
                     min_len++; //doesn't do any good to find words that don't add on to what's already there
                   }
-                  if (min_len > constraint->max_word_length()) {
+                  if (min_len > constraint->max_word_length(*this)) {
                     //no possible match
                     break;
                   }
@@ -603,14 +604,14 @@ void AI_Player::make_play()
                   //get all satisfying words! Store them in m_recent_result
                   find_all_satisfying_strings(*constraint,
                                               min_len,
-                                              constraint->max_word_length());
+                                              constraint->max_word_length(*this));
 
                   if (!m_recent_result.empty()) {
                     //loop over all satisfying words, looking for highest-point placement
                     for (unsigned r = 0; r < m_recent_result.size(); r++) {
                       const std::string* word = m_recent_result[r];
                       my_assert(word->size() >= constraint->min_word_length() &&
-                                word->size() <= constraint->max_word_length(),
+                                word->size() <= constraint->max_word_length(*this),
                                 "word did not meet length constraint?");
 
                       //this word may be placed in one of many places

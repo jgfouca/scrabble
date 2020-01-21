@@ -2,7 +2,6 @@
 #define scrabble_exception_h
 
 #include "scrabble_common.hpp"
-#include "scrabble_config.hpp"
 
 #include <unistd.h>
 #include <cstdlib>
@@ -32,12 +31,12 @@ class Assert_Exception : public std::exception
   {
     //the calling of a constructor implies an error has occured
     //what we do from here depends on the configuration
-    if (Scrabble_Config::instance().ASSERT_FAIL_ACTION() == GDB_ATTACH) {
-      std::cout << "Error: " << what() << std::endl;
-      std::cout << "Process ID: " << getpid() << std::endl;
-      std::cout << "Attach via command: 'gdb scrabble <pid>'" << std::endl;
-      sleep(999999999);
-    }
+#ifdef SCRABBLE_ATTACH
+    std::cout << "Error: " << what() << std::endl;
+    std::cout << "Process ID: " << getpid() << std::endl;
+    std::cout << "Attach via command: 'gdb scrabble <pid>'" << std::endl;
+    sleep(999999999);
+#endif
   }
 
   virtual ~Assert_Exception() throw() {}

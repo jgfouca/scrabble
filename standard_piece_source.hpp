@@ -2,7 +2,6 @@
 #define standard_piece_source_h
 
 #include "scrabble_piece.hpp"
-#include "scrabble_tester.hpp"
 #include "scrabble_exception.hpp"
 #include "piece_source.hpp"
 
@@ -21,8 +20,8 @@
  * 1  K J X Q Z
  *
  * This class works by creating all the pieces above, placing them in a vector
- * and then shuffling the vector so that the piece order is random. As the 
- * outside requests pieces, we simply iterate over this vector. 
+ * and then shuffling the vector so that the piece order is random. As the
+ * outside requests pieces, we simply iterate over this vector.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +35,7 @@ class Standard_Piece_Source : public Piece_Source
   Standard_Piece_Source();
 
   /**
-   * Destructor - Deletes all the pieces 
+   * Destructor - Deletes all the pieces
    */
   virtual ~Standard_Piece_Source();
 

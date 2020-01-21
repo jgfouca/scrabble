@@ -7,7 +7,6 @@
 #include "wwf_board_builder.hpp"
 #include "standard_piece_source.hpp"
 #include "scrabble_game.hpp"
-#include "scrabble_tester.hpp"
 #include "scrabble_config.hpp"
 
 #include <cstdlib>
@@ -29,14 +28,12 @@ void Scrabble_Facade::play(const std::vector<std::string>& players,
   std::vector<Player_Type> player_types;
   std::vector<std::string> player_names;
   std::vector<std::string> tests_to_run;
-  Game_Mode game_mode                   = NORMAL;
   unsigned num_player_pieces            = 7;
   bool produce_output                   = true;
   bool color_output                     = true;
   bool clear_screen_before_output       = true;
   unsigned max_num_log_msgs_to_displ    = 10;
   unsigned constrained_square_limit     = 3;
-  Assert_Fail_Action assert_fail_action = GDB_ATTACH;
 
   srand(random_seed);
 
@@ -50,39 +47,50 @@ void Scrabble_Facade::play(const std::vector<std::string>& players,
     player_types.push_back(AI);
   }
 
-  static Scrabble_Config global_config(player_types.size(), player_types, player_names,
-                                       game_mode, num_player_pieces, board,
-                                       produce_output, color_output, clear_screen_before_output,
-                                       dictionary, tileset, max_num_log_msgs_to_displ,
-                                       constrained_square_limit, assert_fail_action);
+  Scrabble_Config config(player_types.size(), player_types, player_names,
+                         num_player_pieces, board,
+                         produce_output, color_output, clear_screen_before_output,
+                         dictionary, tileset, max_num_log_msgs_to_displ,
+                         constrained_square_limit);
 
-  Scrabble_Config::set_global_instance(&global_config);
-
-  auto game = create_game();
+  auto game = create_game(config);
   game->play();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game()
+std::shared_ptr<Scrabble_Game> Scrabble_Facade::get_test_game()
+////////////////////////////////////////////////////////////////////////////////
+{
+  // Default config with one AI player
+  std::vector<std::string> names = {"testbot"};
+  std::vector<Player_Type> types = {AI};
+
+  static Scrabble_Config default_config(types.size(), types, names);
+
+  return create_game(default_config);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Config& config)
 ////////////////////////////////////////////////////////////////////////////////
 {
   Scrabble_Game_Builder builder;
 
   //build up the game
-  builder.build_scrabble_game();
+  builder.build_scrabble_game(config);
 
-  if (Scrabble_Config::instance().BOARD_TYPE() == STANDARD_BOARD) {
+  if (config.BOARD_TYPE() == STANDARD_BOARD) {
     builder.build_game_board<Standard_Board_Builder>();
   }
-  else if (Scrabble_Config::instance().BOARD_TYPE() == WWF_BOARD) {
+  else if (config.BOARD_TYPE() == WWF_BOARD) {
     builder.build_game_board<Wwf_Board_Builder>();
   }
   else {
     my_static_assert(false, "unknown board type");
   }
 
-  std::vector<Player_Type> player_types = Scrabble_Config::instance().PLAYER_TYPES();
-  std::vector<std::string> player_names = Scrabble_Config::instance().PLAYER_NAMES();
+  std::vector<Player_Type> player_types = config.PLAYER_TYPES();
+  std::vector<std::string> player_names = config.PLAYER_NAMES();
   my_static_assert(player_types.size() == player_names.size(),
                    "Player-type vector size did not match that of player-name vector");
 
@@ -98,7 +106,7 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game()
     }
   }
 
-  if (Scrabble_Config::instance().PIECE_SOURCE_TYPE() == STANDARD_SOURCE) {
+  if (config.PIECE_SOURCE_TYPE() == STANDARD_SOURCE) {
     builder.build_piece_source<Standard_Piece_Source>();
   }
   else {

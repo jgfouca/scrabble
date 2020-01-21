@@ -2,9 +2,9 @@
 #define scrabble_game_h
 
 #include "scrabble_board.hpp"
+#include "scrabble_config.hpp"
 #include "piece_source.hpp"
 #include "indv_play.hpp"
-#include "scrabble_tester.hpp"
 #include "scrabble_exception.hpp"
 
 #include <iostream>
@@ -13,6 +13,7 @@
 #include <vector>
 
 class Player;
+struct UnitWrap;
 
 /**
  * The Scrabble_Game class is the mediator class of the program. Once the play
@@ -40,11 +41,12 @@ class Scrabble_Game
   /**
    * Constructor - sets up a "null" game state that is not playable.
    */
-  Scrabble_Game()
-    : m_game_board(NULL),
-      m_piece_source(NULL),
-      m_first_play(true),
-      m_game_over(false)
+  Scrabble_Game(const Scrabble_Config& config) :
+    m_config(config),
+    m_game_board(NULL),
+    m_piece_source(NULL),
+    m_first_play(true),
+    m_game_over(false)
   {}
 
   /**
@@ -98,6 +100,11 @@ class Scrabble_Game
   const std::set<std::string>& get_valid_words() const { return m_valid_words; }
 
   /**
+   * get_config - returns a references to the game configuration
+   */
+  const Scrabble_Config& get_config() const { return m_config; }
+
+  /**
    * operator<< - produces a nice-looking output that should convey the state
    *              of the game.
    */
@@ -140,8 +147,8 @@ class Scrabble_Game
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Scrabble_Game(const Scrabble_Game&);
-  Scrabble_Game& operator=(const Scrabble_Game&);
+  Scrabble_Game(const Scrabble_Game&) = delete;
+  Scrabble_Game& operator=(const Scrabble_Game&) = delete;
 
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
@@ -173,6 +180,9 @@ class Scrabble_Game
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
+
+  // m_config - The configuration for this game
+  Scrabble_Config          m_config;
 
   // m_players - A vector of all players in the game
   std::vector<Player*>     m_players;
@@ -208,8 +218,7 @@ class Scrabble_Game
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  //Scrabble_Tester is a friend of all classes
-  friend class Scrabble_Tester;
+  friend struct UnitWrap;
 };
 
 

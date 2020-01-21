@@ -5,6 +5,7 @@
 #include "ai_player.hpp"
 #include "human_player.hpp"
 #include "scrabble_board.hpp"
+#include "scrabble_config.hpp"
 #include "piece_source.hpp"
 
 #include <string>
@@ -14,9 +15,9 @@ class Scrabble_Game_Builder
  public:
   Scrabble_Game_Builder() : m_game(NULL) {}
 
-  void build_scrabble_game()
+  void build_scrabble_game(const Scrabble_Config& config)
   {
-    m_game = new Scrabble_Game();
+    m_game = new Scrabble_Game(config);
   }
 
   template <class BOARD_BUILDER_CLASS>

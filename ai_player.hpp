@@ -2,7 +2,6 @@
 #define ai_player_h
 
 #include "player.hpp"
-#include "scrabble_tester.hpp"
 #include "constraint.hpp"
 
 #include <set>
@@ -11,6 +10,8 @@
 #include <tuple>
 #include <string>
 #include <vector>
+
+struct UnitWrap;
 
 /**
  * This class implements a scrabble-player that can find good (hopefully) moves
@@ -146,7 +147,7 @@ class AI_Player : public Player
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  friend class Scrabble_Tester;
+  friend struct UnitWrap;
 };
 
 #endif

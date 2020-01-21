@@ -1,6 +1,7 @@
 #include "constraint.hpp"
 #include "scrabble_piece.hpp"
 #include "scrabble_exception.hpp"
+#include "ai_player.hpp"
 
 #include <stack>
 
@@ -36,7 +37,7 @@ Constraint::Constraint(const std::string& reg_expr,
               Scrabble_Piece::is_valid_letter(reg_expr[i]),
               std::string("Character at index") + obj_to_str(i) + " not recognized");
   }
-#endif 
+#endif
 
   //front-load as much work as possible to keep it out of the satifies method. We anticipate
   //with near-certainty that the satisfies method will be the "critical path" of this program
@@ -90,7 +91,7 @@ Constraint::Constraint(const std::string& reg_expr,
   m_mandatory_sect_size = m_mandatory_sect_end - m_mandatory_sect_begin;
 
   //some post-condition/sanity checks
-  my_assert(m_mandatory_sect_size == (m_mandatory_letters.size() + 
+  my_assert(m_mandatory_sect_size == (m_mandatory_letters.size() +
                                       count_occurences('#') + count_occurences('_')),
             "Mandatory section should consist of [A-Z#_]");
   my_assert(m_mandatory_sect_end >= m_mandatory_sect_begin,
@@ -106,10 +107,10 @@ Constraint::Constraint(const std::string& reg_expr,
 bool Constraint::satisfies(const std::string* word, std::vector<unsigned>& potential_placements) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_assert(word->size() >= m_mandatory_sect_size, 
+  my_assert(word->size() >= m_mandatory_sect_size,
             "word argument was smaller than mandatory section");
 
-  //these two offset variables are important. They represent the index within 
+  //these two offset variables are important. They represent the index within
   //the word at which the mandatory section will begin being covered. starting_offset
   //is the latest possible index, ending_offset is the earliest possible index.
   int starting_offset = 0, ending_offset = 0;
@@ -120,8 +121,8 @@ bool Constraint::satisfies(const std::string* word, std::vector<unsigned>& poten
   case TOTAL_FREEDOM:
     //there are no constraints on this word
     return true;
-  case NO_FREE: 
-    my_assert(word->size() == m_mandatory_sect_size, 
+  case NO_FREE:
+    my_assert(word->size() == m_mandatory_sect_size,
               "For case NO_FREE, expect word to be same size as mandatory section");
     starting_offset = 0;
     ending_offset   = 0;
@@ -235,13 +236,13 @@ unsigned Constraint::min_word_length() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-unsigned Constraint::max_word_length() const
+unsigned Constraint::max_word_length(const Player& player) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   unsigned max_length = 0, num_pieces_req = 0, max_len_itr = 0;
   for (unsigned i = 0; i < m_reg_expr.size(); ++i) {
     if (m_reg_expr[i] == '*') {
-      unsigned max = m_max_lengths[max_len_itr++]; 
+      unsigned max = m_max_lengths[max_len_itr++];
       num_pieces_req += max;
       max_length += max;
     }
@@ -253,10 +254,10 @@ unsigned Constraint::max_word_length() const
       max_length++;
     }
   }
-  //no point in taking-into-consideration words that the player could not possibly 
-  //form because they require the player to play more than 7 pieces to form.
-  if (num_pieces_req > Scrabble_Config::instance().NUM_PLAYER_PIECES()) {
-    max_length -= num_pieces_req - Scrabble_Config::instance().NUM_PLAYER_PIECES();
+  //no point in taking-into-consideration words that the player could not possibly
+  //form because they require the player to play more pieces than they have to form.
+  if (num_pieces_req > player.get_num_pieces()) {
+    max_length -= num_pieces_req - player.get_num_pieces();
   }
   return max_length;
 }
@@ -298,7 +299,7 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
 {
   //get index of critical square
   const unsigned crit_idx = m_mandatory_sect_begin + mand_sect_offset;
-  
+
   my_assert(can_be_eased(), "Tried to ease constraint that cannot be eased");
   my_assert(crit_idx < m_mandatory_sect_end,
             "crit-sqr-idx should fall within mandatory section");
@@ -307,21 +308,21 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
   my_assert(crit_char != '*' && crit_char != '_',
             "crit-sqr component of reg_expr should be highly-constrained");
 #endif
-  
+
   //The critical span may involve more than a single character
   //Note that the critical square may never be eased-out
   unsigned crit_span_begin = crit_idx, crit_span_end = crit_idx;
-  while (crit_span_begin > 0 && 
+  while (crit_span_begin > 0 &&
          Scrabble_Piece::is_valid_letter(m_reg_expr[crit_span_begin-1])) {
     --crit_span_begin;
   }
-  while (crit_span_end < (m_reg_expr.size() - 1) && 
+  while (crit_span_end < (m_reg_expr.size() - 1) &&
          Scrabble_Piece::is_valid_letter(m_reg_expr[crit_span_end+1])) {
     ++crit_span_end;
   }
 
 #ifdef VERBOSE
-  cout << "        Attempting ease with: " 
+  cout << "        Attempting ease with: "
        << "m_reg_expr=" << m_reg_expr << ", "
        << "crit_span_begin=" << crit_span_begin << ", "
        << "crit_span_end=" << crit_span_end << ", "
@@ -342,8 +343,8 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
     unsigned    potential_mand_sect_offset_chg = 0;
     std::vector<set<char> > new_req_compats    = m_req_sets;
 
-    
-    //figure out visit order in the "easing tree" 
+
+    //figure out visit order in the "easing tree"
     //(left child = parent eased from left, (right child = parent eased from right)
     stack<unsigned> visit_order;
     unsigned order = m_num_easings;
@@ -365,7 +366,7 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
       cout << "            Easing from: " << (ease_from_left ? "left" : "right") << endl;
 #endif
       visit_order.pop();
-      bool was_able_to_ease = false; 
+      bool was_able_to_ease = false;
       int delta_i = ease_from_left ? 1 : -1;
 
       //perform a single easing
@@ -469,7 +470,7 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
         break;
       }
     }
-    
+
     if (visit_succeeded) {
       mand_sect_offset -= potential_mand_sect_offset_chg;
 #ifdef VERBOSE
@@ -500,7 +501,7 @@ Constraint* Constraint::ease(unsigned& mand_sect_offset)
       }
 
       if (new_reg_expr[new_reg_expr.size() - 1] == '*') {
-        my_assert(!m_max_lengths.empty(), 
+        my_assert(!m_max_lengths.empty(),
                   "Found '*' but max-lengths vector was empty");
         new_max_lengths.push_back(m_max_lengths.back());
       }
@@ -542,9 +543,9 @@ void Constraint::convert_compat_req_to_set(const set<std::string>& valid_words,
                                            std::vector<set<char> >& compatibility_sets)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  my_static_assert(compatibility_sets.empty(), 
+  my_static_assert(compatibility_sets.empty(),
                    "compatibility_sets should be empty, it's intended to be filled");
-  
+
   compatibility_sets.resize(req_compatibilities.size());
 
   //loop over each req-compatibility, find all satisfying characters and add them

@@ -27,7 +27,7 @@ void Scrabble_Game::initialize()
   my_assert(is_complete(), "Tried to initialize a game that was not fully built.");
 
   //read dictionary, put all words into set
-  std::string dict_name = Scrabble_Config::instance().DICTIONARY();
+  std::string dict_name = m_config.DICTIONARY();
   ifstream in(dict_name.c_str());
   my_assert(in, std::string("Unable to open dictionary-file: ") + dict_name);
   std::string word;
@@ -37,7 +37,7 @@ void Scrabble_Game::initialize()
   in.close();
 
   //give players their initial set of pieces
-  unsigned num_pieces_per_player = Scrabble_Config::instance().NUM_PLAYER_PIECES();
+  unsigned num_pieces_per_player = m_config.NUM_PLAYER_PIECES();
   for (unsigned i = 0; i < m_players.size(); i++) {
     m_players[i]->initialize();
     for (unsigned p = 0; p < num_pieces_per_player; p++) {
@@ -54,7 +54,7 @@ void Scrabble_Game::play()
   initialize();
 
   //the game configuration will affect if we produce output here
-  bool produce_output = Scrabble_Config::instance().PRODUCE_OUTPUT();
+  bool produce_output = m_config.PRODUCE_OUTPUT();
 
   //continue having players make plays until the game is over
   while (!m_game_over) {
@@ -116,7 +116,7 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
     return "";
   }
 
-  //if first play, one piece must cover the 7,7 square
+  //if first play, one piece must cover the middle square
   if (m_first_play) {
     const unsigned mid_dim = b_dim / 2;
     bool hit_center = false;
@@ -227,8 +227,8 @@ std::string Scrabble_Game::evaluate_play(const Indv_Play& the_play) const
       m_potential_words += new_words[i].get_word_str() + " ";
     }
   }
-  //don't forget the bonus for playing all 7 letters
-  if (the_play.get_size() == 7) {
+  //don't forget the bonus for a full set of letters
+  if (the_play.get_size() == m_config.NUM_PLAYER_PIECES()) {
     m_potential_score += 50;
   }
 
@@ -306,10 +306,10 @@ unsigned Scrabble_Game::get_potential_score(const Indv_Play& the_play) const
 ostream& Scrabble_Game::operator<<(ostream& out) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  if (Scrabble_Config::instance().CLEAR_SCREEN_BEFORE_OUTPUT() && !m_game_over) {
+  if (m_config.CLEAR_SCREEN_BEFORE_OUTPUT() && !m_game_over) {
     system("clear");
   }
-  const bool add_color = Scrabble_Config::instance().COLOR_OUTPUT();
+  const bool add_color = m_config.COLOR_OUTPUT();
 
   out << "================================================================================\n";
   out << "Scores: \n";
@@ -321,7 +321,7 @@ ostream& Scrabble_Game::operator<<(ostream& out) const
   out << "================================================================================\n";
   out << "Recent Events: \n";
   //print the entire log when the game is over
-  unsigned max_log_msgs = m_game_over ? 1000 : Scrabble_Config::instance().MAX_NUM_LOG_MSGS_TO_DISPL();
+  unsigned max_log_msgs = m_game_over ? 1000 : m_config.MAX_NUM_LOG_MSGS_TO_DISPL();
   for (unsigned i = 0; i < m_msg_log.size() && i < max_log_msgs; ++i) {
     if (add_color) {
       out << "\033[1;31m";

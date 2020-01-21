@@ -41,9 +41,11 @@ struct Scrabble_Facade
                    const Piece_Source_Type tileset,
                    const int random_seed);
 
+  static std::shared_ptr<Scrabble_Game> get_test_game();
+
  private:
 
-  static std::shared_ptr<Scrabble_Game> create_game();
+  static std::shared_ptr<Scrabble_Game> create_game(const Scrabble_Config& config);
 };
 
 #endif

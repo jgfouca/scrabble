@@ -8,14 +8,16 @@
 #include <string>
 #include <vector>
 
+class Player;
+
 /**
  * This class represents a single search through the dictionary. The
  * search is constrained by string that is similar to a regular expression.
  * Unlike regular expressions, these strings come with a set of external
  * state. This search language is defined here:
- * 
+ *
  *************** SEARCH LANGUAGE DEFINITION ************************
- * 
+ *
  * Constraints are primary defined by their reg-expr string. We use our own special reg-expr
  * language here. The allowed characters are:
  * '*'     -> Matches any character 0 or more times.
@@ -35,7 +37,7 @@
  * be placeable in a specific location.
  *
  ********************** KEY CONCEPTS ********************************
- * 
+ *
  * "Compatibility" - in scrabble, not only do the letters along your primary play-line
  * have to be a valid word, but any secondary words that get formed by the play
  * must be words as well. We express this concept as compatibility and we use
@@ -45,34 +47,34 @@
  * (3, "CA#"). This means that, for whatever word we chose to satisfy "*#_A*, the
  * character of the word that happens to fall in the # location must also be
  * compatible with "CA#" when it is ALSO inserted in the # location of that word.
- * We optimize this process by pre-computing all possible valid letters for 
+ * We optimize this process by pre-computing all possible valid letters for
  * "CA#" and storing them in a set. This will avoid expensive dictionary searches
  * in the critical path of the program.
  *
- * We consider each part of the reg-expr that is associated with a 
+ * We consider each part of the reg-expr that is associated with a
  * "highly-constrained square" to be a "difficult component" of the reg expr.
  * Highly-constrained squares are places on the board that either have a piece
  * played on them, or are immediately adjacent to a square with a piece on it.
- * In the reg_expr, the former will be [A-Z] and the latter '#'. The other 
+ * In the reg_expr, the former will be [A-Z] and the latter '#'. The other
  * pieces of a reg_expr ('*', '_') we call "easy components" and are correlated
- * with "unconstrained squares".  
- * 
+ * with "unconstrained squares".
+ *
  * Each constraint has a "mandatory section". This is the part of the reg-expr which
  * MUST be matched in order for a word to meet the constraint. For example, for
  * reg-expr "*E*", the mandatory section is simply "E". For "*_#E_*" the mandatory
  * section is "_#E_". Simplifying things, the mandatory section is the reg-expr
- * with the '*' components removed. 
+ * with the '*' components removed.
  *
  * Each constraint has a "critical square". This is the square around which the
  * prospective move is centered. No matter how much the constraint is "eased"
  * (see below), it will always include the critical square. See the AI-player
- * documentation for more on critical squares. 
+ * documentation for more on critical squares.
  *
  * We need to have a way of making a constraint easier to satisfy in the case that
  * we find no matching words for the original constraint. We use a tree-based
  * algorithm when R, L children are formed by removing the rightmost or leftmost
- * difficult component. We can iterate over the easings by having a simple 
- * way of converting a number into a set of R,L moves. 
+ * difficult component. We can iterate over the easings by having a simple
+ * way of converting a number into a set of R,L moves.
  *
  *********************** OTHER INFO *********************************
  *
@@ -95,8 +97,8 @@ class Constraint
    * Constructor - creates the constraint. Checks that the arguments provided
    *               follow the rules explained above. Does as much front-loaded
    *               computation as possible in order to speed up the critical
-   *               "satisfies" method and to support early-filtering in the 
-   *               AIs. 
+   *               "satisfies" method and to support early-filtering in the
+   *               AIs.
    *
    * reg_expr    - A regular expression (from our customized reg_expr language)
    * req_sets    - Contains the necessary info on any compatibilites in the reg_expr
@@ -121,7 +123,7 @@ class Constraint
    *        always be called on the ORIGINAL constraint object. We keep track
    *        of the number of easings internally, so we know what this particular
    *        easing should do. This gives us a consisted "root" of the easing
-   *        tree to start from. As a side note, the object returned is on the 
+   *        tree to start from. As a side note, the object returned is on the
    *        heap and is the the callers responsibility to delete.
    */
   Constraint* ease(unsigned& mand_sect_offset);
@@ -133,11 +135,11 @@ class Constraint
   /**
    * satisfies - Returns true if a word satisfies this constraint. The ability
    *             to respond to this query is this class' primary duty. It checks
-   *             that all the "difficult components" of the reg-expr are 
+   *             that all the "difficult components" of the reg-expr are
    *             satisfied. IE the word has the mandatory letters in the correct
    *             spots and meets all the compatibility requirements.
    *
-   * word                 - We are determining if the string pointed to by this 
+   * word                 - We are determining if the string pointed to by this
    *                        arg satisfies the constraint
    * potential_placements - In some cases, when dealing with a BOTH_FREE constraint,
    *                        it is possible that several different placements of a
@@ -150,9 +152,9 @@ class Constraint
 
   /**
    * get_mandatory_bitset - Examines the mandatory section, looking at difficult
-   *                        components with [A-Z] values. The letters found this way 
+   *                        components with [A-Z] values. The letters found this way
    *                        can be encoded in a bitset. Any word which does not
-   *                        have those letters can be ignored. This will be used 
+   *                        have those letters can be ignored. This will be used
    *                        for early-filtering by the AIs.
    */
   const std::bitset<26>& get_mandatory_bitset() const { return m_mandatory_bitset; }
@@ -160,7 +162,7 @@ class Constraint
   /**
    * get_mandatory_letters - Examines the mandatory section, looking at difficult
    *                         components with [A-Z] values. These letters must be
-   *                         used by the AI to construct any potential satisfying 
+   *                         used by the AI to construct any potential satisfying
    *                         word.
    */
   const std::vector<char>& get_mandatory_letters() const { return m_mandatory_letters; }
@@ -180,7 +182,7 @@ class Constraint
   bool operator==(const Constraint& rhs) const;
 
   /**
-   * min_word_length - Return the length of the smallest possible word that 
+   * min_word_length - Return the length of the smallest possible word that
    *                   could still satisfy this constraint.
    */
   unsigned min_word_length() const;
@@ -189,9 +191,9 @@ class Constraint
    * max_word_length - Return the length of the biggest possible word the
    *                   player could create that satisfies this constraint. This
    *                   takes into account the fact that players have at most
-   *                   NUM_PLAYER_PIECES pieces to play.
+   *                   all their pieces to play.
    */
-  unsigned max_word_length() const;
+  unsigned max_word_length(const Player& player) const;
 
   /**
    * mand_sect_size - Returns the size/length of the mandatory section.
@@ -207,7 +209,7 @@ class Constraint
 
   /**
    * is_mandatory_sect_critical_span - Returns true if the entire mandatory
-   *                                   section is the "critical span", the 
+   *                                   section is the "critical span", the
    *                                   span of [A-Z] components connected to
    *                                   an [A-Z] critical square.
    */
@@ -218,7 +220,7 @@ class Constraint
    * we are dealing with.
    *
    * TOTAL_FREEDOM = "*" (only occurs first play of the game)
-   * LEFT_FREE     = "*[A-Z_#]+" 
+   * LEFT_FREE     = "*[A-Z_#]+"
    * RIGHT_FREE    = "[A-Z_#]+*"
    * BOTH_FREE     = "*[A-Z_#]+*"
    * NO_FREE       = "[A-Z_#]+"
@@ -236,7 +238,7 @@ class Constraint
   static void convert_compat_req_to_set(const std::set<std::string>& valid_words,
                                         const std::vector<std::pair<std::string, unsigned> >& req_compatibilities,
                                         std::vector<std::set<char> >& compatibility_sets);
-  
+
  private: // ================ PRIVATE INTERFACE ================================
 
   //////////////////////////////////////////////////////////////////////////////
@@ -251,11 +253,11 @@ class Constraint
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * count_occurences - Returns how many times the character specified by the 
+   * count_occurences - Returns how many times the character specified by the
    *                    arguments occurs in the reg_expr string.
    */
   unsigned count_occurences(char c) const;
-  
+
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -268,14 +270,14 @@ class Constraint
 
   // m_mandatory_letters - see get_mandatory_letters
   std::vector<char> m_mandatory_letters;
-  
+
   // m_req_sets - compatibility info for '#' components
   std::vector<std::set<char> > m_req_sets;
 
   // m_max_lengths - max number of matching for '*' components
   std::vector<unsigned> m_max_lengths;
 
-  // m_placement_type - see Placement_Type enum. This member contains the 
+  // m_placement_type - see Placement_Type enum. This member contains the
   //                    appropriate placement-type of this constraint.
   Placement_Type m_placement_type;
 
@@ -283,12 +285,12 @@ class Constraint
   //                 when "ease" is called.
   unsigned m_num_easings;
 
-  // m_mandatory_sect_begin - The index within m_reg_expr where the 
+  // m_mandatory_sect_begin - The index within m_reg_expr where the
   //                          mandatory section begins.
   unsigned m_mandatory_sect_begin;
 
-  // m_mandatory_sect_end - The index within m_reg_expr where the 
-  //                        mandatory section ends (non-inclusive).  
+  // m_mandatory_sect_end - The index within m_reg_expr where the
+  //                        mandatory section ends (non-inclusive).
   unsigned m_mandatory_sect_end;
 
   // m_mandatory_sect_size - The size of the mandatory section

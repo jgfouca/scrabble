@@ -13,3 +13,8 @@ set(DICTS MEGA_WORD_LIST.txt SIMPLE_WORD_LIST.txt TWL06.txt WWF.txt)
 foreach(DICT ${DICTS})
   configure_file(${CMAKE_SOURCE_DIR}/dictionaries/${DICT} ${DICT} COPYONLY)
 endforeach()
+
+enable_testing()
+include(CTest)
+
+add_subdirectory(tests)

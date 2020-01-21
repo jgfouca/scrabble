@@ -4,13 +4,14 @@
 #include "scrabble_game.hpp"
 #include "indv_play.hpp"
 #include "scrabble_piece.hpp"
-#include "scrabble_tester.hpp"
 
 #include <set>
 #include <map>
 #include <iostream>
 #include <string>
 #include <vector>
+
+struct UnitWrap;
 
 /**
  * This class represents an individual player. Responsibilities of this class
@@ -185,7 +186,7 @@ class Player
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  friend class Scrabble_Tester;
+  friend struct UnitWrap;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

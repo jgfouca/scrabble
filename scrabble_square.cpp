@@ -35,13 +35,13 @@ ostream& Scrabble_Square::operator<<(ostream& out) const
     out << " " << *m_piece << " ";
   }
   else {
-    if (Scrabble_Config::instance().COLOR_OUTPUT()) {
-      out << "\033[1;34m";
-    }
+#ifndef SCRABBLE_PLAIN_OUTPUT
+    out << "\033[1;34m";
+#endif
     out << m_bonus;
-    if (Scrabble_Config::instance().COLOR_OUTPUT()) {
-      out << "\033[0m";
-    }
+#ifndef SCRABBLE_PLAIN_OUTPUT
+    out << "\033[0m";
+#endif
   }
   out << " ";
 

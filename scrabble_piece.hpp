@@ -2,7 +2,6 @@
 #define scrabble_piece_h
 
 #include "scrabble_point_map.hpp"
-#include "scrabble_tester.hpp"
 #include "scrabble_common.hpp"
 #include "scrabble_exception.hpp"
 
@@ -10,6 +9,7 @@
 #include <string>
 
 class Human_Player;
+struct UnitWrap;
 
 /**
  * This class represents a single piece that can be played on the board. Pieces
@@ -90,18 +90,17 @@ class Scrabble_Piece
    */
   std::ostream& operator<<(std::ostream& out) const
   {
-    const bool add_color = Scrabble_Config::instance().COLOR_OUTPUT();
     int color_code = (m_been_output) ? 29 : 31;
     if (is_wildcard()) {
       color_code = 32;
     }
-    if (add_color) {
-      out << "\033[1;" << color_code << "m";
-    }
+#ifndef SCRABBLE_PLAIN_OUTPUT
+    out << "\033[1;" << color_code << "m";
+#endif
     out << get_letter();
-    if (add_color) {
-      out << "\033[0m";
-    }
+#ifndef SCRABBLE_PLAIN_OUTPUT
+    out << "\033[0m";
+#endif
     m_been_output = true;
     return out;
   }
@@ -171,8 +170,8 @@ class Scrabble_Piece
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  friend class Scrabble_Tester;
   friend class Human_Player;
+  friend struct UnitWrap;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
