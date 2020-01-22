@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-enum Board_Type {STANDARD_BOARD, WWF_BOARD};
+enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE};
 

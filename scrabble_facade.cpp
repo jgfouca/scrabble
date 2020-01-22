@@ -4,6 +4,7 @@
 #include "scrabble_board.hpp"
 #include "scrabble_game_builder.hpp"
 #include "standard_board_builder.hpp"
+#include "wwf_solo_board_builder.hpp"
 #include "wwf_board_builder.hpp"
 #include "standard_piece_source.hpp"
 #include "scrabble_game.hpp"
@@ -84,6 +85,9 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
   }
   else if (config.BOARD_TYPE() == WWF_BOARD) {
     builder.build_game_board<Wwf_Board_Builder>();
+  }
+  else if (config.BOARD_TYPE() == WWF_SOLO_BOARD) {
+    builder.build_game_board<Wwf_Solo_Board_Builder>();
   }
   else {
     my_static_assert(false, "unknown board type");

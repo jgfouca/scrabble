@@ -35,8 +35,9 @@ ostream& Scrabble_Square::operator<<(ostream& out) const
     out << " " << *m_piece << " ";
   }
   else {
+    const int color_code = get_color_code();
 #ifndef SCRABBLE_PLAIN_OUTPUT
-    out << "\033[1;34m";
+    out << "\033[1;" << color_code << "m";
 #endif
     out << m_bonus;
 #ifndef SCRABBLE_PLAIN_OUTPUT
@@ -77,9 +78,33 @@ ostream& operator<<(ostream& out, const Bonus& b)
     break;
   default:
     //cannot have asserts within operator<<; causes stack overflow because
-    //my_assert calls << 
+    //my_assert calls <<
     //my_static_assert(false, "Missing case for some bonus.");
     assert(false);
   }
   return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+int Scrabble_Square::get_color_code() const
+////////////////////////////////////////////////////////////////////////////////
+{
+  switch(m_bonus) {
+  case NONE:
+    return 29;
+  case DBL_LET:
+    return 34;
+  case TRP_LET:
+    return 32;
+  case DBL_WRD:
+    return 31;
+  case TRP_WRD:
+    return 33;
+  default:
+    //cannot have asserts within operator<<; causes stack overflow because
+    //my_assert calls <<
+    //my_static_assert(false, "Missing case for some bonus.");
+    assert(false);
+  }
+  return -1;
 }

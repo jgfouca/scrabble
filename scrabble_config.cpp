@@ -15,6 +15,9 @@ Board_Type Scrabble_Config::str_to_board(const std::string& board_str)
   else if (board_str == "wwf") {
     return WWF_BOARD;
   }
+  else if (board_str == "wwf-solo") {
+    return WWF_SOLO_BOARD;
+  }
   else {
     my_require(false, std::string("Unknown board string: ") + board_str);
   }

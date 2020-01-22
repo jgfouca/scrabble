@@ -2,8 +2,6 @@
 #define scrabble_square_h
 
 #include "scrabble_piece.hpp"
-#include "standard_board_builder.hpp"
-#include "wwf_board_builder.hpp"
 
 #include <iostream>
 #include <string>
@@ -85,9 +83,14 @@ class Scrabble_Square
   /**
    * set_bonus - Changes the bonus associated with this square to that of the
    *             argument. We don't want this method to be called by anyone,
-   *             so we made it private and befriended Standard_Board_Builder.
+   *             so we made it private and befriended Board_Builder.
    */
   void set_bonus(Bonus bonus);
+
+  /*
+   * Get color code for tile
+   */
+  int get_color_code() const;
 
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
@@ -106,6 +109,7 @@ class Scrabble_Square
 
   friend class Standard_Board_Builder;
   friend class Wwf_Board_Builder;
+  friend class Wwf_Solo_Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -2,8 +2,7 @@
 #define scrabble_board_h
 
 #include "scrabble_square.hpp"
-#include "standard_board_builder.hpp"
-#include "wwf_board_builder.hpp"
+#include "board_builder.hpp"
 #include "scrabble_word.hpp"
 #include "indv_play.hpp"
 #include "scrabble_piece.hpp"
@@ -162,9 +161,9 @@ class Scrabble_Board
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  //Scrabble_Tester is a friend of all classes
   friend class Standard_Board_Builder;
   friend class Wwf_Board_Builder;
+  friend class Wwf_Solo_Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
-#ifndef wwf_board_builder_h
-#define wwf_board_builder_h
+#ifndef wwf_solo_board_builder_h
+#define wwf_solo_board_builder_h
 
 #include "board_builder.hpp"
 
@@ -13,7 +13,7 @@ class Scrabble_Board;
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-class Wwf_Board_Builder : public Board_Builder
+class Wwf_Solo_Board_Builder : public Board_Builder
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
@@ -22,11 +22,11 @@ class Wwf_Board_Builder : public Board_Builder
   //////////////////////////// PRIMARY INTERFACE ///////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  static const Wwf_Board_Builder& instance();
+  static const Wwf_Solo_Board_Builder& instance();
 
   virtual void build_board(Scrabble_Board* board) const;
 
-  static const unsigned BOARD_DIM = 15;
+  static const unsigned BOARD_DIM = 11;
 
  private: // ================ PRIVATE INTERFACE ================================
 
@@ -34,14 +34,14 @@ class Wwf_Board_Builder : public Board_Builder
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Wwf_Board_Builder(const Wwf_Board_Builder&);
-  Wwf_Board_Builder& operator=(const Wwf_Board_Builder&);
+  Wwf_Solo_Board_Builder(const Wwf_Solo_Board_Builder&) = delete;
+  Wwf_Solo_Board_Builder& operator=(const Wwf_Solo_Board_Builder&) = delete;
 
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Wwf_Board_Builder() {}
+  Wwf_Solo_Board_Builder() {}
 
   void set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const;
 };

@@ -1,19 +1,19 @@
 #include "scrabble_board.hpp"
 #include "scrabble_exception.hpp"
-#include "wwf_board_builder.hpp"
+#include "wwf_solo_board_builder.hpp"
 
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-const Wwf_Board_Builder& Wwf_Board_Builder::instance()
+const Wwf_Solo_Board_Builder& Wwf_Solo_Board_Builder::instance()
 ////////////////////////////////////////////////////////////////////////////////
 {
-  static Wwf_Board_Builder glob_instance;
+  static Wwf_Solo_Board_Builder glob_instance;
   return glob_instance;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Wwf_Board_Builder::build_board(Scrabble_Board* board) const
+void Wwf_Solo_Board_Builder::build_board(Scrabble_Board* board) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   //Default construct all the necessary squares
@@ -24,56 +24,52 @@ void Wwf_Board_Builder::build_board(Scrabble_Board* board) const
 
   // Inner diamond
   Bonus bonus;
-  const int mid_idx = BOARD_DIM / 2;
-  int diamond_radius = 4;
-  for (int row = mid_idx + diamond_radius, col = mid_idx; col <= mid_idx + diamond_radius; --row, ++col) {
-    if (row == mid_idx || col == mid_idx) {
+  for (unsigned row = 9, col = 5; col < 10; --row, ++col) {
+    if (row == 5 || col == 5) {
       bonus = DBL_WRD;
     }
     else if (row % 2 == 0) {
       bonus = DBL_LET;
     }
-    else if (row == mid_idx + 2) {
+    else if (row == 7) {
       bonus = TRP_LET;
     }
     else {
-      my_static_assert(false, "All tiles in this routine have a bonus");
+      my_assert(false, "All tiles in this routine have a bonus");
     }
 
     set_4way_symm(board, row, col, bonus);
   }
 
-  diamond_radius = 8;
-  for (int row = mid_idx + diamond_radius, col = mid_idx; col <= mid_idx + diamond_radius; --row, ++col) {
-    if (row == BOARD_DIM-1 || col == BOARD_DIM-1 || row==col) {
-      bonus = TRP_LET;
-    }
-    else if (row % 2 == 0) {
+  for (unsigned row = 8, col = 8; col < 11; ++row, ++col) {
+    if (row == 8) {
       bonus = DBL_LET;
     }
-    else if (row < 0 || row >= BOARD_DIM || col < 0 || col >= BOARD_DIM) {
-      continue;
-    }
-    else if (row == 9 || row == 13) {
+    else if (row == 9) {
       bonus = DBL_WRD;
     }
+    else if (row == 10) {
+      bonus = TRP_LET;
+    }
     else {
-      my_static_assert(false, "All tiles in this routine have a bonus");
+      my_assert(false, "All tiles in this routine have a bonus");
     }
 
     set_4way_symm(board, row, col, bonus);
   }
 
-  diamond_radius = 11;
-  for (int row = mid_idx + diamond_radius, col = mid_idx; col <= mid_idx + diamond_radius; --row, ++col) {
-    if (row == BOARD_DIM-1 || col == BOARD_DIM-1) {
+  for (unsigned row = 10, col = 8; col < 11; --row, ++col) {
+    if (row == 8) {
       bonus = TRP_WRD;
     }
-    else if (row < 0 || row >= BOARD_DIM || col < 0 || col >= BOARD_DIM) {
-      continue;
+    else if (row == 9) {
+      bonus = DBL_WRD;
+    }
+    else if (row == 10) {
+      bonus = TRP_WRD;
     }
     else {
-      bonus = DBL_LET;
+      my_assert(false, "All tiles in this routine have a bonus");
     }
 
     set_4way_symm(board, row, col, bonus);
@@ -81,7 +77,7 @@ void Wwf_Board_Builder::build_board(Scrabble_Board* board) const
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Wwf_Board_Builder::set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const
+void Wwf_Solo_Board_Builder::set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const
 ///////////////////////////////////////////////////////////////////////////////
 {
   Bonus bonus = static_cast<Bonus>(arg_bonus);
