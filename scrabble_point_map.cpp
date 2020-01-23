@@ -57,7 +57,7 @@ Scrabble_Point_Map::Scrabble_Point_Map()
       m_point_map[letter] = 10;
     }
     else {
-      my_static_assert(false, 
+      my_static_assert(false,
                        obj_to_str(letter) + " should have fallen into one of the above categories");
     }
   }
@@ -67,6 +67,76 @@ Scrabble_Point_Map::Scrabble_Point_Map()
 
 ////////////////////////////////////////////////////////////////////////////////
 unsigned Scrabble_Point_Map::get_point_val(char letter) const
+////////////////////////////////////////////////////////////////////////////////
+{
+  my_static_assert(m_point_map.find(letter) != m_point_map.end(),
+                   obj_to_str(letter) + " was not in the point-map.");
+
+  return m_point_map.find(letter)->second;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+const Wwf_Point_Map& Wwf_Point_Map::instance()
+////////////////////////////////////////////////////////////////////////////////
+{
+  static Wwf_Point_Map glob_instance;
+  return glob_instance;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+Wwf_Point_Map::Wwf_Point_Map()
+////////////////////////////////////////////////////////////////////////////////
+{
+  //iterate over every valid letter (A-Z)
+  for (char letter = 'A'; letter <= 'Z'; letter++) {
+    //check if 'letter' is a 1-pt letter
+    if (letter == 'A' || letter == 'E' || letter == 'I' || letter == 'O' ||
+        letter == 'R' || letter == 'S' || letter == 'T') {
+      //add the 1-pt letters to the map
+      m_point_map[letter] = 1;
+    }
+    //check if 'letter' is a 2-pt letter
+    else if (letter == 'D' || letter == 'L' || letter == 'N' || letter == 'U') {
+      //add the 2-pt letters to the map
+      m_point_map[letter] = 2;
+    }
+    //check if 'letter' is a 3-pt letter
+    else if (letter == 'G' || letter == 'H' || letter == 'Y') {
+      //add the 3-pt letters to the map
+      m_point_map[letter] = 3;
+    }
+    //check if 'letter' is a 4-pt letter
+    else if (letter == 'B' || letter == 'C' || letter == 'F' ||
+             letter == 'M' || letter == 'P' || letter == 'W') {
+      //add the 4-pt letters to the map
+      m_point_map[letter] = 4;
+    }
+    //check if 'letter' is a 5-pt letter
+    else if (letter == 'K' || letter == 'V') {
+      //add the 5-pt letters to the map
+      m_point_map[letter] = 5;
+    }
+    //check if 'letter' is a 8-pt letter
+    else if (letter == 'X') {
+      //add the 8-pt letters to the map
+      m_point_map[letter] = 8;
+    }
+    //check if 'letter' is a 10-pt letter
+    else if (letter == 'J' || letter == 'Q' || letter == 'Z') {
+      //add the 10-pt letters to the map
+      m_point_map[letter] = 10;
+    }
+    else {
+      my_static_assert(false,
+                       obj_to_str(letter) + " should have fallen into one of the above categories");
+    }
+  }
+  //wild-card is worth 0
+  m_point_map['-'] = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+unsigned Wwf_Point_Map::get_point_val(char letter) const
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_static_assert(m_point_map.find(letter) != m_point_map.end(),

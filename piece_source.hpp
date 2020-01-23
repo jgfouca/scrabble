@@ -5,7 +5,7 @@
 
 /**
  * This abstract class defines the interface that needs to be supported by any
- * piece-source (AKA the "bag" in scrabble). Piece sources must be able to 
+ * piece-source (AKA the "bag" in scrabble). Piece sources must be able to
  * provide fresh pieces and be able to say if the source has run dry.
  */
 

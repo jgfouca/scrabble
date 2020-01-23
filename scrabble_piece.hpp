@@ -24,14 +24,14 @@ class Scrabble_Piece
   /**
    * Constructor - Initializes state.
    */
-  Scrabble_Piece(char letter)
+  Scrabble_Piece(char letter, const Point_Map& point_map) : m_point_map(point_map)
   {
     my_assert(is_valid_letter(letter) || letter == '-',
               std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
 
     m_letter          = letter;
     //we use the point map to figure out how many point we are worth
-    m_point_val       = Scrabble_Point_Map::instance().get_point_val(m_letter);
+    m_point_val       = m_point_map.get_point_val(m_letter);
     m_played          = false;
     m_been_output     = false;
     m_wildcard_choice = letter;
@@ -122,8 +122,8 @@ class Scrabble_Piece
   ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  Scrabble_Piece(const Scrabble_Piece&);
-  Scrabble_Piece& operator=(const Scrabble_Piece&);
+  Scrabble_Piece(const Scrabble_Piece&) = delete;
+  Scrabble_Piece& operator=(const Scrabble_Piece&) = delete;
 
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
@@ -142,7 +142,7 @@ class Scrabble_Piece
     my_assert(!m_been_output, "Should not have been output already");
 
     m_letter          = letter;
-    m_point_val       = Scrabble_Point_Map::instance().get_point_val(m_letter);
+    m_point_val       = m_point_map.get_point_val(m_letter);
     m_wildcard_choice = letter;
   }
 
@@ -165,6 +165,9 @@ class Scrabble_Piece
 
   // m_played - Specifies if this piece is on the board.
   mutable bool m_played;
+
+  // m_point_map - Reference to point map to use
+  const Point_Map& m_point_map;
 
   //////////////////////////////////////////////////////////////////////////////
   /////////////////////////////// FRIENDS //////////////////////////////////////
