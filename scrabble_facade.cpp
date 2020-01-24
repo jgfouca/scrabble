@@ -10,6 +10,7 @@
 #include "wwf_piece_source.hpp"
 #include "scrabble_game.hpp"
 #include "scrabble_config.hpp"
+#include "scrabble_kokkos.hpp"
 
 #include <cstdlib>
 #include <ctime>
@@ -148,5 +149,11 @@ void c_scrabble(const int num_players, const char** players,
   Board_Type cxx_board = Scrabble_Config::str_to_board(cxx_board_str);
   Piece_Source_Type cxx_tileset = Scrabble_Config::str_to_tileset(cxx_tileset_str);
 
+  const char* ignore = "";
+  int ignore_i = 1;
+  Kokkos::initialize(ignore_i, const_cast<char**>(&ignore));
+
   Scrabble_Facade::play(cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed);
+
+  Kokkos::finalize();
 }

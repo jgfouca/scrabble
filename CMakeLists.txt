@@ -2,12 +2,16 @@ cmake_minimum_required(VERSION 3.3)
 
 project(ScrabbleAI CXX)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+add_subdirectory(kokkos)
+
 set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Woverloaded-virtual -Wnon-virtual-dtor -Wreturn-type -Wswitch-enum -Wsign-compare -Wfloat-equal -Wparentheses -Wreorder -Wshadow -Wold-style-cast -Wextra -D_GLIBCXX_DEBUG")
 
 file(GLOB LIB_SRCS "*.cpp")
 add_library(scrabble SHARED ${LIB_SRCS})
+target_link_libraries(scrabble PUBLIC kokkos)
 
 set(DICTS MEGA_WORD_LIST.txt SIMPLE_WORD_LIST.txt TWL06.txt WWF.txt)
 foreach(DICT ${DICTS})
