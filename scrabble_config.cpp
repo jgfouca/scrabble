@@ -31,7 +31,7 @@ Piece_Source_Type Scrabble_Config::str_to_tileset(const std::string& tileset_str
     return STANDARD_SOURCE;
   }
   else if (tileset_str == "wwf") {
-    return STANDARD_SOURCE; // TODO: Need WWF tileset
+    return WWF_SOURCE;
   }
   else {
     my_require(false, std::string("Unknown tileset string: ") + tileset_str);

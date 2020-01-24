@@ -7,6 +7,7 @@
 #include "wwf_solo_board_builder.hpp"
 #include "wwf_board_builder.hpp"
 #include "standard_piece_source.hpp"
+#include "wwf_piece_source.hpp"
 #include "scrabble_game.hpp"
 #include "scrabble_config.hpp"
 
@@ -112,6 +113,9 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
 
   if (config.PIECE_SOURCE_TYPE() == STANDARD_SOURCE) {
     builder.build_piece_source<Standard_Piece_Source>();
+  }
+  else if (config.PIECE_SOURCE_TYPE() == WWF_SOURCE) {
+    builder.build_piece_source<Wwf_Piece_Source>();
   }
   else {
     my_static_assert(false, "unknown source type");

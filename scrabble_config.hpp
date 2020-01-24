@@ -7,7 +7,7 @@
 
 enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
-enum Piece_Source_Type {STANDARD_SOURCE};
+enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
 
 /**
  * This class encapsulates everything that is configurable in this program.
