@@ -8,6 +8,7 @@
 enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
+enum Output_Type {TEXT, GUI, EXPERIMENT};
 
 /**
  * This class encapsulates everything that is configurable in this program.
@@ -25,7 +26,7 @@ class Scrabble_Config
                   const std::vector<std::string>& player_names,
                   unsigned num_player_pieces            = 7,
                   Board_Type board_type                 = STANDARD_BOARD,
-                  bool produce_output                   = true,
+                  Output_Type output                    = TEXT,
                   bool color_output                     = true,
                   bool clear_screen_before_output       = true,
                   const std::string& dictionary         = "TWL06.txt",
@@ -38,7 +39,7 @@ class Scrabble_Config
   const std::vector<std::string>& PLAYER_NAMES()         const { return m_player_names              ; }
   unsigned                  NUM_PLAYER_PIECES()          const { return m_num_player_pieces         ; }
   Board_Type                BOARD_TYPE()                 const { return m_board_type                ; }
-  bool                      PRODUCE_OUTPUT()             const { return m_produce_output            ; }
+  Output_Type               OUTPUT()                     const { return m_output                    ; }
   bool                      COLOR_OUTPUT()               const { return m_color_output              ; }
   bool                      CLEAR_SCREEN_BEFORE_OUTPUT() const { return m_clear_screen_before_output; }
   const std::string&        DICTIONARY()                 const { return m_dictionary                ; }
@@ -57,7 +58,7 @@ class Scrabble_Config
   std::vector<std::string> m_player_names;
   unsigned                 m_num_player_pieces;
   Board_Type               m_board_type;
-  bool                     m_produce_output;
+  Output_Type              m_output;
   bool                     m_color_output;
   bool                     m_clear_screen_before_output;
   std::string              m_dictionary;

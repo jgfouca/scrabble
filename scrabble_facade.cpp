@@ -12,6 +12,8 @@
 #include "scrabble_config.hpp"
 #include "scrabble_kokkos.hpp"
 
+#include <Python.h>
+
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -24,19 +26,19 @@ void Scrabble_Facade::play(const std::vector<std::string>& players,
                            const std::string& dictionary,
                            const Board_Type board,
                            const Piece_Source_Type tileset,
-                           const int random_seed)
+                           const int random_seed,
+                           const Output_Type output)
 ////////////////////////////////////////////////////////////////////////////////
 {
   //allocate variables to hold the options
   std::vector<Player_Type> player_types;
   std::vector<std::string> player_names;
   std::vector<std::string> tests_to_run;
-  unsigned num_player_pieces            = 7;
-  bool produce_output                   = true;
-  bool color_output                     = true;
-  bool clear_screen_before_output       = true;
-  unsigned max_num_log_msgs_to_displ    = 10;
-  unsigned constrained_square_limit     = 3;
+  const unsigned num_player_pieces            = 7;
+  const bool color_output                     = true;
+  const bool clear_screen_before_output       = true;
+  const unsigned max_num_log_msgs_to_displ    = 10;
+  const unsigned constrained_square_limit     = 3;
 
   srand(random_seed);
 
@@ -52,7 +54,7 @@ void Scrabble_Facade::play(const std::vector<std::string>& players,
 
   Scrabble_Config config(player_types.size(), player_types, player_names,
                          num_player_pieces, board,
-                         produce_output, color_output, clear_screen_before_output,
+                         output, color_output, clear_screen_before_output,
                          dictionary, tileset, max_num_log_msgs_to_displ,
                          constrained_square_limit);
 
@@ -131,7 +133,8 @@ void c_scrabble(const int num_players, const char** players,
                 const char* dictionary,
                 const char* board,
                 const char* tileset,
-                const int random_seed)
+                const int random_seed,
+                const bool gui)
 ////////////////////////////////////////////////////////////////////////////////
 {
   std::vector<std::string> cxx_players(num_players), cxx_ais(num_ais);
@@ -149,11 +152,13 @@ void c_scrabble(const int num_players, const char** players,
   Board_Type cxx_board = Scrabble_Config::str_to_board(cxx_board_str);
   Piece_Source_Type cxx_tileset = Scrabble_Config::str_to_tileset(cxx_tileset_str);
 
+  Output_Type cxx_output = gui ? GUI : TEXT;
+
   const char* ignore = "";
   int ignore_i = 1;
   Kokkos::initialize(ignore_i, const_cast<char**>(&ignore));
 
-  Scrabble_Facade::play(cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed);
+  Scrabble_Facade::play(cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed, cxx_output);
 
   Kokkos::finalize();
 }

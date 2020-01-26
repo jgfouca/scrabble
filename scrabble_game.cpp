@@ -54,7 +54,7 @@ void Scrabble_Game::play()
   initialize();
 
   //the game configuration will affect if we produce output here
-  bool produce_output = m_config.PRODUCE_OUTPUT();
+  const Output_Type output = m_config.OUTPUT();
 
   //continue having players make plays until the game is over
   while (!m_game_over) {
@@ -63,8 +63,11 @@ void Scrabble_Game::play()
     //begin a new round of plays (loop over each player, have them play once)
     for (unsigned i = 0; i < m_players.size() && !m_game_over; i++) {
       //display the state of the game
-      if (produce_output) {
+      if (output == TEXT) {
         cout << *this << endl;
+      }
+      else if (output == GUI) {
+        // TODO - notify python to display board
       }
 
       //this player will go until he has made a valid move
@@ -83,20 +86,33 @@ void Scrabble_Game::play()
           break;
         }
         else {
-          if (produce_output) {
+          if (output == TEXT) {
             cout << err_str << endl;
+          }
+          else if (output == GUI) {
+            // TODO - notify python of error
           }
         }
       }
     }
     if (!not_all_null) {
-      cout << "NO PLAYER COULD MOVE, GAME OVER" << endl;
       m_game_over = true;
+    }
+
+    if (m_game_over) {
+      if (output == TEXT) {
+        if (!not_all_null) {
+          cout << "NO PLAYER COULD MOVE, GAME OVER" << endl;
+        }
+      }
+      else if (output == GUI) {
+        // TODO - notify python of game over
+      }
     }
   }
 
   //game is over. produce one final output of the ending state of the game
-  if (produce_output) {
+  if (output == TEXT) {
     cout << *this << endl;
   }
 }

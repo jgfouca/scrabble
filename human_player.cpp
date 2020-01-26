@@ -22,7 +22,7 @@ void Human_Player::make_play()
   //loop until we see a valid command
   std::string command;
   bool flawed_command = false;
-  while (true) {
+  while (!cin.eof()) {
     //show the user what pieces they have
     cout << "Available pieces: ";
     for (unsigned i = 0; i < m_pieces.size(); i++) {
@@ -42,7 +42,7 @@ void Human_Player::make_play()
     remap();                //remapping refreshes the char-map
 
     cout << "> ";
-    if (!getline(cin, command)) { //grab a line of text
+    if (!getline(cin, command) && !cin.eof()) { //grab a line of text
       cout << "please enter command" << endl;
       continue;
     }
@@ -134,7 +134,7 @@ void Human_Player::make_play()
       AI_Player::make_play();
       cout << "AI recommends: " << m_current_play << endl;
     }
-    else if (command.find("quit") == 0 || command.find("exit") == 0) {
+    else if (command.find("quit") == 0 || command.find("exit") == 0 || cin.eof()) {
       break;
     }
     else {

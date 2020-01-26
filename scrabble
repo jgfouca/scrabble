@@ -55,6 +55,9 @@ OR
                         "Default is -1, which means the 'time' function will be used to produce "
                         "a pseudo-random seed.")
 
+    parser.add_argument("-u", "--gui", action="store_true",
+                        help="Use a graphical interface instead of text-based.")
+
     if "help" in args:
         parser.print_help()
         sys.exit(0)
@@ -114,12 +117,13 @@ The supported modes are:
             expect(False, "Unknown mode '{}'".format(args.mode))
 
 ###############################################################################
-def _play_driver(game, players, ais, dictionary, board, tileset, random_seed):
+def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gui):
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
     clib.c_scrabble(len(players), to_cstr_list(players),
                     len(ais),     to_cstr_list(ais),
-                    to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed)
+                    to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
+                    gui)
 
 ###############################################################################
 def _exp_driver(args):

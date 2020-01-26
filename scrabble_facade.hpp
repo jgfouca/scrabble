@@ -23,7 +23,8 @@ void c_scrabble(const int num_players, const char** players,
                 const char* dictionary,
                 const char* board,
                 const char* tiles,
-                const int random_seed);
+                const int random_seed,
+                const bool gui);
 
 }
 
@@ -39,7 +40,8 @@ struct Scrabble_Facade
                    const std::string& dictionary,
                    const Board_Type board,
                    const Piece_Source_Type tileset,
-                   const int random_seed);
+                   const int random_seed,
+                   const Output_Type output);
 
   static std::shared_ptr<Scrabble_Game> get_test_game();
 
