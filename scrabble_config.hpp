@@ -8,7 +8,7 @@
 //struct _object;
 //typedef _object PyObject;
 
-using PyObject = void(int);
+using PyObject = bool(unsigned, unsigned*, unsigned*, char*);
 
 enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};

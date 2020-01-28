@@ -8,7 +8,8 @@ from utils import expect, to_cstr, to_cstr_list
 
 import argparse, sys, os, ctypes, time, platform
 
-from game import PyScrabbleGame, test_func
+import pygame
+
 
 _DICTS = {
     "scrabble" : "TWL06.txt",
@@ -123,10 +124,14 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
 
-    game = PyScrabbleGame()
+    pygame.GAME = pygame.PyScrabbleGame(11 if board is not None and board == "wwf-solo" else 15)
 
-    callback_type = ctypes.CFUNCTYPE(None, ctypes.c_int)
-    callback = callback_type(test_func)
+    callback_type = ctypes.CFUNCTYPE(ctypes.c_bool, # return
+                                     ctypes.c_uint,
+                                     ctypes.POINTER(ctypes.c_uint),
+                                     ctypes.POINTER(ctypes.c_uint),
+                                     ctypes.POINTER(ctypes.c_char))
+    callback = callback_type(pygame.test_func)
 
     clib.c_scrabble(callback,
                     len(players), to_cstr_list(players),

@@ -290,7 +290,16 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     m_first_play = false;
 
     if (m_config.OUTPUT() == GUI) {
-      m_config.PY_CALLBACK()(42);
+      static unsigned row_buff[64];
+      static unsigned col_buff[64];
+      static char     let_buff[64];
+      for (unsigned i = 0; i < num_played_letters; ++i) {
+        row_buff[i] = the_play.get_ith_row(i);
+        col_buff[i] = the_play.get_ith_col(i);
+        let_buff[i] = the_play.get_ith_piece(i)->get_letter();
+      }
+      bool worked = m_config.PY_CALLBACK()(num_played_letters, row_buff, col_buff, let_buff);
+      my_static_assert(worked, "GUI failure");
     }
   }
 
