@@ -8,6 +8,8 @@ from utils import expect, to_cstr, to_cstr_list
 
 import argparse, sys, os, ctypes, time, platform
 
+from game import PyScrabbleGame, test_func
+
 _DICTS = {
     "scrabble" : "TWL06.txt",
     "wwf"      : "WWF.txt"
@@ -120,10 +122,19 @@ The supported modes are:
 def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gui):
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
-    clib.c_scrabble(len(players), to_cstr_list(players),
+
+    game = PyScrabbleGame()
+
+    callback_type = ctypes.CFUNCTYPE(None, ctypes.c_int)
+    callback = callback_type(test_func)
+
+    clib.c_scrabble(callback,
+                    len(players), to_cstr_list(players),
                     len(ais),     to_cstr_list(ais),
                     to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
                     gui)
+
+    # if we made it here, game is over
 
 ###############################################################################
 def _exp_driver(args):

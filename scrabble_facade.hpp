@@ -18,7 +18,8 @@ class Scrabble_Game;
 
 extern "C" {
 
-void c_scrabble(const int num_players, const char** players,
+void c_scrabble(PyObject* py,
+                const int num_players, const char** players,
                 const int num_ais,     const char** ais,
                 const char* dictionary,
                 const char* board,
@@ -35,7 +36,8 @@ struct Scrabble_Facade
   /**
    * play - Runs the game according to the options encoded in the arguments.
    */
-  static void play(const std::vector<std::string>& players,
+  static void play(PyObject* py,
+                   const std::vector<std::string>& players,
                    const std::vector<std::string>& ais,
                    const std::string& dictionary,
                    const Board_Type board,

@@ -12,8 +12,6 @@
 #include "scrabble_config.hpp"
 #include "scrabble_kokkos.hpp"
 
-#include <Python.h>
-
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -21,7 +19,8 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-void Scrabble_Facade::play(const std::vector<std::string>& players,
+void Scrabble_Facade::play(PyObject* py,
+                           const std::vector<std::string>& players,
                            const std::vector<std::string>& ais,
                            const std::string& dictionary,
                            const Board_Type board,
@@ -56,7 +55,7 @@ void Scrabble_Facade::play(const std::vector<std::string>& players,
                          num_player_pieces, board,
                          output, color_output, clear_screen_before_output,
                          dictionary, tileset, max_num_log_msgs_to_displ,
-                         constrained_square_limit);
+                         constrained_square_limit, py);
 
   auto game = create_game(config);
   game->play();
@@ -128,7 +127,8 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void c_scrabble(const int num_players, const char** players,
+void c_scrabble(PyObject* py,
+                const int num_players, const char** players,
                 const int num_ais,     const char** ais,
                 const char* dictionary,
                 const char* board,
@@ -158,7 +158,7 @@ void c_scrabble(const int num_players, const char** players,
   int ignore_i = 1;
   Kokkos::initialize(ignore_i, const_cast<char**>(&ignore));
 
-  Scrabble_Facade::play(cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed, cxx_output);
+  Scrabble_Facade::play(py, cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed, cxx_output);
 
   Kokkos::finalize();
 }

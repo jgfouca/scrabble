@@ -5,6 +5,11 @@
 #include <string>
 #include <vector>
 
+//struct _object;
+//typedef _object PyObject;
+
+using PyObject = void(int);
+
 enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
@@ -32,7 +37,8 @@ class Scrabble_Config
                   const std::string& dictionary         = "TWL06.txt",
                   Piece_Source_Type piece_source_type   = STANDARD_SOURCE,
                   unsigned max_num_log_msgs_to_displ    = 10,
-                  unsigned constrained_square_limit     = 3);
+                  unsigned constrained_square_limit     = 3,
+                  PyObject* py                          = nullptr);
 
   unsigned                  NUM_PLAYERS()                const { return m_num_players               ; }
   const std::vector<Player_Type>& PLAYER_TYPES()         const { return m_player_types              ; }
@@ -46,6 +52,7 @@ class Scrabble_Config
   Piece_Source_Type         PIECE_SOURCE_TYPE()          const { return m_piece_source_type         ; }
   unsigned                  MAX_NUM_LOG_MSGS_TO_DISPL()  const { return m_max_num_log_msgs_to_displ ; }
   unsigned                  CONSTRAINED_SQUARE_LIMIT()   const { return m_constrained_square_limit  ; }
+  PyObject*                 PY_CALLBACK()                const { return m_py                        ; }
 
   static Board_Type str_to_board(const std::string& board_str);
 
@@ -65,6 +72,7 @@ class Scrabble_Config
   Piece_Source_Type        m_piece_source_type;
   unsigned                 m_max_num_log_msgs_to_displ;
   unsigned                 m_constrained_square_limit;
+  PyObject*                m_py;
 };
 
 #endif

@@ -67,7 +67,7 @@ void Scrabble_Game::play()
         cout << *this << endl;
       }
       else if (output == GUI) {
-        // TODO - notify python to display board
+        // TODO - notify python of initial state (just initial tile draws?)
       }
 
       //this player will go until he has made a valid move
@@ -106,7 +106,7 @@ void Scrabble_Game::play()
         }
       }
       else if (output == GUI) {
-        // TODO - notify python of game over
+        // TODO - notify python of game over?
       }
     }
   }
@@ -288,6 +288,10 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     m_msg_log.insert(m_msg_log.begin(), std::string(ss.str()));
     //we no longer have a 'virgin' board
     m_first_play = false;
+
+    if (m_config.OUTPUT() == GUI) {
+      m_config.PY_CALLBACK()(42);
+    }
   }
 
   //if player has 0 pieces, the game is over

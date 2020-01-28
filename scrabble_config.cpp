@@ -50,7 +50,8 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
                                  const std::string& dictionary,
                                  Piece_Source_Type piece_source_type,
                                  unsigned max_num_log_msgs_to_displ,
-                                 unsigned constrained_square_limit) :
+                                 unsigned constrained_square_limit,
+                                 PyObject* py) :
   m_num_players(num_players),
   m_player_types(player_types),
   m_player_names(player_names),
@@ -62,9 +63,12 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
   m_dictionary(dictionary),
   m_piece_source_type(piece_source_type),
   m_max_num_log_msgs_to_displ(max_num_log_msgs_to_displ),
-  m_constrained_square_limit(constrained_square_limit)
+  m_constrained_square_limit(constrained_square_limit),
+  m_py(py)
 ////////////////////////////////////////////////////////////////////////////////
 {
   my_static_assert(num_players == player_types.size(),
                    "num_players did not match player_types.size()");
+  my_static_assert(!(py == nullptr && output == GUI),
+                   "Cannot do GUI without py callback obj");
 }
