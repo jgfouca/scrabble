@@ -5,11 +5,9 @@ Launch the scrabble platform.
 """
 
 from utils import expect, to_cstr, to_cstr_list
-
-import argparse, sys, os, ctypes, time, platform
-
 import pygame
 
+import argparse, sys, os, ctypes, time, platform, _thread
 
 _DICTS = {
     "scrabble" : "TWL06.txt",
@@ -124,8 +122,6 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
 
-    pygame.GAME = pygame.PyScrabbleGame(11 if board is not None and board == "wwf-solo" else 15)
-
     callback_type = ctypes.CFUNCTYPE(ctypes.c_bool, # return
                                      ctypes.c_uint,
                                      ctypes.POINTER(ctypes.c_uint),
@@ -133,11 +129,18 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
                                      ctypes.POINTER(ctypes.c_char))
     callback = callback_type(pygame.test_func)
 
-    clib.c_scrabble(callback,
-                    len(players), to_cstr_list(players),
-                    len(ais),     to_cstr_list(ais),
-                    to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
-                    gui)
+    go = lambda: clib.c_scrabble(callback,
+                                 len(players), to_cstr_list(players),
+                                 len(ais),     to_cstr_list(ais),
+                                 to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
+                                 gui)
+
+    if gui:
+        pygame.GAME = pygame.PyScrabbleGame(11 if board is not None and board == "wwf-solo" else 15)
+        _thread.start_new_thread(go, ())
+        pygame.GAME.mainloop()
+    else:
+        go()
 
     # if we made it here, game is over
 

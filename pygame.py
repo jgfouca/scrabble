@@ -4,16 +4,20 @@ the state (from C++) and presents the GUI.
 """
 
 import ctypes
+import tkinter as tk
 
 class Piece(object):
     def __init__(self, letter, points):
         self._letter = letter
         self._points = points
 
-class PyScrabbleGame(object):
+class PyScrabbleGame(tk.Frame):
 
     def __init__(self, dim):
         self._board = [[None] * dim] * dim
+        self._root = tk.Tk()
+
+        tk.Frame.__init__(self, self._root)
 
     def play_event(self, rows, cols, letters):
         for row, col, letter in zip(rows, cols, letters):
