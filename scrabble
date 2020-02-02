@@ -124,10 +124,11 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
 
     callback_type = ctypes.CFUNCTYPE(ctypes.c_bool, # return
                                      ctypes.c_uint,
+                                     ctypes.c_uint,
                                      ctypes.POINTER(ctypes.c_uint),
                                      ctypes.POINTER(ctypes.c_uint),
                                      ctypes.POINTER(ctypes.c_char))
-    callback = callback_type(pygame.test_func)
+    callback = callback_type(pygame.callback_func)
 
     go = lambda: clib.c_scrabble(callback,
                                  len(players), to_cstr_list(players),

@@ -96,6 +96,22 @@ void Player::game_over()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+const Scrabble_Piece* Player::observe_piece(unsigned idx) const
+////////////////////////////////////////////////////////////////////////////////
+{
+  my_assert(idx < get_num_pieces(), "Observed out of bounds");
+  unsigned count = 0;
+  for (unsigned i = 0; i < m_pieces.size(); i++) {
+    if (count == idx) {
+      return m_pieces[i];
+    }
+    count += (m_pieces[i] != NULL);
+  }
+  my_assert(false, "Should never make it here");
+  return nullptr;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 unsigned Player::get_num_pieces() const
 ////////////////////////////////////////////////////////////////////////////////
 {

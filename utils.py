@@ -34,3 +34,20 @@ def to_cstr_list(items):
 
     return arr
 
+###############################################################################
+def cstr_to_letters(cstr, size):
+###############################################################################
+    letters = []
+    for i in range(size):
+        letters.append(cstr[i].decode("utf-8"))
+
+    return letters
+
+###############################################################################
+def cstr_to_ints(cstr, size):
+###############################################################################
+    ints = []
+    for i in range(size):
+        ints.append(int.from_bytes(cstr[i], byteorder="little"))
+
+    return ints

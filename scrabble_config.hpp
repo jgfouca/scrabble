@@ -8,12 +8,13 @@
 //struct _object;
 //typedef _object PyObject;
 
-using PyObject = bool(unsigned, unsigned*, unsigned*, char*);
+using PyObject = bool(unsigned, unsigned, unsigned*, unsigned*, char*);
 
 enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
 enum Output_Type {TEXT, GUI, EXPERIMENT};
+enum GUI_Event {TILES, PLAY, BOARD_INIT};
 
 /**
  * This class encapsulates everything that is configurable in this program.

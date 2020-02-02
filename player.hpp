@@ -117,6 +117,11 @@ class Player
    */
   unsigned get_num_pieces() const;
 
+  /**
+   * observe_piece - Look at piece i in player's hand
+   */
+  const Scrabble_Piece* observe_piece(unsigned i) const;
+
  protected: // ================ PROTECTED INTERFACE ============================
 
   //////////////////////////////////////////////////////////////////////////////

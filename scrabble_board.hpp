@@ -99,6 +99,11 @@ class Scrabble_Board
   const Scrabble_Piece* get_piece(unsigned row, unsigned col) const;
 
   /**
+   * get_square - Returns the square on the board at a certain location
+   */
+  Scrabble_Square get_square(unsigned row, unsigned col) const;
+
+  /**
    * get_board_dim - Returns the size (aka dimension) of the board
    */
   unsigned get_board_dim() const { return m_board.size(); }

@@ -8,6 +8,10 @@
 
 using namespace std;
 
+unsigned Scrabble_Game::row_buff[64];
+unsigned Scrabble_Game::col_buff[64];
+char     Scrabble_Game::let_buff[64];
+
 ////////////////////////////////////////////////////////////////////////////////
 Scrabble_Game::~Scrabble_Game()
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,24 +60,48 @@ void Scrabble_Game::play()
   //the game configuration will affect if we produce output here
   const Output_Type output = m_config.OUTPUT();
 
+  if (output == GUI) {
+    const unsigned dim = m_game_board->get_board_dim();
+    unsigned count = 0;
+    for (unsigned i = 0; i < dim; ++i) {
+      for (unsigned j = 0; j < dim; ++j) {
+        const Bonus bonus = m_game_board->get_square(i, j).get_bonus();
+        if (bonus != NONE) {
+          row_buff[count] = i;
+          col_buff[count] = j;
+          let_buff[count] = static_cast<char>(bonus);
+          ++count;
+        }
+      }
+    }
+    bool worked = m_config.PY_CALLBACK()(BOARD_INIT, count, row_buff, col_buff, let_buff);
+    my_static_assert(worked, "GUI failure");
+  }
+
   //continue having players make plays until the game is over
   while (!m_game_over) {
     //need to track if all players make a null move, this implies the game is stuck and needs to end
     bool not_all_null = false;
     //begin a new round of plays (loop over each player, have them play once)
     for (unsigned i = 0; i < m_players.size() && !m_game_over; i++) {
+      Player& player = *m_players[i];
+
       //display the state of the game
       if (output == TEXT) {
         cout << *this << endl;
       }
       else if (output == GUI) {
-        // TODO - notify python of initial state (just initial tile draws?)
+        for (unsigned p = 0; p < player.get_num_pieces(); ++p) {
+          let_buff[p] = player.observe_piece(p)->get_letter();
+        }
+        bool worked = m_config.PY_CALLBACK()(TILES, player.get_num_pieces(), row_buff, col_buff, let_buff);
+        my_static_assert(worked, "GUI failure");
       }
 
       //this player will go until he has made a valid move
       //(placing no letters is a valid move (equiv to skip)
       while (true) {
-        const Indv_Play& this_play = m_players[i]->play();
+        const Indv_Play& this_play = player.play();
 
         std::string err_str = evaluate_play(this_play);
         if (err_str == "") {
@@ -82,7 +110,7 @@ void Scrabble_Game::play()
           }
 
           //play was legit, process it
-          process_legit_play(this_play, m_players[i]);
+          process_legit_play(this_play, &player);
           break;
         }
         else {
@@ -290,15 +318,12 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     m_first_play = false;
 
     if (m_config.OUTPUT() == GUI) {
-      static unsigned row_buff[64];
-      static unsigned col_buff[64];
-      static char     let_buff[64];
       for (unsigned i = 0; i < num_played_letters; ++i) {
         row_buff[i] = the_play.get_ith_row(i);
         col_buff[i] = the_play.get_ith_col(i);
         let_buff[i] = the_play.get_ith_piece(i)->get_letter();
       }
-      bool worked = m_config.PY_CALLBACK()(num_played_letters, row_buff, col_buff, let_buff);
+      bool worked = m_config.PY_CALLBACK()(PLAY, num_played_letters, row_buff, col_buff, let_buff);
       my_static_assert(worked, "GUI failure");
     }
   }
