@@ -8,10 +8,6 @@
 
 using namespace std;
 
-unsigned Scrabble_Game::row_buff[64];
-unsigned Scrabble_Game::col_buff[64];
-char     Scrabble_Game::let_buff[64];
-
 ////////////////////////////////////////////////////////////////////////////////
 Scrabble_Game::~Scrabble_Game()
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +94,7 @@ void Scrabble_Game::play()
         my_static_assert(worked, "GUI failure");
       }
 
-      //this player will go until he has made a valid move
+      //this player will go until they have made a valid move
       //(placing no letters is a valid move (equiv to skip)
       while (true) {
         const Indv_Play& this_play = player.play();
@@ -111,6 +107,10 @@ void Scrabble_Game::play()
 
           //play was legit, process it
           process_legit_play(this_play, &player);
+          if (output == GUI) {
+            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, 0, row_buff, col_buff, let_buff);
+            my_static_assert(worked, "GUI failure");
+          }
           break;
         }
         else {
@@ -118,7 +118,12 @@ void Scrabble_Game::play()
             cout << err_str << endl;
           }
           else if (output == GUI) {
-            // TODO - notify python of error
+            my_require(err_str.size() < 128, "Too big");
+            for (unsigned e = 0; e < err_str.size(); ++e) {
+              let_buff[e] = err_str[e];
+            }
+            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, err_str.size(), row_buff, col_buff, let_buff);
+            my_static_assert(worked, "GUI failure");
           }
         }
       }

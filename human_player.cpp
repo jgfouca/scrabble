@@ -35,7 +35,7 @@ void Human_Player::make_play()
     unsigned row, col; //row,col are where the player's move begin
     char is_horiz;     //is_horiz - specifies if the player is playing a horizontal word
     char force;        //force - specifies that the word should be played even if it's not recognized
-    char word[50];     //buffer to hold <word>
+    char word[64];     //buffer to hold <word>
     flawed_command = false; //specifies if we have confirmed the last command is invalid
 
     m_current_play.clear(); //ensure the last play is cleared

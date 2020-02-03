@@ -1,5 +1,6 @@
 #include "scrabble_facade.hpp"
 #include "human_player.hpp"
+#include "gui_human_player.hpp"
 #include "ai_player.hpp"
 #include "scrabble_board.hpp"
 #include "scrabble_game_builder.hpp"
@@ -103,7 +104,12 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
 
   for (unsigned i = 0; i < player_types.size(); ++i) {
     if (player_types[i] == HUMAN) {
-      builder.build_player<Human_Player>(player_names[i]);
+      if (config.OUTPUT() == GUI) {
+        builder.build_player<GUI_Human_Player>(player_names[i]);
+      }
+      else {
+        builder.build_player<Human_Player>(player_names[i]);
+      }
     }
     else if (player_types[i] == AI) {
       builder.build_player<AI_Player>(player_names[i]);

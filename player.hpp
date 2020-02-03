@@ -137,7 +137,7 @@ class Player
 
   /**
    * make_play - The method that actually computes what this player's next move
-   *             will be. This method single-handed defines what type of player
+   *             will be. This method single-handedly defines what type of player
    *             you are.
    */
   virtual void make_play() = 0;

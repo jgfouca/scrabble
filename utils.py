@@ -2,7 +2,7 @@
 Utilities
 """
 
-import ctypes
+import ctypes, sys
 
 ###############################################################################
 def expect(condition, error_msg, exc_type=SystemExit, error_prefix="ERROR:"):
@@ -48,6 +48,6 @@ def cstr_to_ints(cstr, size):
 ###############################################################################
     ints = []
     for i in range(size):
-        ints.append(int.from_bytes(cstr[i], byteorder="little"))
+        ints.append(int.from_bytes(cstr[i], byteorder=sys.byteorder))
 
     return ints
