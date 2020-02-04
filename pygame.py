@@ -3,11 +3,11 @@ Holds a simple image of the game state, receives events updating
 the state (from C++) and presents the GUI.
 """
 
-import ctypes, sys, threading
+import ctypes, sys, threading, string
 import tkinter as tk
 from functools import partial
 
-from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr
+from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
 
 # Globals
 
@@ -37,6 +37,7 @@ class ScrabbleButton(tk.Button):
         self._tile = None
         self._prev_text = None
         self._prev_color = None
+        self["font"] = ("TkDefaultFont", 20)
 
     def place(self):
         tk.Button.place(self, x=(BUTTON_SIZE*self._xloc), y=(BUTTON_SIZE*self._yloc),
@@ -125,7 +126,7 @@ class PyScrabbleGame(tk.Frame):
 
     def __init__(self, dim):
         self._root = tk.Tk()
-        self._root.geometry("{}x{}".format(BUTTON_SIZE * dim, BUTTON_SIZE * (dim+1)))
+        self._root.geometry("{}x{}".format(BUTTON_SIZE * (dim+3), BUTTON_SIZE * (dim+2)))
 
         tk.Frame.__init__(self, self._root)
 
@@ -152,12 +153,26 @@ class PyScrabbleGame(tk.Frame):
         self._tile_label = ScrabbleLabel(self, "Tiles:")
         self._tile_label.place(offset-1, dim)
 
-        self._playbut = ActionButton(self, partial(self.make_play), "PLAY", offset + NUM_PLAYER_TILES + 1, dim)
+        self._playbut = ActionButton(self, partial(self.make_play), "PLAY", int(dim / 2), dim + 1)
+        self._playbut["bg"] = "gold"
+
+        self._godbut  = ActionButton(self, partial(self.toggle_god), "GOD\nMODE", int(dim / 2) + 3, dim + 1)
+        self._godbut["bg"] = "black"
+        self._godbut["fg"] = "red"
+        self._god_mode = False
 
         self._play = []
         self._play_cmd = None
 
         self._lock = threading.Lock()
+
+        num_letters = len(string.ascii_uppercase)
+        self._god_letters = [None] * num_letters
+        for idx, letter in enumerate(string.ascii_uppercase):
+            self._god_letters[idx] = PlayerTile(self, partial(self.god_letter_click_event, letter),
+                                                (dim+1) + int(idx / (num_letters / 2)), idx % (num_letters / 2))
+            self._god_letters[idx].set_text(letter)
+
 
     def error_popup(self, msg):
         #TODO
@@ -242,9 +257,33 @@ class PyScrabbleGame(tk.Frame):
 
     def tile_click_event(self, i):
         print("tile [{}] was clicked".format(i))
+        if self._active_tile:
+            self._active_tile.revert()
+
         self._active_tile = self._tiles[i]
 
+    def toggle_god(self):
+        if self._active_tile:
+            self._active_tile.revert()
+            self._active_tile = None
+
+        self._god_mode = not self._god_mode
+        print("god button clicked, god mode now {}".format(self._god_mode))
+        godbg, godfg = self._godbut["bg"], self._godbut["fg"]
+        self._godbut["bg"] = godfg
+        self._godbut["fg"] = godbg
+
+    def god_letter_click_event(self, letter):
+        if self._god_mode and self._active_tile:
+            self._active_tile["text"] = letter
+
+        self._active_tile = None
+
     def make_play(self):
+        if self._active_tile:
+            self._active_tile.revert()
+            self._active_tile = None
+
         with self._lock:
             self._make_play_impl()
 
@@ -259,34 +298,30 @@ class PyScrabbleGame(tk.Frame):
                 ys.append(board.gety())
                 letters.append(board["text"])
 
-            is_horiz = "y"
-            force    = "y" # TODO how to decide?
+            is_horiz = "True"
             origx, origy, playword = xs[0], ys[0], letters[0]
             lastx, lasty = origx, origy
-            if (len(self._play) > 1):
+            if len(self._play) > 1:
                 for x, y, letter in zip(xs[1:], ys[1:], letters[1:]):
-                    if x == origx:
-                        is_horiz = "n"
-                    else:
-                        is_horiz = "y"
+                    is_horiz = x == origx
 
                     # Check straight line
-                    if is_horiz == "y" and y != origy:
+                    if is_horiz and y != origy:
                         self.error_popup("Must play along straight line")
                         return
-                    elif is_horiz == "n" and x != origx:
+                    elif not is_horiz and x != origx:
                         self.error_popup("Must play along straight line")
                         return
 
-                    lastp = lastx if is_horiz == "y" else lasty
-                    curp  = x     if is_horiz == "y" else y
+                    lastp = lastx if is_horiz else lasty
+                    curp  = x     if is_horiz else y
                     playword += "_"*(curp-lastp-1)
 
                     playword += letter
                     lastx, lasty = x, y
 
             # Send play to cxx, turn it into string
-            self._play_cmd = "play {} {} {} {} {}".format(origy, origx, playword, is_horiz, force)
+            self._play_cmd = "play {} {} {} {} {}".format(origy, origx, playword, tyn(is_horiz), tyn(self._god_mode))
 
             print("PLAY IS '{}'".format(self._play_cmd))
 
@@ -328,9 +363,9 @@ def callback_func(event, play_size, play_rows, play_cols, play_letters):
         elif event == BOARD_INIT:
             board_init_callback(play_size, play_rows, play_cols, play_letters)
         elif event == CHECK_PLAY:
-            success = check_play_callback(play_rows, play_letters);
+            success = check_play_callback(play_rows, play_letters)
         elif event == CONFIRM_PLAY:
-            confirm_play_callback(play_size, play_letters);
+            confirm_play_callback(play_size, play_letters)
         else:
             expect(False, "Unknown event {}".format(event))
     except BaseException as e:

@@ -51,3 +51,8 @@ def cstr_to_ints(cstr, size):
         ints.append(int.from_bytes(cstr[i], byteorder=sys.byteorder))
 
     return ints
+
+###############################################################################
+def tyn(arg_bool):
+###############################################################################
+    return "y" if arg_bool else "n"
