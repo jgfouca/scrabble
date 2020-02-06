@@ -25,6 +25,7 @@ BUTTON_SIZE = 80
 
 TILE_COLOR = "bisque"
 SQUARE_COLOR = "gray"
+WILD_COLOR = "pink"
 
 ###############################################################################
 class ScrabbleButton(tk.Button):
@@ -34,7 +35,6 @@ class ScrabbleButton(tk.Button):
         tk.Button.__init__(self, root, command=action)
         self._xloc = xloc
         self._yloc = yloc
-        self._tile = None
         self._prev_text = None
         self._prev_color = None
         self["font"] = ("TkDefaultFont", 20)
@@ -51,12 +51,17 @@ class ScrabbleButton(tk.Button):
         self._prev_color = self["bg"]
         self["bg"] = color
 
-    def has_tile(self):
-        return self._tile is not None
-
     def revert(self):
         self.set_text(self._prev_text)
         self.set_color(self._prev_color)
+
+    def swap(self, other):
+        tmpt = self["text"]
+        tmpc = self["bg"]
+        self["text"] = other["text"]
+        self["bg"]   = other["bg"]
+        other["text"] = tmpt
+        other["bg"]   = tmpc
 
     def getx(self): return self._xloc
 
@@ -88,12 +93,24 @@ class BoardTile(ScrabbleButton):
         self.set_color(SQUARE_COLOR)
         self.place()
         self._fixed = False
+        self._tile = None
 
     def play_tile(self, tile):
         self.set_text(tile["text"])
         tile.set_text("")
         self.set_color(tile["bg"])
         tile.set_color(self.master["bg"])
+        self._tile = tile
+
+    def pop_tile(self):
+        rv = self._tile
+        self._tile = None
+        return rv
+
+    def has_tile(self):
+        return self._tile is not None
+
+    def tile(self): return self._tile
 
     def finalize(self):
         if self._tile:
@@ -167,12 +184,17 @@ class PyScrabbleGame(tk.Frame):
         self._lock = threading.Lock()
 
         num_letters = len(string.ascii_uppercase)
-        self._god_letters = [None] * num_letters
+        self._god_letters = [None] * (num_letters+1)
         for idx, letter in enumerate(string.ascii_uppercase):
-            self._god_letters[idx] = PlayerTile(self, partial(self.god_letter_click_event, letter),
+            self._god_letters[idx] = PlayerTile(self, partial(self.god_letter_click_event, idx),
                                                 (dim+1) + int(idx / (num_letters / 2)), idx % (num_letters / 2))
             self._god_letters[idx].set_text(letter)
 
+        self._god_letters[-1] = PlayerTile(self, partial(self.god_letter_click_event, num_letters), dim, dim + 1)
+        self._god_letters[-1].set_text("-")
+        self._god_letters[-1].set_color(WILD_COLOR)
+
+        self._root.bind("<KeyPress>", self.key_press_event)
 
     def error_popup(self, msg):
         #TODO
@@ -191,7 +213,7 @@ class PyScrabbleGame(tk.Frame):
         for i in range(NUM_PLAYER_TILES):
             if i < num:
                 self._tiles[i].set_text(letters[i])
-                self._tiles[i].set_color(TILE_COLOR)
+                self._tiles[i].set_color(WILD_COLOR if letters[i] == "-" else TILE_COLOR)
             else:
                 self._tiles[i].set_text("")
                 self._tiles[i].set_color(self["bg"])
@@ -247,24 +269,27 @@ class PyScrabbleGame(tk.Frame):
         print("board [{}][{}] was clicked".format(i, j))
         board = self._board[i][j]
         if self._active_tile:
-            if (not board.has_tile()):
+            if (not board.has_tile() and not board.is_fixed()):
                 board.play_tile(self._active_tile)
-                self._active_tile = None
                 self._play.append(board)
+                self._active_tile = None
+
         elif board.has_tile():
+            tile = board.pop_tile()
             board.revert()
-            self._board.tile().revert()
+            tile.revert()
+            self._play.remove(board)
 
     def tile_click_event(self, i):
         print("tile [{}] was clicked".format(i))
         if self._active_tile:
-            self._active_tile.revert()
-
-        self._active_tile = self._tiles[i]
+            self._active_tile.swap(self._tiles[i])
+            self._active_tile = None
+        else:
+            self._active_tile = self._tiles[i]
 
     def toggle_god(self):
         if self._active_tile:
-            self._active_tile.revert()
             self._active_tile = None
 
         self._god_mode = not self._god_mode
@@ -273,15 +298,14 @@ class PyScrabbleGame(tk.Frame):
         self._godbut["bg"] = godfg
         self._godbut["fg"] = godbg
 
-    def god_letter_click_event(self, letter):
+    def god_letter_click_event(self, idx):
         if self._god_mode and self._active_tile:
-            self._active_tile["text"] = letter
+            self._active_tile.swap(self._god_letters[idx])
 
         self._active_tile = None
 
     def make_play(self):
         if self._active_tile:
-            self._active_tile.revert()
             self._active_tile = None
 
         with self._lock:
@@ -297,19 +321,17 @@ class PyScrabbleGame(tk.Frame):
                 xs.append(board.getx())
                 ys.append(board.gety())
                 letters.append(board["text"])
+                print(xs[-1], ys[-1], letters[-1])
 
             is_horiz = "True"
             origx, origy, playword = xs[0], ys[0], letters[0]
             lastx, lasty = origx, origy
             if len(self._play) > 1:
                 for x, y, letter in zip(xs[1:], ys[1:], letters[1:]):
-                    is_horiz = x == origx
+                    is_horiz = y == origy
 
                     # Check straight line
-                    if is_horiz and y != origy:
-                        self.error_popup("Must play along straight line")
-                        return
-                    elif not is_horiz and x != origx:
+                    if not is_horiz and x != origx:
                         self.error_popup("Must play along straight line")
                         return
 
@@ -324,6 +346,17 @@ class PyScrabbleGame(tk.Frame):
             self._play_cmd = "play {} {} {} {} {}".format(origy, origx, playword, tyn(is_horiz), tyn(self._god_mode))
 
             print("PLAY IS '{}'".format(self._play_cmd))
+
+    #
+    # KeyPress events
+    #
+
+    def key_press_event(self, key):
+        print("Pressed {}".format(key.char))
+        for board in self._play:
+            if board["text"] == "-":
+                board["text"] = key.char.upper()
+                break
 
 ###############################################################################
 def play_callback(play_size, play_rows, play_cols, play_letters):
