@@ -63,14 +63,14 @@ void Scrabble_Game::play()
       for (unsigned j = 0; j < dim; ++j) {
         const Bonus bonus = m_game_board->get_square(i, j).get_bonus();
         if (bonus != NONE) {
-          row_buff[count] = i;
-          col_buff[count] = j;
-          let_buff[count] = static_cast<char>(bonus);
+          m_row_buff[count] = i;
+          m_col_buff[count] = j;
+          m_let_buff[count] = static_cast<char>(bonus);
           ++count;
         }
       }
     }
-    bool worked = m_config.PY_CALLBACK()(BOARD_INIT, count, row_buff, col_buff, let_buff);
+    bool worked = m_config.PY_CALLBACK()(BOARD_INIT, count, m_row_buff, m_col_buff, m_let_buff);
     my_static_assert(worked, "GUI failure");
   }
 
@@ -88,9 +88,9 @@ void Scrabble_Game::play()
       }
       else if (output == GUI) {
         for (unsigned p = 0; p < player.get_num_pieces(); ++p) {
-          let_buff[p] = player.observe_piece(p)->get_letter();
+          m_let_buff[p] = player.observe_piece(p)->get_letter();
         }
-        bool worked = m_config.PY_CALLBACK()(TILES, player.get_num_pieces(), row_buff, col_buff, let_buff);
+        bool worked = m_config.PY_CALLBACK()(TILES, player.get_num_pieces(), m_row_buff, m_col_buff, m_let_buff);
         my_static_assert(worked, "GUI failure");
       }
 
@@ -108,7 +108,7 @@ void Scrabble_Game::play()
           //play was legit, process it
           process_legit_play(this_play, &player);
           if (output == GUI) {
-            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, 0, row_buff, col_buff, let_buff);
+            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, 0, m_row_buff, m_col_buff, m_let_buff);
             my_static_assert(worked, "GUI failure");
           }
           break;
@@ -120,9 +120,9 @@ void Scrabble_Game::play()
           else if (output == GUI) {
             my_require(err_str.size() < 128, "Too big");
             for (unsigned e = 0; e < err_str.size(); ++e) {
-              let_buff[e] = err_str[e];
+              m_let_buff[e] = err_str[e];
             }
-            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, err_str.size(), row_buff, col_buff, let_buff);
+            bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, err_str.size(), m_row_buff, m_col_buff, m_let_buff);
             my_static_assert(worked, "GUI failure");
           }
         }
@@ -324,11 +324,11 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
 
     if (m_config.OUTPUT() == GUI) {
       for (unsigned i = 0; i < num_played_letters; ++i) {
-        row_buff[i] = the_play.get_ith_row(i);
-        col_buff[i] = the_play.get_ith_col(i);
-        let_buff[i] = the_play.get_ith_piece(i)->get_letter();
+        m_row_buff[i] = the_play.get_ith_row(i);
+        m_col_buff[i] = the_play.get_ith_col(i);
+        m_let_buff[i] = the_play.get_ith_piece(i)->get_letter();
       }
-      bool worked = m_config.PY_CALLBACK()(PLAY, num_played_letters, row_buff, col_buff, let_buff);
+      bool worked = m_config.PY_CALLBACK()(PLAY, num_played_letters, m_row_buff, m_col_buff, m_let_buff);
       my_static_assert(worked, "GUI failure");
     }
   }

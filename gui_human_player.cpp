@@ -12,14 +12,38 @@ void GUI_Human_Player::make_play()
 ////////////////////////////////////////////////////////////////////////////////
 {
   //loop until we see a valid command
-  std::string command;
+  std::string command, tiles;
 
   while(!m_the_game->get_config().PY_CALLBACK()(CHECK_PLAY, 0, m_row_buff, m_col_buff, m_let_buff)) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    if (m_the_game->get_config().PY_CALLBACK()(CHECK_HINT, 0, m_row_buff, m_col_buff, m_let_buff)) {
+      int tile_len = m_row_buff[0];
+      tiles = string(&m_let_buff[0], &m_let_buff[0] + tile_len);
+      set_tray(tiles);
+
+      m_current_play.clear(); //ensure the last play is cleared
+      remap();                //remapping refreshes the char-map
+
+      AI_Player::make_play();
+
+      const unsigned num_played_letters = m_current_play.get_size();
+      for (unsigned i = 0; i < num_played_letters; ++i) {
+        m_row_buff[i] = m_current_play.get_ith_row(i);
+        m_col_buff[i] = m_current_play.get_ith_col(i);
+        m_let_buff[i] = m_current_play.get_ith_piece(i)->get_letter();
+      }
+      bool worked = m_the_game->get_config().PY_CALLBACK()(GIVE_HINT, num_played_letters, m_row_buff, m_col_buff, m_let_buff);
+      my_static_assert(worked, "GUI failure");
+    }
   }
 
   int cmd_len = m_row_buff[0];
   command = string(&m_let_buff[0], &m_let_buff[0] + cmd_len);
+
+  // GUI user may have change their tiles
+  int tile_len = m_row_buff[1];
+  tiles = string(&m_let_buff[cmd_len], &m_let_buff[cmd_len] + tile_len);
+  set_tray(tiles);
 
   unsigned row, col; //row,col are where the player's move begin
   char is_horiz;     //is_horiz - specifies if the player is playing a horizontal word
@@ -54,46 +78,6 @@ void GUI_Human_Player::make_play()
       }
     }
   }
-  // else if (command.find("set-tray ") == 0) {
-  //   int rv = sscanf(command.c_str(), "set-tray %s", word);
-  //   if (rv != 1) {
-  //     //the grabbing of one or more essential values from the command failed
-  //     cout << "set-tray command not formatted properly, try again" << endl;
-  //   }
-  //   else {
-  //     std::string new_letters(word);
-
-  //     if (new_letters.size() > get_num_pieces()) {
-  //       cout << "You tried to set too many pieces, player only has "
-  //            << get_num_pieces() << " left to set." << endl;
-  //       continue;
-  //     }
-
-  //     //loop over the letters they specified
-  //     unsigned piece_itr = 0;
-  //     for (unsigned i = 0; i < new_letters.size(); ++i) {
-  //       char letter = new_letters[i];
-  //       if (!(Scrabble_Piece::is_valid_letter(letter) || letter == '-')) {
-  //         cout << "'" << letter << "' is not a valid letter." << endl;
-  //         break;
-  //       }
-  //       //skip NULL pieces
-  //       while (!m_pieces[piece_itr]) {
-  //         ++piece_itr;
-  //       }
-  //       //force piece change
-  //       Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(m_pieces[piece_itr++]);
-  //       piece->force_letter_change(letter);
-  //     }
-  //   }
-  // }
-  // else if (command.find("recommend-play") == 0) {
-  //   AI_Player::make_play();
-  //   cout << "AI recommends: " << m_current_play << endl;
-  // }
-  // else if (command.find("quit") == 0 || command.find("exit") == 0 || cin.eof()) {
-  //   break;
-  // }
   else {
     cout << "Unknown command, try again" << endl;
   }

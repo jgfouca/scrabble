@@ -3,7 +3,7 @@ Holds a simple image of the game state, receives events updating
 the state (from C++) and presents the GUI.
 """
 
-import ctypes, sys, threading, string
+import ctypes, sys, threading, string, time
 import tkinter as tk
 from functools import partial
 
@@ -14,7 +14,7 @@ from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
 GAME = None
 
 # Events, must match GUI_Event enum from C++
-TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY = range(5)
+TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT = range(7)
 
 # Bonusses, must match Bonus enum from C++
 BNONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD = range(5)
@@ -26,6 +26,7 @@ BUTTON_SIZE = 80
 TILE_COLOR = "bisque"
 SQUARE_COLOR = "gray"
 WILD_COLOR = "pink"
+HINT_COLOR = "spring green"
 
 ###############################################################################
 class ScrabbleButton(tk.Button):
@@ -194,58 +195,81 @@ class PyScrabbleGame(tk.Frame):
         self._god_letters[-1].set_text("-")
         self._god_letters[-1].set_color(WILD_COLOR)
 
+        self._hintbut = ActionButton(self, partial(self.request_hint), "HINT", int(dim / 2) + 2, dim + 1)
+        self._hintbut["bg"] = HINT_COLOR
+        self._wants_hint = False
+
         self._root.bind("<KeyPress>", self.key_press_event)
 
     def error_popup(self, msg):
         #TODO
         print("ERROR: {}".format(msg))
 
+    def get_raw_tile_info(self, inc_board=False):
+        result = ""
+        play_idx = 0
+        for tile in self._tiles:
+            if inc_board and tile["text"] == "" and play_idx < len(self._play):
+                result += self._play[play_idx]["text"]
+                play_idx += 1
+            if tile["text"] != "":
+                result += tile["text"]
+
+        return result
+
     #
     # C++ events
     #
 
     def play_event(self, rows, cols, letters):
-        for row, col, letter in zip(rows, cols, letters):
-            self._board[col][row].set_text(letter)
-            self._board[col][row].set_color(TILE_COLOR)
+        with self._lock:
+            for row, col, letter in zip(rows, cols, letters):
+                self._board[col][row].set_text(letter)
+                self._board[col][row].set_color(TILE_COLOR)
 
     def tiles_event(self, num, letters):
-        for i in range(NUM_PLAYER_TILES):
-            if i < num:
-                self._tiles[i].set_text(letters[i])
-                self._tiles[i].set_color(WILD_COLOR if letters[i] == "-" else TILE_COLOR)
-            else:
-                self._tiles[i].set_text("")
-                self._tiles[i].set_color(self["bg"])
+        with self._lock:
+            for i in range(NUM_PLAYER_TILES):
+                if i < num:
+                    self._tiles[i].set_text(letters[i])
+                    self._tiles[i].set_color(WILD_COLOR if letters[i] == "-" else TILE_COLOR)
+                else:
+                    self._tiles[i].set_text("")
+                    self._tiles[i].set_color(self["bg"])
 
     def board_init_event(self, rows, cols, bonusses):
-        for row, col, bonus in zip(rows, cols, bonusses):
-            change_color, change_text = None, None
-            if bonus == BNONE:
-                pass
-            elif bonus == DBL_LET:
-                change_color, change_text = "blue", "DL"
-            elif bonus == TRP_LET:
-                change_color, change_text = "green", "TL"
-            elif bonus == DBL_WRD:
-                change_color, change_text = "red", "DW"
-            elif bonus == TRP_WRD:
-                change_color, change_text = "orange", "TW"
-            else:
-                expect(False, "Unknown bonus {}".format(bonus))
+        with self._lock:
+            for row, col, bonus in zip(rows, cols, bonusses):
+                change_color, change_text = None, None
+                if bonus == BNONE:
+                    pass
+                elif bonus == DBL_LET:
+                    change_color, change_text = "blue", "DL"
+                elif bonus == TRP_LET:
+                    change_color, change_text = "green", "TL"
+                elif bonus == DBL_WRD:
+                    change_color, change_text = "red", "DW"
+                elif bonus == TRP_WRD:
+                    change_color, change_text = "orange", "TW"
+                else:
+                    expect(False, "Unknown bonus {}".format(bonus))
 
-            if change_color is not None:
-                self._board[col][row].set_text(change_text)
-                self._board[col][row].set_color(change_color)
+                if change_color is not None:
+                    self._board[col][row].set_text(change_text)
+                    self._board[col][row].set_color(change_color)
 
     def check_play_event(self, size_buffer, play_buffer):
         with self._lock:
             if self._play_cmd:
+                tiles = self.get_raw_tile_info(inc_board=True)
                 size_buffer[0] = len(self._play_cmd)
-                play_bytes = to_cstr(self._play_cmd)
-                for i in range(len(self._play_cmd)):
-                    play_buffer[i] = play_bytes[i]
+                size_buffer[1] = len(tiles)
+                play_bytes = to_cstr(self._play_cmd + tiles)
+                for idx, b in enumerate(play_bytes):
+                    play_buffer[idx] = b
+
                 return True
+
             else:
                 return False
 
@@ -261,54 +285,95 @@ class PyScrabbleGame(tk.Frame):
 
             else:
                 self.error_popup(err_msg)
+
+    def check_hint_event(self, size_buffer, tray_buffer):
+        with self._lock:
+            if self._wants_hint:
+                tiles = self.get_raw_tile_info()
+                size_buffer[0] = len(tiles)
+                tile_bytes = to_cstr(tiles)
+                for idx, b in enumerate(tile_bytes):
+                    tray_buffer[idx] = b
+
+            return self._wants_hint
+
+    def hint_event(self, rows, cols, letters):
+        with self._lock:
+            for row, col, letter in zip(rows, cols, letters):
+                self._board[col][row].set_text(letter)
+                self._board[col][row].set_color(HINT_COLOR)
+
+            time.sleep(3)
+
+            for row, col, letter in zip(rows, cols, letters):
+                self._board[col][row].revert()
+
+            self._wants_hint = False
+
     #
     # Button click events
     #
 
     def board_click_event(self, i, j):
-        print("board [{}][{}] was clicked".format(i, j))
-        board = self._board[i][j]
-        if self._active_tile:
-            if (not board.has_tile() and not board.is_fixed()):
-                board.play_tile(self._active_tile)
-                self._play.append(board)
-                self._active_tile = None
+        with self._lock:
+            print("board [{}][{}] was clicked".format(i, j))
+            board = self._board[i][j]
+            if self._active_tile:
+                if (not board.has_tile() and not board.is_fixed()):
+                    board.play_tile(self._active_tile)
+                    self._play.append(board)
+                    self._active_tile = None
 
-        elif board.has_tile():
-            tile = board.pop_tile()
-            board.revert()
-            tile.revert()
-            self._play.remove(board)
+            elif board.has_tile():
+                tile = board.pop_tile()
+                board.revert()
+                tile.revert()
+                self._play.remove(board)
 
     def tile_click_event(self, i):
-        print("tile [{}] was clicked".format(i))
-        if self._active_tile:
-            self._active_tile.swap(self._tiles[i])
-            self._active_tile = None
-        else:
-            self._active_tile = self._tiles[i]
+        if not self._lock.locked():
+            with self._lock:
+                print("tile [{}] was clicked".format(i))
+                if self._active_tile:
+                    self._active_tile.swap(self._tiles[i])
+                    self._active_tile = None
+                else:
+                    self._active_tile = self._tiles[i]
 
     def toggle_god(self):
-        if self._active_tile:
-            self._active_tile = None
+        with self._lock:
+            if self._active_tile:
+                self._active_tile = None
 
-        self._god_mode = not self._god_mode
-        print("god button clicked, god mode now {}".format(self._god_mode))
-        godbg, godfg = self._godbut["bg"], self._godbut["fg"]
-        self._godbut["bg"] = godfg
-        self._godbut["fg"] = godbg
+            self._god_mode = not self._god_mode
+            print("god button clicked, god mode now {}".format(self._god_mode))
+            godbg, godfg = self._godbut["bg"], self._godbut["fg"]
+            self._godbut["bg"] = godfg
+            self._godbut["fg"] = godbg
 
     def god_letter_click_event(self, idx):
-        if self._god_mode and self._active_tile:
-            self._active_tile.swap(self._god_letters[idx])
+        with self._lock:
+            if self._god_mode and self._active_tile:
+                self._active_tile.swap(self._god_letters[idx])
 
-        self._active_tile = None
-
-    def make_play(self):
-        if self._active_tile:
             self._active_tile = None
 
+    def request_hint(self):
         with self._lock:
+            if self._active_tile:
+                self._active_tile = None
+
+            if self._god_mode:
+                if self._play:
+                    self.error_popup("Cannot request hint in middle of play")
+                else:
+                    self._wants_hint = True
+
+    def make_play(self):
+        with self._lock:
+            if self._active_tile:
+                self._active_tile = None
+
             self._make_play_impl()
 
     def _make_play_impl(self):
@@ -379,10 +444,20 @@ def check_play_callback(size_buffer, play_buffer):
     return GAME.check_play_event(size_buffer, play_buffer)
 
 ###############################################################################
+def check_hint_callback(size_buffer, tray_buffer):
+###############################################################################
+    return GAME.check_hint_event(size_buffer, tray_buffer)
+
+###############################################################################
 def confirm_play_callback(success, error_msg_bytes):
 ###############################################################################
     error_msg_bytes = error_msg_bytes[0:success]
     GAME.confirm_play_event(success, error_msg_bytes.decode("utf-8"))
+
+###############################################################################
+def give_hint_callback(play_size, play_rows, play_cols, play_letters):
+###############################################################################
+    GAME.hint_event(play_rows, play_cols, cstr_to_letters(play_letters, play_size))
 
 ###############################################################################
 def callback_func(event, play_size, play_rows, play_cols, play_letters):
@@ -399,6 +474,10 @@ def callback_func(event, play_size, play_rows, play_cols, play_letters):
             success = check_play_callback(play_rows, play_letters)
         elif event == CONFIRM_PLAY:
             confirm_play_callback(play_size, play_letters)
+        elif event == CHECK_HINT:
+            success = check_hint_callback(play_rows, play_letters)
+        elif event == GIVE_HINT:
+            give_hint_callback(play_size, play_rows, play_cols, play_letters)
         else:
             expect(False, "Unknown event {}".format(event))
     except BaseException as e:

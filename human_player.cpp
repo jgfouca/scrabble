@@ -7,6 +7,34 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
+void Human_Player::set_tray(const std::string& new_letters)
+////////////////////////////////////////////////////////////////////////////////
+{
+  if (new_letters.size() > get_num_pieces()) {
+    cout << "You tried to set too many pieces, player only has "
+         << get_num_pieces() << " left to set." << endl;
+    return;
+  }
+
+  //loop over the letters they specified
+  unsigned piece_itr = 0;
+  for (unsigned i = 0; i < new_letters.size(); ++i) {
+    char letter = new_letters[i];
+    if (!(Scrabble_Piece::is_valid_letter(letter) || letter == '-')) {
+      cout << "'" << letter << "' is not a valid letter." << endl;
+      continue;
+    }
+    //skip NULL pieces
+    while (!m_pieces[piece_itr]) {
+      ++piece_itr;
+    }
+    //force piece change
+    Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(m_pieces[piece_itr++]);
+    piece->force_letter_change(letter);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 void Human_Player::make_play()
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -105,29 +133,7 @@ void Human_Player::make_play()
       }
       else {
         std::string new_letters(word);
-
-        if (new_letters.size() > get_num_pieces()) {
-          cout << "You tried to set too many pieces, player only has "
-               << get_num_pieces() << " left to set." << endl;
-          continue;
-        }
-
-        //loop over the letters they specified
-        unsigned piece_itr = 0;
-        for (unsigned i = 0; i < new_letters.size(); ++i) {
-          char letter = new_letters[i];
-          if (!(Scrabble_Piece::is_valid_letter(letter) || letter == '-')) {
-            cout << "'" << letter << "' is not a valid letter." << endl;
-            break;
-          }
-          //skip NULL pieces
-          while (!m_pieces[piece_itr]) {
-            ++piece_itr;
-          }
-          //force piece change
-          Scrabble_Piece* piece = const_cast<Scrabble_Piece*>(m_pieces[piece_itr++]);
-          piece->force_letter_change(letter);
-        }
+        set_tray(word);
       }
     }
     else if (command.find("recommend-play") == 0) {

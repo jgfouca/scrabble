@@ -1,7 +1,7 @@
 #ifndef gui_human_player_h
 #define gui_human_player_h
 
-#include "ai_player.hpp"
+#include "human_player.hpp"
 #include "player.hpp"
 
 /**
@@ -11,14 +11,14 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-class GUI_Human_Player : public AI_Player
+class GUI_Human_Player : public Human_Player
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
   /**
    * Constructor - Simply hands-off args to the parent constructor
    */
-  GUI_Human_Player(const std::string& name, Scrabble_Game* the_game) : AI_Player(name, the_game) {}
+  GUI_Human_Player(const std::string& name, Scrabble_Game* the_game) : Human_Player(name, the_game) {}
 
  protected:
   /**

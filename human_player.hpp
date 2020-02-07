@@ -27,6 +27,8 @@ class Human_Player : public AI_Player
    *             terminates.
    */
   virtual void make_play();
+
+  void set_tray(const std::string& new_letters);
 };
 
 #endif
