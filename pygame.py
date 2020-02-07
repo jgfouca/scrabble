@@ -285,6 +285,7 @@ class PyScrabbleGame(tk.Frame):
 
             else:
                 self.error_popup(err_msg)
+                self._play_cmd = None
 
     def check_hint_event(self, size_buffer, tray_buffer):
         with self._lock:
