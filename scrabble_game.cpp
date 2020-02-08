@@ -107,7 +107,7 @@ void Scrabble_Game::play()
 
           //play was legit, process it
           process_legit_play(this_play, &player);
-          if (output == GUI) {
+          if (output == GUI && player.is_human()) {
             bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, 0, m_row_buff, m_col_buff, m_let_buff);
             my_static_assert(worked, "GUI failure");
           }
@@ -117,7 +117,7 @@ void Scrabble_Game::play()
           if (output == TEXT) {
             cout << err_str << endl;
           }
-          else if (output == GUI) {
+          else if (output == GUI && player.is_human()) {
             my_require(err_str.size() < 128, "Too big");
             for (unsigned e = 0; e < err_str.size(); ++e) {
               m_let_buff[e] = err_str[e];
@@ -322,7 +322,7 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
     //we no longer have a 'virgin' board
     m_first_play = false;
 
-    if (m_config.OUTPUT() == GUI) {
+    if (m_config.OUTPUT() == GUI && !player->is_human()) {
       for (unsigned i = 0; i < num_played_letters; ++i) {
         m_row_buff[i] = the_play.get_ith_row(i);
         m_col_buff[i] = the_play.get_ith_col(i);

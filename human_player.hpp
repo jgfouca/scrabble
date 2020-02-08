@@ -20,6 +20,8 @@ class Human_Player : public AI_Player
    */
   Human_Player(const std::string& name, Scrabble_Game* the_game) : AI_Player(name, the_game) {}
 
+  virtual bool is_human() const { return true; }
+
  protected:
   /**
    * make_play - Processes stdin commands until it receives a valid command. The

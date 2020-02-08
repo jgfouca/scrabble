@@ -27,6 +27,7 @@ TILE_COLOR = "bisque"
 SQUARE_COLOR = "gray"
 WILD_COLOR = "pink"
 HINT_COLOR = "spring green"
+TRAYBUT_COLOR = "SteelBlue3"
 
 ###############################################################################
 class ScrabbleButton(tk.Button):
@@ -39,24 +40,35 @@ class ScrabbleButton(tk.Button):
         self._prev_text = None
         self._prev_color = None
         self["font"] = ("TkDefaultFont", 20)
+        self._fixed = False
 
     def place(self):
         tk.Button.place(self, x=(BUTTON_SIZE*self._xloc), y=(BUTTON_SIZE*self._yloc),
                         height=BUTTON_SIZE, width=BUTTON_SIZE)
 
     def set_text(self, text):
+        expect(not self._fixed, "Tile is fixed")
+
         self._prev_text = self["text"]
         self["text"] = text
+        if text == "-":
+            self.set_color(WILD_COLOR)
 
     def set_color(self, color):
+        expect(not self._fixed, "Tile is fixed")
+
         self._prev_color = self["bg"]
         self["bg"] = color
 
     def revert(self):
+        expect(not self._fixed, "Tile is fixed")
+
         self.set_text(self._prev_text)
         self.set_color(self._prev_color)
 
     def swap(self, other):
+        expect(not self._fixed, "Tile is fixed")
+
         tmpt = self["text"]
         tmpc = self["bg"]
         self["text"] = other["text"]
@@ -64,9 +76,18 @@ class ScrabbleButton(tk.Button):
         other["text"] = tmpt
         other["bg"]   = tmpc
 
+    def invert(self):
+        expect(not self._fixed, "Tile is fixed")
+
+        bg, fg = self["bg"], self["fg"]
+        self["bg"] = fg
+        self["fg"] = bg
+
     def getx(self): return self._xloc
 
     def gety(self): return self._yloc
+
+    def is_fixed(self): return self._fixed
 
     def __lt__(self, rhs):
         if (self._xloc != rhs._xloc):
@@ -93,7 +114,6 @@ class BoardTile(ScrabbleButton):
         ScrabbleButton.__init__(self, root, action, xloc, yloc)
         self.set_color(SQUARE_COLOR)
         self.place()
-        self._fixed = False
         self._tile = None
 
     def play_tile(self, tile):
@@ -116,9 +136,7 @@ class BoardTile(ScrabbleButton):
     def finalize(self):
         if self._tile:
             self._tile  = None
-            self._fixed = True
-
-    def is_fixed(self): return self._fixed
+            ScrabbleButton._fixed = True
 
 ###############################################################################
 class PlayerTile(ScrabbleButton):
@@ -144,7 +162,7 @@ class PyScrabbleGame(tk.Frame):
 
     def __init__(self, dim):
         self._root = tk.Tk()
-        self._root.geometry("{}x{}".format(BUTTON_SIZE * (dim+3), BUTTON_SIZE * (dim+2)))
+        self._root.geometry("{}x{}".format(BUTTON_SIZE * dim, BUTTON_SIZE * (dim+2)))
 
         tk.Frame.__init__(self, self._root)
 
@@ -184,16 +202,9 @@ class PyScrabbleGame(tk.Frame):
 
         self._lock = threading.Lock()
 
-        num_letters = len(string.ascii_uppercase)
-        self._god_letters = [None] * (num_letters+1)
-        for idx, letter in enumerate(string.ascii_uppercase):
-            self._god_letters[idx] = PlayerTile(self, partial(self.god_letter_click_event, idx),
-                                                (dim+1) + int(idx / (num_letters / 2)), idx % (num_letters / 2))
-            self._god_letters[idx].set_text(letter)
-
-        self._god_letters[-1] = PlayerTile(self, partial(self.god_letter_click_event, num_letters), dim, dim + 1)
-        self._god_letters[-1].set_text("-")
-        self._god_letters[-1].set_color(WILD_COLOR)
+        self._traybut = ActionButton(self, partial(self.tray_click_event), "EDIT\nTRAY", int(dim / 2) + 1, dim + 1)
+        self._traybut["bg"] = TRAYBUT_COLOR
+        self._traybut_idx = -1  # -1 -> not active
 
         self._hintbut = ActionButton(self, partial(self.request_hint), "HINT", int(dim / 2) + 2, dim + 1)
         self._hintbut["bg"] = HINT_COLOR
@@ -210,7 +221,7 @@ class PyScrabbleGame(tk.Frame):
         play_idx = 0
         for tile in self._tiles:
             if inc_board and tile["text"] == "" and play_idx < len(self._play):
-                result += self._play[play_idx]["text"]
+                result += "-" if self._play[play_idx]["bg"] == WILD_COLOR else self._play[play_idx]["text"]
                 play_idx += 1
             if tile["text"] != "":
                 result += tile["text"]
@@ -222,6 +233,7 @@ class PyScrabbleGame(tk.Frame):
     #
 
     def play_event(self, rows, cols, letters):
+        print("play_event")
         with self._lock:
             for row, col, letter in zip(rows, cols, letters):
                 self._board[col][row].set_text(letter)
@@ -231,8 +243,8 @@ class PyScrabbleGame(tk.Frame):
         with self._lock:
             for i in range(NUM_PLAYER_TILES):
                 if i < num:
+                    self._tiles[i].set_color(TILE_COLOR)
                     self._tiles[i].set_text(letters[i])
-                    self._tiles[i].set_color(WILD_COLOR if letters[i] == "-" else TILE_COLOR)
                 else:
                     self._tiles[i].set_text("")
                     self._tiles[i].set_color(self["bg"])
@@ -348,16 +360,7 @@ class PyScrabbleGame(tk.Frame):
 
             self._god_mode = not self._god_mode
             print("god button clicked, god mode now {}".format(self._god_mode))
-            godbg, godfg = self._godbut["bg"], self._godbut["fg"]
-            self._godbut["bg"] = godfg
-            self._godbut["fg"] = godbg
-
-    def god_letter_click_event(self, idx):
-        with self._lock:
-            if self._god_mode and self._active_tile:
-                self._active_tile.swap(self._god_letters[idx])
-
-            self._active_tile = None
+            self._godbut.invert()
 
     def request_hint(self):
         with self._lock:
@@ -369,6 +372,18 @@ class PyScrabbleGame(tk.Frame):
                     self.error_popup("Cannot request hint in middle of play")
                 else:
                     self._wants_hint = True
+
+    def tray_click_event(self):
+        if self._active_tile:
+            self._active_tile = None
+
+        if self._god_mode:
+            if self._traybut_idx == -1:
+                self._traybut_idx = 0
+            else:
+                self._traybut_idx = -1
+
+            self._traybut.invert()
 
     def make_play(self):
         with self._lock:
@@ -419,10 +434,19 @@ class PyScrabbleGame(tk.Frame):
 
     def key_press_event(self, key):
         print("Pressed {}".format(key.char))
-        for board in self._play:
-            if board["text"] == "-":
-                board["text"] = key.char.upper()
-                break
+
+        if self._traybut_idx != -1:
+            if key.char.upper() in "{}-".format(string.ascii_uppercase):
+                self._tiles[self._traybut_idx].set_text(key.char.upper())
+                self._traybut_idx += 1
+                if self._traybut_idx == len(self._tiles):
+                    self.tray_click_event()
+
+        else:
+            for board in self._play:
+                if board["text"] == "-":
+                    board["text"] = key.char.upper()
+                    break
 
 ###############################################################################
 def play_callback(play_size, play_rows, play_cols, play_letters):

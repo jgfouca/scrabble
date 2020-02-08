@@ -122,6 +122,11 @@ class Player
    */
   const Scrabble_Piece* observe_piece(unsigned i) const;
 
+  /**
+   * is_human - Is this player a human player
+   */
+  virtual bool is_human() const { return false; }
+
  protected: // ================ PROTECTED INTERFACE ============================
 
   //////////////////////////////////////////////////////////////////////////////
