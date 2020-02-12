@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Woverloaded-virtual -
 
 # Cmake options
 set(MEM_DEBUG FALSE CACHE BOOL "Enable memory sanitizing. Requires Gcc/clang. May require setting LD_PRELOAD to <path>/libasan.so (default False)")
+set(GDB_ATTACH FALSE CACHE BOOL "Allow user to attach gdb when assertions are tripped (default False)")
 
 if (MEM_DEBUG)
   set(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer ${CMAKE_CXX_FLAGS}")
@@ -24,6 +25,9 @@ file(GLOB LIB_SRCS "*.cpp")
 add_library(scrabble SHARED ${LIB_SRCS})
 target_link_libraries(scrabble PUBLIC kokkos ${PYTHON_LIBRARIES})
 target_include_directories(scrabble SYSTEM PUBLIC ${PYTHON_INCLUDE_DIRS})
+if (GDB_ATTACH)
+  target_compile_definitions(scrabble PUBLIC SCRABBLE_ATTACH)
+endif()
 
 set(DICTS MEGA_WORD_LIST.txt SIMPLE_WORD_LIST.txt TWL06.txt WWF.txt)
 foreach(DICT ${DICTS})

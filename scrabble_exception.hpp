@@ -33,8 +33,10 @@ class Assert_Exception : public std::exception
     //what we do from here depends on the configuration
 #ifdef SCRABBLE_ATTACH
     std::cout << "Error: " << what() << std::endl;
-    std::cout << "Process ID: " << getpid() << std::endl;
-    std::cout << "Attach via command: 'gdb scrabble <pid>'" << std::endl;
+    std::cout << "Attach via command: 'gdb -p " << getpid() << "'" << std::endl;
+    std::cout << "  (you may need to use sudo)" << std::endl;
+    std::cout << "  (you may also need to switch from GUI threads to the scrabble cxx thread)" << std::endl;
+    std::cout << "    ('info threads' followed by 'thread <thread-id>')" << std::endl;
     sleep(999999999);
 #endif
   }
