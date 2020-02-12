@@ -102,7 +102,7 @@ const Scrabble_Piece* Player::observe_piece(unsigned idx) const
   my_assert(idx < get_num_pieces(), "Observed out of bounds");
   unsigned count = 0;
   for (unsigned i = 0; i < m_pieces.size(); i++) {
-    if (count == idx) {
+    if (count == idx && m_pieces[i] != nullptr) {
       return m_pieces[i];
     }
     count += (m_pieces[i] != NULL);
