@@ -6,7 +6,9 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-Standard_Piece_Source::Standard_Piece_Source() : m_curr_idx(0)
+Standard_Piece_Source::Standard_Piece_Source(const Scrabble_Game& parent)
+  : Piece_Source(parent),
+    m_curr_idx(0)
 ////////////////////////////////////////////////////////////////////////////////
 {
   m_source.reserve(100);
@@ -14,46 +16,46 @@ Standard_Piece_Source::Standard_Piece_Source() : m_curr_idx(0)
 
   //create and add the pieces to the vector
   for (unsigned i = 12; i > 0; i--) {
-    m_source.push_back(new Scrabble_Piece('E', scr_pm));
+    m_source.push_back(new Scrabble_Piece(m_parent, 'E', scr_pm));
     if (i <= 9) {
-      m_source.push_back(new Scrabble_Piece('A', scr_pm));
-      m_source.push_back(new Scrabble_Piece('I', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'A', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'I', scr_pm));
     }
     if (i <= 8) {
-      m_source.push_back(new Scrabble_Piece('O', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'O', scr_pm));
     }
     if (i <= 6) {
-      m_source.push_back(new Scrabble_Piece('N', scr_pm));
-      m_source.push_back(new Scrabble_Piece('R', scr_pm));
-      m_source.push_back(new Scrabble_Piece('T', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'N', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'R', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'T', scr_pm));
     }
     if (i <= 4) {
-      m_source.push_back(new Scrabble_Piece('L', scr_pm));
-      m_source.push_back(new Scrabble_Piece('S', scr_pm));
-      m_source.push_back(new Scrabble_Piece('U', scr_pm));
-      m_source.push_back(new Scrabble_Piece('D', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'L', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'S', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'U', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'D', scr_pm));
     }
     if (i <= 3) {
-      m_source.push_back(new Scrabble_Piece('G', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'G', scr_pm));
     }
     if (i <= 2) {
-      m_source.push_back(new Scrabble_Piece('B', scr_pm));
-      m_source.push_back(new Scrabble_Piece('C', scr_pm));
-      m_source.push_back(new Scrabble_Piece('M', scr_pm));
-      m_source.push_back(new Scrabble_Piece('P', scr_pm));
-      m_source.push_back(new Scrabble_Piece('F', scr_pm));
-      m_source.push_back(new Scrabble_Piece('H', scr_pm));
-      m_source.push_back(new Scrabble_Piece('V', scr_pm));
-      m_source.push_back(new Scrabble_Piece('W', scr_pm));
-      m_source.push_back(new Scrabble_Piece('Y', scr_pm));
-      m_source.push_back(new Scrabble_Piece('-', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'B', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'C', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'M', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'P', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'F', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'H', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'V', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'W', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'Y', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, '-', scr_pm));
     }
     if (i == 1) {
-      m_source.push_back(new Scrabble_Piece('K', scr_pm));
-      m_source.push_back(new Scrabble_Piece('J', scr_pm));
-      m_source.push_back(new Scrabble_Piece('X', scr_pm));
-      m_source.push_back(new Scrabble_Piece('Q', scr_pm));
-      m_source.push_back(new Scrabble_Piece('Z', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'K', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'J', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'X', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'Q', scr_pm));
+      m_source.push_back(new Scrabble_Piece(m_parent, 'Z', scr_pm));
     }
   }
   my_static_assert(m_source.size() == 100,

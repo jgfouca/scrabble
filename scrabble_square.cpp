@@ -1,7 +1,6 @@
 #include "scrabble_square.hpp"
 #include "scrabble_exception.hpp"
-
-#include <cassert>
+#include "scrabble_game.hpp"
 
 using namespace std;
 
@@ -36,13 +35,14 @@ ostream& Scrabble_Square::operator<<(ostream& out) const
   }
   else {
     const int color_code = get_color_code();
-#ifndef SCRABBLE_PLAIN_OUTPUT
-    out << "\033[1;" << color_code << "m";
-#endif
+    const bool use_color = m_parent != nullptr && m_parent->get_config().COLOR_OUTPUT();
+    if (use_color) {
+      out << "\033[1;" << color_code << "m";
+    }
     out << m_bonus;
-#ifndef SCRABBLE_PLAIN_OUTPUT
-    out << "\033[0m";
-#endif
+    if (use_color) {
+      out << "\033[0m";
+    }
   }
   out << " ";
 
@@ -77,10 +77,7 @@ ostream& operator<<(ostream& out, const Bonus& b)
     out << "b3w";
     break;
   default:
-    //cannot have asserts within operator<<; causes stack overflow because
-    //my_assert calls <<
-    //my_static_assert(false, "Missing case for some bonus.");
-    assert(false);
+    my_static_assert(false, "Missing case for some bonus.");
   }
   return out;
 }
@@ -101,10 +98,7 @@ int Scrabble_Square::get_color_code() const
   case TRP_WRD:
     return 33;
   default:
-    //cannot have asserts within operator<<; causes stack overflow because
-    //my_assert calls <<
-    //my_static_assert(false, "Missing case for some bonus.");
-    assert(false);
+    my_static_assert(false, "Missing case for some bonus.");
   }
   return -1;
 }

@@ -44,6 +44,8 @@ void Human_Player::make_play()
   cout << "  (Use '_' to represent components of your word that are already on the board\n\n";
   cout << "  \"set-tray <letters>\"\n";
   cout << "  Example: 'set-tray AES-TRU'\n\n";
+  cout << "  \"save <filename>\"\n";
+  cout << "  Example: 'save mygame'\n\n";
   cout << "  \"recommend-play\"\n";
   cout << "  AI will search board and find the best play." << endl;
 
@@ -139,6 +141,17 @@ void Human_Player::make_play()
     else if (command.find("recommend-play") == 0) {
       AI_Player::make_play();
       cout << "AI recommends: " << m_current_play << endl;
+    }
+    else if (command.find("save") == 0) {
+      int rv = sscanf(command.c_str(), "save %s", word);
+      if (rv != 1) {
+        //the grabbing of one or more essential values from the command failed
+        cout << "save command not formatted properly, try again" << endl;
+      }
+      else {
+        std::string filename(word);
+        m_the_game->save(filename);
+      }
     }
     else if (command.find("quit") == 0 || command.find("exit") == 0 || cin.eof()) {
       break;

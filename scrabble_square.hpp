@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+class Scrabble_Game;
+
 //The Bonus enum contains values for all possible bonuses on the board
 enum Bonus {NONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD};
 
@@ -81,6 +83,12 @@ class Scrabble_Square
   //////////////////////////////////////////////////////////////////////////////
 
   /**
+   * set-parent - Set the parent game
+   */
+  void set_parent(const Scrabble_Game& parent) { m_parent = &parent; }
+
+
+  /**
    * set_bonus - Changes the bonus associated with this square to that of the
    *             argument. We don't want this method to be called by anyone,
    *             so we made it private and befriended Board_Builder.
@@ -96,6 +104,9 @@ class Scrabble_Square
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
+  // m_parent - Parent game
+  const Scrabble_Game* m_parent;
+
   // m_piece - A pointer to whatever piece has been played on this square. This
   //           is NULL if no piece has been played.
   const Scrabble_Piece* m_piece;
@@ -110,6 +121,7 @@ class Scrabble_Square
   friend class Standard_Board_Builder;
   friend class Wwf_Board_Builder;
   friend class Wwf_Solo_Board_Builder;
+  friend class Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

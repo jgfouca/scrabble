@@ -16,9 +16,11 @@ void GUI_Human_Player::make_play()
 
   while(!m_the_game->get_config().PY_CALLBACK()(CHECK_PLAY, 0, m_row_buff, m_col_buff, m_let_buff)) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    // Check for non-standard events here
     if (m_the_game->get_config().PY_CALLBACK()(CHECK_HINT, 0, m_row_buff, m_col_buff, m_let_buff)) {
       int tile_len = m_row_buff[0];
-      tiles = string(&m_let_buff[0], &m_let_buff[0] + tile_len);
+      tiles = string(&m_let_buff[0], &m_let_buff[tile_len]);
       set_tray(tiles);
 
       m_current_play.clear(); //ensure the last play is cleared
@@ -34,6 +36,11 @@ void GUI_Human_Player::make_play()
       }
       bool worked = m_the_game->get_config().PY_CALLBACK()(GIVE_HINT, num_played_letters, m_row_buff, m_col_buff, m_let_buff);
       my_static_assert(worked, "GUI failure");
+    }
+    else if (m_the_game->get_config().PY_CALLBACK()(CHECK_SAVE, 0, m_row_buff, m_col_buff, m_let_buff)) {
+      int file_len = m_row_buff[0];
+      string filename = string(&m_let_buff[0], &m_let_buff[file_len]);
+      m_the_game->save(filename);
     }
   }
 

@@ -14,7 +14,7 @@ from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
 GAME = None
 
 # Events, must match GUI_Event enum from C++
-TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT = range(7)
+TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE = range(8)
 
 # Bonusses, must match Bonus enum from C++
 BNONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD = range(5)
@@ -222,11 +222,21 @@ class PyScrabbleGame(tk.Frame):
         self._hintbut["bg"] = HINT_COLOR
         self._wants_hint = False
 
+        self._savebut = ActionButton(self, partial(self.save_event), "SAVE", int(dim / 2) - 1, dim + 1)
+        self._savebut["bg"] = "purple"
+        self._save_request = None
+
         self._root.bind("<KeyPress>", self.key_press_event)
 
     def error_popup(self, msg):
-        #TODO
         print("ERROR: {}".format(msg))
+        popup = tk.Tk()
+        popup.wm_title("Error")
+        label = tk.Label(popup, text=msg)
+        label.pack(side="top", fill="x", pady=10)
+        B1 = tk.Button(popup, text="Okay", command=popup.destroy)
+        B1.pack()
+        popup.mainloop()
 
     def get_raw_tile_info(self, inc_board=False):
         result = ""
@@ -316,6 +326,19 @@ class PyScrabbleGame(tk.Frame):
                     tray_buffer[idx] = b
 
             return self._wants_hint
+
+    def check_save_event(self, size_buffer, filename_buffer):
+        with self._lock:
+            if self._save_request:
+                size_buffer[0] = len(self._save_request)
+                filename_bytes = to_cstr(self._save_request)
+                for idx, b in enumerate(filename_bytes):
+                    filename_buffer[idx] = b
+
+                self._save_request = None
+                return True
+
+            return False
 
     def hint_event(self, rows, cols, letters):
         with self._lock:
@@ -435,6 +458,22 @@ class PyScrabbleGame(tk.Frame):
 
             print("PLAY IS '{}'".format(self._play_cmd))
 
+    def save_event(self):
+        popup = tk.Tk()
+        popup.wm_title("Save")
+        label = tk.Label(popup, text="Enter filename:")
+        label.grid(row=0, column=0)
+        e1 = tk.Entry(popup)
+        e1.grid(row=0, column=1)
+        B1 = tk.Button(popup, text="Okay", command=lambda:self.finish_save_event(popup, e1))
+        B1.grid(row=1, column=1)
+        popup.mainloop()
+
+    def finish_save_event(self, popup, entry):
+        self._save_request = entry.get()
+        print("SAVE request for file: {}".format(self._save_request))
+        popup.destroy()
+
     #
     # KeyPress events
     #
@@ -483,6 +522,11 @@ def check_hint_callback(size_buffer, tray_buffer):
     return GAME.check_hint_event(size_buffer, tray_buffer)
 
 ###############################################################################
+def check_save_callback(size_buffer, filename_buffer):
+###############################################################################
+    return GAME.check_save_event(size_buffer, filename_buffer)
+
+###############################################################################
 def confirm_play_callback(success, error_msg_bytes):
 ###############################################################################
     error_msg_bytes = error_msg_bytes[0:success]
@@ -510,6 +554,8 @@ def callback_func(event, play_size, play_rows, play_cols, play_letters):
             confirm_play_callback(play_size, play_letters)
         elif event == CHECK_HINT:
             success = check_hint_callback(play_rows, play_letters)
+        elif event == CHECK_SAVE:
+            success = check_save_callback(play_rows, play_letters)
         elif event == GIVE_HINT:
             give_hint_callback(play_size, play_rows, play_cols, play_letters)
         else:

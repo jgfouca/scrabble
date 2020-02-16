@@ -14,7 +14,7 @@ enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
 enum Output_Type {TEXT, GUI, EXPERIMENT};
-enum GUI_Event {TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT};
+enum GUI_Event {TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE};
 
 /**
  * This class encapsulates everything that is configurable in this program.
@@ -59,6 +59,18 @@ class Scrabble_Config
 
   static Piece_Source_Type str_to_tileset(const std::string& tileset_str);
 
+  /**
+   * operator<< - produces a nice-looking output that should convey the configuration
+   */
+  std::ostream& operator<<(std::ostream& out) const;
+
+  /**
+   * disable color output - useful when saving
+   */
+  void disable_colors() const { m_color_output = false; }
+
+  void enable_colors() const { m_color_output = true; }
+
  private:
 
   unsigned                 m_num_players;
@@ -67,7 +79,7 @@ class Scrabble_Config
   unsigned                 m_num_player_pieces;
   Board_Type               m_board_type;
   Output_Type              m_output;
-  bool                     m_color_output;
+  mutable bool             m_color_output;
   bool                     m_clear_screen_before_output;
   std::string              m_dictionary;
   Piece_Source_Type        m_piece_source_type;
@@ -75,5 +87,7 @@ class Scrabble_Config
   unsigned                 m_constrained_square_limit;
   PyObject*                m_py;
 };
+
+std::ostream& operator<<(std::ostream& out, const Scrabble_Config& config);
 
 #endif

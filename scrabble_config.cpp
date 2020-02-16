@@ -72,3 +72,31 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
   my_static_assert(!(py == nullptr && output == GUI),
                    "Cannot do GUI without py callback obj");
 }
+
+////////////////////////////////////////////////////////////////////////////////
+ostream& Scrabble_Config::operator<<(ostream& out) const
+////////////////////////////////////////////////////////////////////////////////
+{
+  out << "num_players: " << m_num_players << "\n";
+  for (auto item : m_player_types) {
+    out << item << " ";
+  }
+  out << "\n";
+  for (auto name : m_player_names) {
+    out << name << "|";
+  }
+  out << "\n";
+  out << "num pieces: " << m_num_player_pieces << "\n";
+  out << "board type: " << m_board_type << "\n";
+  out << "dict: " << m_dictionary << "\n";
+  out << "piece source: " << m_piece_source_type << "\n";
+
+  return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+ostream& operator<<(ostream& out, const Scrabble_Config& config)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return config.operator<<(out);
+}

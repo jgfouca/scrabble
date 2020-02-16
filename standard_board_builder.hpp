@@ -3,6 +3,7 @@
 
 #include "board_builder.hpp"
 
+class Scrabble_Game;
 class Scrabble_Board;
 
 /**
@@ -22,7 +23,7 @@ class Standard_Board_Builder : public Board_Builder
   //////////////////////////// PRIMARY INTERFACE ///////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  static const Standard_Board_Builder& instance();
+  Standard_Board_Builder(const Scrabble_Game& parent) : Board_Builder(parent) {}
 
   virtual void build_board(Scrabble_Board* board) const;
 
@@ -36,12 +37,6 @@ class Standard_Board_Builder : public Board_Builder
 
   Standard_Board_Builder(const Standard_Board_Builder&);
   Standard_Board_Builder& operator=(const Standard_Board_Builder&);
-
-  //////////////////////////////////////////////////////////////////////////////
-  ////////////////////////// INTERNAL METHODS //////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-
-  Standard_Board_Builder() {}
 };
 
 #endif

@@ -7,6 +7,8 @@
 
 #include <vector>
 
+class Scrabble_Game;
+
 /**
  * This class implements a piece source that you'd expect in a standard scrabble
  * game. It has 100 pieces with the standard letter distributions:
@@ -32,7 +34,7 @@ class Standard_Piece_Source : public Piece_Source
   /**
    * Constructor - Populates the piece source
    */
-  Standard_Piece_Source();
+  Standard_Piece_Source(const Scrabble_Game& parent);
 
   /**
    * Destructor - Deletes all the pieces

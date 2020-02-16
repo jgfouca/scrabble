@@ -9,6 +9,7 @@
 #include <string>
 
 class Human_Player;
+class Scrabble_Game;
 struct UnitWrap;
 
 /**
@@ -24,7 +25,8 @@ class Scrabble_Piece
   /**
    * Constructor - Initializes state.
    */
-  Scrabble_Piece(char letter, const Point_Map& point_map) : m_point_map(point_map)
+  Scrabble_Piece(const Scrabble_Game& parent, char letter, const Point_Map& point_map) :
+    m_parent(parent), m_point_map(point_map)
   {
     my_assert(is_valid_letter(letter) || letter == '-',
               std::string("'") + obj_to_str(letter) + "' is not a valid letter" );
@@ -88,22 +90,7 @@ class Scrabble_Piece
   /**
    * operator<< - Outputs the piece (letter value only).
    */
-  std::ostream& operator<<(std::ostream& out) const
-  {
-    int color_code = (m_been_output) ? 29 : 31;
-    if (is_wildcard()) {
-      color_code = 32;
-    }
-#ifndef SCRABBLE_PLAIN_OUTPUT
-    out << "\033[1;" << color_code << "m";
-#endif
-    out << get_letter();
-#ifndef SCRABBLE_PLAIN_OUTPUT
-    out << "\033[0m";
-#endif
-    m_been_output = true;
-    return out;
-  }
+  std::ostream& operator<<(std::ostream& out) const;
 
   /**
    * is_wildcard - Returns true is this piece is a wild-card piece
@@ -149,6 +136,9 @@ class Scrabble_Piece
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////// DATA MEMBERS ///////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
+
+  // m_parent - Parent game
+  const Scrabble_Game& m_parent;
 
   // m_letter - The letter of this piece
   char         m_letter;

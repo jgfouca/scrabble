@@ -7,6 +7,8 @@
 
 #include <vector>
 
+class Scrabble_Game;
+
 /**
  * This class implements a piece source that you'd expect in a wwf scrabble
  * game. It has 100 pieces with the wwf letter distributions:
@@ -35,7 +37,7 @@ class Wwf_Piece_Source : public Piece_Source
   /**
    * Constructor - Populates the piece source
    */
-  Wwf_Piece_Source();
+  Wwf_Piece_Source(const Scrabble_Game& parent);
 
   /**
    * Destructor - Deletes all the pieces

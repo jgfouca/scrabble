@@ -24,7 +24,8 @@ class Scrabble_Game_Builder
   void build_game_board()
   {
     my_static_assert(m_game, "m_game was null");
-    m_game->add_board(new Scrabble_Board(BOARD_BUILDER_CLASS::instance()));
+    BOARD_BUILDER_CLASS builder(*m_game);
+    m_game->add_board(new Scrabble_Board(builder));
   }
 
   template <class PLAYER_CLASS>
@@ -38,7 +39,7 @@ class Scrabble_Game_Builder
   void build_piece_source()
   {
     my_static_assert(m_game, "m_game was null");
-    m_game->add_piece_source(new LETTER_SOURCE_CLASS());
+    m_game->add_piece_source(new LETTER_SOURCE_CLASS(*m_game));
   }
 
   Scrabble_Game* get_game() const

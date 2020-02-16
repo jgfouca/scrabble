@@ -3,6 +3,7 @@
 
 #include "board_builder.hpp"
 
+class Scrabble_Game;
 class Scrabble_Board;
 
 /**
@@ -22,7 +23,7 @@ class Wwf_Board_Builder : public Board_Builder
   //////////////////////////// PRIMARY INTERFACE ///////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  static const Wwf_Board_Builder& instance();
+  Wwf_Board_Builder(const Scrabble_Game& parent) : Board_Builder(parent) {}
 
   virtual void build_board(Scrabble_Board* board) const;
 
@@ -40,8 +41,6 @@ class Wwf_Board_Builder : public Board_Builder
   //////////////////////////////////////////////////////////////////////////////
   ////////////////////////// INTERNAL METHODS //////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-
-  Wwf_Board_Builder() {}
 
   void set_4way_symm(Scrabble_Board* board, unsigned hi_row, unsigned hi_col, int arg_bonus) const;
 };

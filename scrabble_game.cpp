@@ -397,6 +397,30 @@ ostream& Scrabble_Game::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void Scrabble_Game::save(const std::string& filename) const
+////////////////////////////////////////////////////////////////////////////////
+{
+  ofstream out(filename.c_str());
+  my_assert(out, std::string("Unable to open save file: ") + filename);
+
+  const bool orig_color = m_config.COLOR_OUTPUT();
+  m_config.disable_colors();
+
+  out << "Config\n";
+  out << m_config << "\n";
+  out << "Players\n";
+  for (auto player : m_players) {
+    out << *player << "\n";
+  }
+  out << "Board\n";
+  out << *m_game_board << "\n";
+
+  out.close();
+
+  if (orig_color) m_config.enable_colors();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 ostream& operator<<(ostream& out, const Scrabble_Game& sg)
 ////////////////////////////////////////////////////////////////////////////////
 {

@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <vector>
 
+class Scrabble_Game;
+
 /*
  * This class represents the game board, a two dimension array of squares
  * indexed by [row][col]. See the Scrabble_Square class for more details on
@@ -40,10 +42,7 @@ class Scrabble_Board
    *               building of a board is pretty independent of the rest of
    *               the class, making this a good candidate for the builder pattern.
    */
-  Scrabble_Board(const Board_Builder& board_builder_instance)
-  {
-    board_builder_instance.build_board(this);
-  }
+  Scrabble_Board(const Board_Builder& board_builder_instance);
 
   /**
    * Destructor
@@ -169,6 +168,7 @@ class Scrabble_Board
   friend class Standard_Board_Builder;
   friend class Wwf_Board_Builder;
   friend class Wwf_Solo_Board_Builder;
+  friend class Board_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
