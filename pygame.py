@@ -6,6 +6,12 @@ the state (from C++) and presents the GUI.
 import ctypes, sys, threading, string, time
 import tkinter as tk
 from functools import partial
+import platform
+
+if platform.system() == "Darwin":
+    from tkmacosx import Button
+else:
+    from tk import Button
 
 from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
 
@@ -30,11 +36,12 @@ HINT_COLOR = "spring green"
 TRAYBUT_COLOR = "SteelBlue3"
 
 ###############################################################################
-class ScrabbleButton(tk.Button):
+class ScrabbleButton(Button):
 ###############################################################################
 
     def __init__(self, root, action, xloc, yloc):
-        tk.Button.__init__(self, root, command=action)
+        super().__init__(root, command=action, text="ignore") # Ignore text working around bug in tkmacosx
+        self["text"] = ""
         self._xloc = xloc
         self._yloc = yloc
         self._prev_text = None
@@ -43,8 +50,8 @@ class ScrabbleButton(tk.Button):
         self._fixed = False
 
     def place(self):
-        tk.Button.place(self, x=(BUTTON_SIZE*self._xloc), y=(BUTTON_SIZE*self._yloc),
-                        height=BUTTON_SIZE, width=BUTTON_SIZE)
+        super().place(x=(BUTTON_SIZE*self._xloc), y=(BUTTON_SIZE*self._yloc),
+                      height=BUTTON_SIZE, width=BUTTON_SIZE)
 
     def set_text(self, text):
         expect(not self._fixed, "Tile is fixed")
@@ -98,18 +105,18 @@ class ScrabbleLabel(tk.Label):
 ###############################################################################
 
     def __init__(self, root, text):
-        tk.Label.__init__(self, root, text=text, font=("TkDefaultFont", 20))
+        super().__init__(root, text=text, font=("TkDefaultFont", 20))
 
     def place(self, xslot, yslot):
-        tk.Label.place(self, x=(BUTTON_SIZE*xslot),
-                       y=(BUTTON_SIZE*yslot + BUTTON_SIZE/3)) # want text to appear in middle of tile
+        super().place(x=(BUTTON_SIZE*xslot),
+                      y=(BUTTON_SIZE*yslot + BUTTON_SIZE/3)) # want text to appear in middle of tile
 
 ###############################################################################
 class BoardTile(ScrabbleButton):
 ###############################################################################
 
     def __init__(self, root, action, xloc, yloc):
-        ScrabbleButton.__init__(self, root, action, xloc, yloc)
+        super().__init__(root, action, xloc, yloc)
         self.set_color(SQUARE_COLOR)
         self.place()
         self._tile = None
@@ -140,12 +147,12 @@ class PlayerTile(ScrabbleButton):
 ###############################################################################
 
     def __init__(self, root, action, xloc, yloc):
-        ScrabbleButton.__init__(self, root, action, xloc, yloc)
+        super().__init__(root, action, xloc, yloc)
         self.set_color(TILE_COLOR)
         self.place()
 
     def set_text(self, text):
-        ScrabbleButton.set_text(self, text)
+        super().set_text(text)
         if text == "-":
             self.set_color(WILD_COLOR)
         elif text == "":
@@ -163,7 +170,7 @@ class ActionButton(ScrabbleButton):
 ###############################################################################
 
     def __init__(self, root, action, name, xloc, yloc):
-        ScrabbleButton.__init__(self, root, action, xloc, yloc)
+        super().__init__(root, action, xloc, yloc)
         self["text"] = name
         self.place()
 
@@ -175,7 +182,7 @@ class PyScrabbleGame(tk.Frame):
         self._root = tk.Tk()
         self._root.geometry("{}x{}".format(BUTTON_SIZE * dim, BUTTON_SIZE * (dim+2)))
 
-        tk.Frame.__init__(self, self._root)
+        super().__init__(self._root)
 
         # changing the title of our root widget
         self._root.title("SCRABBLE/WWF")
