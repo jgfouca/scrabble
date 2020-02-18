@@ -11,7 +11,7 @@ import platform
 if platform.system() == "Darwin":
     from tkmacosx import Button
 else:
-    from tk import Button
+    from tkinter import Button
 
 from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
 
