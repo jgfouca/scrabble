@@ -2,7 +2,7 @@
 #include "scrabble_piece.hpp"
 
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
 
 using namespace std;
 

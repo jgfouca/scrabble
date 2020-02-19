@@ -7,8 +7,7 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 Standard_Piece_Source::Standard_Piece_Source(const Scrabble_Game& parent)
-  : Piece_Source(parent),
-    m_curr_idx(0)
+  : Piece_Source(parent)
 ////////////////////////////////////////////////////////////////////////////////
 {
   m_source.reserve(100);
@@ -70,14 +69,5 @@ Standard_Piece_Source::Standard_Piece_Source(const Scrabble_Game& parent)
       m_source[rand_idx] = m_source[i];
       m_source[i] = tmp;
     }
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-Standard_Piece_Source::~Standard_Piece_Source()
-////////////////////////////////////////////////////////////////////////////////
-{
-  for (unsigned i = 0; i < m_source.size(); i++) {
-    delete m_source[i];
   }
 }

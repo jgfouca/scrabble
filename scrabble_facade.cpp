@@ -63,6 +63,26 @@ void Scrabble_Facade::play(PyObject* py,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void Scrabble_Facade::load(PyObject* py,
+                           const std::string& load_game,
+                           const int random_seed,
+                           const Output_Type output)
+////////////////////////////////////////////////////////////////////////////////
+{
+  ifstream in(load_game);
+  my_require(in.is_open(), std::string("Failed to load file ") + load_game);
+
+  Scrabble_Config config(in, output, py);
+
+  auto game = create_game(config);
+  game->load(in);
+
+  in.close();
+
+  game->play();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 std::shared_ptr<Scrabble_Game> Scrabble_Facade::get_test_game()
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -136,6 +156,7 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
 void c_scrabble(PyObject* py,
                 const int num_players, const char** players,
                 const int num_ais,     const char** ais,
+                const char* load_game,
                 const char* dictionary,
                 const char* board,
                 const char* tileset,
@@ -144,6 +165,7 @@ void c_scrabble(PyObject* py,
 ////////////////////////////////////////////////////////////////////////////////
 {
   std::vector<std::string> cxx_players(num_players), cxx_ais(num_ais);
+  std::string cxx_load_game(load_game);
   std::string cxx_dict(dictionary);
   std::string cxx_board_str(board);
   std::string cxx_tileset_str(tileset);
@@ -164,7 +186,12 @@ void c_scrabble(PyObject* py,
   int ignore_i = 1;
   Kokkos::initialize(ignore_i, const_cast<char**>(&ignore));
 
-  Scrabble_Facade::play(py, cxx_players, cxx_ais, dictionary, cxx_board, cxx_tileset, random_seed, cxx_output);
+  if (cxx_load_game != "") {
+    Scrabble_Facade::load(py, cxx_load_game, random_seed, cxx_output);
+  }
+  else {
+    Scrabble_Facade::play(py, cxx_players, cxx_ais, cxx_dict, cxx_board, cxx_tileset, random_seed, cxx_output);
+  }
 
   Kokkos::finalize();
 }

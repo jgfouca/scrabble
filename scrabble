@@ -31,6 +31,8 @@ OR
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
+    parser.add_argument("-l", "--load",
+                        help="Load a saved game")
 
     parser.add_argument("-g", "--game", default="scrabble", choices=("scrabble", "wwf"),
                         help="Select the game type. This will affect default "
@@ -67,6 +69,14 @@ OR
 
     if args.random_seed == -1:
         args.random_seed = int(time.time())
+
+    if args.load:
+        expect(not args.game,       "Cannot change game type of loaded game")
+        expect(not args.player,     "Cannot change players of loaded game")
+        expect(not args.ais,        "Cannot change players of loaded game")
+        expect(not args.dictionary, "Cannot change dictionary of loaded game")
+        expect(not args.board,      "Cannot change board of loaded game")
+        expect(not args.tileset,    "Cannot change tileset of loaded game")
 
     # Set defaults based on game
     if args.dictionary is None:

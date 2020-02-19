@@ -2,6 +2,7 @@
 #include "scrabble_exception.hpp"
 
 #include <cassert>
+#include <sstream>
 
 using namespace std;
 
@@ -74,10 +75,85 @@ Scrabble_Config::Scrabble_Config(unsigned num_players,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+Scrabble_Config::Scrabble_Config(std::istream& in, Output_Type output, PyObject* py) :
+  m_num_players(),
+  m_player_types(),
+  m_player_names(),
+  m_num_player_pieces(),
+  m_board_type(),
+  m_output(output),
+  m_color_output(),
+  m_clear_screen_before_output(),
+  m_dictionary(),
+  m_piece_source_type(),
+  m_max_num_log_msgs_to_displ(),
+  m_constrained_square_limit(),
+  m_py(py)
+////////////////////////////////////////////////////////////////////////////////
+{
+  std::string line;
+  int rv;
+
+  getline(in, line);
+  my_require(line == "Config", "Expected 'Config'");
+
+  getline(in, line);
+  rv = sscanf(line.c_str(), "num players: %d", &m_num_players);
+  my_require(rv == 1, "Bad num players format");
+
+  getline(in, line);
+  istringstream iss(line);
+  for (unsigned i = 0; i < m_num_players; ++i) {
+    int tmp;
+    char skip;
+    iss >> tmp >> skip;
+    Player_Type t = static_cast<Player_Type>(tmp);
+    m_player_types.push_back(t);
+  }
+
+  getline(in, line);
+  std::string curr_name;
+  for (char c : line) {
+    if (c == '|') {
+      m_player_names.push_back(curr_name);
+      curr_name = "";
+    }
+    else {
+      curr_name += c;
+    }
+  }
+
+  getline(in, line);
+  rv = sscanf(line.c_str(), "num pieces: %d", &m_num_player_pieces);
+  my_require(rv == 1, "Bad num pieces format");
+
+  getline(in, line);
+  rv = sscanf(line.c_str(), "num pieces: %d", &m_num_player_pieces);
+  my_require(rv == 1, "Bad num pieces format");
+
+  getline(in, line);
+  rv = sscanf(line.c_str(), "board type: %d", &m_board_type);
+  my_require(rv == 1, "Bad board type format");
+
+  char buf[64];
+  getline(in, line);
+  rv = sscanf(line.c_str(), "dict: %s", buf);
+  my_require(rv == 1, "Bad dict format");
+  m_dictionary = std::string(buf);
+
+  getline(in, line);
+  rv = sscanf(line.c_str(), "piece source: %d", &m_piece_source_type);
+  my_require(rv == 1, "Bad piece source format");
+
+  getline(in, line);
+  my_require(line == "", "Expected blank line");
+}
+
+////////////////////////////////////////////////////////////////////////////////
 ostream& Scrabble_Config::operator<<(ostream& out) const
 ////////////////////////////////////////////////////////////////////////////////
 {
-  out << "num_players: " << m_num_players << "\n";
+  out << "num players: " << m_num_players << "\n";
   for (auto item : m_player_types) {
     out << item << " ";
   }

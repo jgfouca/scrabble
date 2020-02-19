@@ -68,6 +68,11 @@ class Scrabble_Game
    */
   void save(const std::string& filename) const;
 
+  /**
+   * load - load the game state from a file
+   */
+  void load(std::istream& in);
+
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// QUERIES /////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -145,6 +150,11 @@ class Scrabble_Game
               "add_piece_source was called twice on the same scrabble_game obj");
     m_piece_source = ls;
   }
+
+  /**
+   * get_piece_source - return the piece source with the intent to modify
+   */
+  Piece_Source& get_piece_source() { return *m_piece_source; }
 
  private: // ================ PRIVATE INTERFACE ================================
 
@@ -229,6 +239,7 @@ class Scrabble_Game
   //////////////////////////////////////////////////////////////////////////////
 
   friend struct UnitWrap;
+  friend class Scrabble_Game_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

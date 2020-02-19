@@ -40,7 +40,11 @@ void Scrabble_Game::initialize()
   unsigned num_pieces_per_player = m_config.NUM_PLAYER_PIECES();
   for (unsigned i = 0; i < m_players.size(); i++) {
     m_players[i]->initialize();
-    for (unsigned p = 0; p < num_pieces_per_player; p++) {
+    unsigned num_needed = num_pieces_per_player - m_players[i]->get_num_pieces();
+    for (unsigned p = 0; p < num_needed; ++p) {
+      if (m_piece_source->is_empty()) {
+        break;
+      }
       m_players[i]->add_piece(m_piece_source->get_piece());
     }
   }
@@ -418,6 +422,29 @@ void Scrabble_Game::save(const std::string& filename) const
   out.close();
 
   if (orig_color) m_config.enable_colors();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void Scrabble_Game::load(std::istream& in)
+////////////////////////////////////////////////////////////////////////////////
+{
+  std::string line;
+
+  getline(in, line);
+  my_require(line == "Players", std::string("Bad line: ") + line);
+
+  for (auto player : m_players) {
+    in >> *player;
+  }
+
+  getline(in, line);
+  my_require(line == "Board", std::string("Bad line: ") + line);
+
+  // in >> *m_game_board;
+
+  // Remove played pieces from source
+
+  // If any pieces played, we are not on the first play
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -113,6 +113,11 @@ class Player
   std::ostream& operator<<(std::ostream&) const;
 
   /**
+   * operator>> - Read player state from istream
+   */
+  std::istream& operator>>(std::istream&);
+
+  /**
    * get_num_pieces - Returns the number of pieces in the player's tray
    */
   unsigned get_num_pieces() const;
@@ -204,5 +209,7 @@ class Player
 ////////////////////////////////////////////////////////////////////////////////
 
 std::ostream& operator<<(std::ostream& out, const Player& player);
+
+std::istream& operator>>(std::istream& in, Player& player);
 
 #endif

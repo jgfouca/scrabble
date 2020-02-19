@@ -49,8 +49,8 @@ class Scrabble_Game_Builder
 
  private:
   //forbidden methods
-  Scrabble_Game_Builder(const Scrabble_Game_Builder&);
-  Scrabble_Game_Builder& operator=(const Scrabble_Game_Builder&);
+  Scrabble_Game_Builder(const Scrabble_Game_Builder&) = delete;
+  Scrabble_Game_Builder& operator=(const Scrabble_Game_Builder&) = delete;
 
   //internal state
   Scrabble_Game* m_game; // do not delete

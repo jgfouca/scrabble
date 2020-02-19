@@ -194,7 +194,7 @@ ostream& Player::operator<<(ostream& out) const
     }
   }
   out << endl;
-  out << "  current piece=-map: ";
+  out << "  current piece-map: ";
   for (multimap<char, const Scrabble_Piece*>::const_iterator itr = m_char_piece_map.begin();
        itr != m_char_piece_map.end(); itr++) {
     out << "(" << itr->first << "," << *(itr->second) << ") ";
@@ -204,8 +204,45 @@ ostream& Player::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+istream& Player::operator>>(istream& in)
+////////////////////////////////////////////////////////////////////////////////
+{
+  std::string line;
+  char buf[64];
+  auto& piece_source = m_the_game->get_piece_source();
+
+  getline(in, line);
+  int rv = sscanf(line.c_str(), "Player %s has score %d", buf, &m_score);
+  my_require(rv == 2, "Bad player score format");
+
+  getline(in, line);
+  std::string prefix = "  current pieces:";
+  std::string real_pref = line.substr(0, prefix.size());
+  my_require(real_pref == prefix, "Bad player tray");
+  line = line.substr(prefix.size());
+
+  for (char c : line) {
+    if (c != ' ') {
+      add_piece(piece_source.get_piece(c));
+    }
+  }
+
+  // skip piece map
+  getline(in, line);
+
+  return in;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 ostream& operator<<(ostream& out, const Player& player)
 ////////////////////////////////////////////////////////////////////////////////
 {
   return player.operator<<(out);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+istream& operator>>(istream& in, Player& player)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return player.operator>>(in);
 }
