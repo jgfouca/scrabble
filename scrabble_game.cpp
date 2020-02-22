@@ -440,11 +440,12 @@ void Scrabble_Game::load(std::istream& in)
   getline(in, line);
   my_require(line == "Board", std::string("Bad line: ") + line);
 
-  // in >> *m_game_board;
-
-  // Remove played pieces from source
+  in >> *m_game_board;
 
   // If any pieces played, we are not on the first play
+  if (!m_piece_source->is_full()) {
+    m_first_play = false;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

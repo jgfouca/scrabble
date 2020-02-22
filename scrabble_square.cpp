@@ -2,6 +2,9 @@
 #include "scrabble_exception.hpp"
 #include "scrabble_game.hpp"
 
+#include <algorithm>
+#include <sstream>
+
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +26,27 @@ void Scrabble_Square::set_bonus(Bonus bonus)
   my_assert(bonus != NONE, "No need to set bonus to NONE");
 
   m_bonus = bonus;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+int Scrabble_Square::get_color_code() const
+////////////////////////////////////////////////////////////////////////////////
+{
+  switch(m_bonus) {
+  case NONE:
+    return 29;
+  case DBL_LET:
+    return 34;
+  case TRP_LET:
+    return 32;
+  case DBL_WRD:
+    return 31;
+  case TRP_WRD:
+    return 33;
+  default:
+    my_static_assert(false, "Missing case for some bonus.");
+  }
+  return -1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,10 +74,60 @@ ostream& Scrabble_Square::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+istream& Scrabble_Square::operator>>(istream& in) const
+////////////////////////////////////////////////////////////////////////////////
+{
+  auto& piece_source = m_parent->get_piece_source();
+  constexpr unsigned width_without_sep = OUTPUT_LEN - 1;
+
+  std::string line;
+  for (unsigned i = 0; i < width_without_sep; ++i) {
+    char c;
+    in >> c;
+    line += c;
+  }
+
+  unsigned blanks = std::count(line.begin(), line.end(), ' ');
+  if (blanks == width_without_sep) {
+    // blank square, do nothing
+  }
+  else if (blanks == width_without_sep - 1) {
+    // it has a piece on it
+    char piece_val = line[OUTPUT_LEN / 2 - 1];
+    if (islower(piece_val)) {
+      auto piece = piece_source.get_piece('-');
+      piece->set_wildcard_value(toupper(piece_val));
+      add_piece(piece);
+    }
+    else {
+      add_piece(piece_source.get_piece(piece_val));
+    }
+  }
+  else if (blanks == width_without_sep - 3) {
+    // bonus
+    Bonus bonus;
+    std::string bonus_str = line.substr(1, 3);
+    istringstream iss(bonus_str);
+    iss >> bonus;
+    set_bonus(bonus);
+  }
+  else {
+    my_assert_msg(false, std::string("Could not recognize square: ") + line);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 ostream& operator<<(ostream& out, const Scrabble_Square& sq)
 ////////////////////////////////////////////////////////////////////////////////
 {
   return sq.operator<<(out);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+istream& operator>>(istream& in, Scrabble_Square& sq)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return sq.operator>>(in);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,22 +157,33 @@ ostream& operator<<(ostream& out, const Bonus& b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-int Scrabble_Square::get_color_code() const
+istream& operator>>(istream& in, Bonus& b)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  switch(m_bonus) {
-  case NONE:
-    return 29;
-  case DBL_LET:
-    return 34;
-  case TRP_LET:
-    return 32;
-  case DBL_WRD:
-    return 31;
-  case TRP_WRD:
-    return 33;
-  default:
-    my_static_assert(false, "Missing case for some bonus.");
+  std::string bonus_str;
+  for (unsigned i = 0; i < 3; ++i) {
+    char c;
+    in >> c;
+    bonus_str += c;
   }
-  return -1;
+
+  if (bonus_str == "   ") {
+    return NONE;
+  }
+  else if (bonus_str == "b2l") {
+    return DBL_LET;
+  }
+  else if (bonus_str == "b3l") {
+    return TRP_LET;
+  }
+  else if (bonus_str == "b2w") {
+    return DBL_WRD;
+  }
+  else if (bonus_str == "b3w") {
+    return TRP_WRD;
+  }
+  else {
+    my_static_assert(false, std::string("Unrecognized bonus string: ") + bonus_str );
+  }
+  return in;
 }

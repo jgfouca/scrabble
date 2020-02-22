@@ -38,6 +38,11 @@ class Piece_Source
    */
   virtual bool is_empty() const { return m_curr_idx == m_source.size(); }
 
+  /**
+   * is_full - Returns true if this source has all its pieces
+   */
+  virtual bool is_full() const { return m_curr_idx == 0; }
+
  protected:
 
   //////////////////////////////////////////////////////////////////////////////

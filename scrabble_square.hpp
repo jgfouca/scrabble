@@ -71,6 +71,11 @@ class Scrabble_Square
    */
   std::ostream& operator<<(std::ostream& out) const;
 
+  /**
+   * operator>> - Read square state from istream
+   */
+  std::istream& operator>>(std::istream& out);
+
   // OUTPUT_LEN - The number of characters of output created when operator<<
   //              is called on a scrabble_square. This is difficult to enforce,
   //              but it's useful
@@ -131,5 +136,9 @@ class Scrabble_Square
 std::ostream& operator<<(std::ostream& out, const Scrabble_Square& sq);
 
 std::ostream& operator<<(std::ostream& out, const Bonus& b);
+
+std::istream& operator>>(std::istream& in, Scrabble_Square& sq);
+
+std::istream& operator>>(std::istream& in, Bonus& b);
 
 #endif

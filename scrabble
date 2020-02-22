@@ -31,7 +31,7 @@ OR
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
-    parser.add_argument("-l", "--load",
+    parser.add_argument("-l", "--load", default="",
                         help="Load a saved game")
 
     parser.add_argument("-g", "--game", default="scrabble", choices=("scrabble", "wwf"),
@@ -128,7 +128,7 @@ The supported modes are:
             expect(False, "Unknown mode '{}'".format(args.mode))
 
 ###############################################################################
-def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gui):
+def _play_driver(load, game, players, ais, dictionary, board, tileset, random_seed, gui):
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
 
@@ -143,8 +143,8 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
     go = lambda: clib.c_scrabble(callback,
                                  len(players), to_cstr_list(players),
                                  len(ais),     to_cstr_list(ais),
-                                 to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
-                                 gui)
+                                 to_cstr(load), to_cstr(dictionary), to_cstr(board), to_cstr(tileset),
+                                 random_seed, gui)
 
     if gui:
         pygame.GAME = pygame.PyScrabbleGame(11 if board is not None and board == "wwf-solo" else 15)
