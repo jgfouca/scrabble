@@ -68,6 +68,11 @@ class Scrabble_Game
    */
   void save(const std::string& filename) const;
 
+  /**
+   * load - load the game state from a file
+   */
+  void load(std::istream& in);
+
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// QUERIES /////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -146,6 +151,11 @@ class Scrabble_Game
     m_piece_source = ls;
   }
 
+  /**
+   * get_piece_source - return the piece source with the intent to modify
+   */
+  Piece_Source& get_piece_source() { return *m_piece_source; }
+
  private: // ================ PRIVATE INTERFACE ================================
 
   //////////////////////////////////////////////////////////////////////////////
@@ -220,15 +230,16 @@ class Scrabble_Game
   bool                     m_game_over;
 
   // buffers for talking to python
-  unsigned m_row_buff[64];
-  unsigned m_col_buff[64];
-  char     m_let_buff[128];
+  unsigned m_row_buff[256];
+  unsigned m_col_buff[256];
+  char     m_let_buff[256];
 
   //////////////////////////////////////////////////////////////////////////////
   /////////////////////////////// FRIENDS //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
   friend struct UnitWrap;
+  friend class Scrabble_Game_Builder;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

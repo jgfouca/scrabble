@@ -127,6 +127,11 @@ class BoardTile(ScrabbleButton):
         tile.set_text("")
         self._tile = tile
 
+    def pre_play_tile(self, value):
+        self.set_text(value)
+        self.set_color(TILE_COLOR)
+        self.finalize()
+
     def pop_tile(self):
         rv = self._tile
         self._tile = None
@@ -288,7 +293,7 @@ class PyScrabbleGame(tk.Frame):
                 elif bonus == TRP_WRD:
                     change_color, change_text = "orange", "TW"
                 else:
-                    expect(False, "Unknown bonus {}".format(bonus))
+                    self._board[col][row].pre_play_tile(str(chr(bonus)))
 
                 if change_color is not None:
                     self._board[col][row].set_text(change_text)

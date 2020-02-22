@@ -40,7 +40,11 @@ void Scrabble_Game::initialize()
   unsigned num_pieces_per_player = m_config.NUM_PLAYER_PIECES();
   for (unsigned i = 0; i < m_players.size(); i++) {
     m_players[i]->initialize();
-    for (unsigned p = 0; p < num_pieces_per_player; p++) {
+    unsigned num_needed = num_pieces_per_player - m_players[i]->get_num_pieces();
+    for (unsigned p = 0; p < num_needed; ++p) {
+      if (m_piece_source->is_empty()) {
+        break;
+      }
       m_players[i]->add_piece(m_piece_source->get_piece());
     }
   }
@@ -61,11 +65,12 @@ void Scrabble_Game::play()
     unsigned count = 0;
     for (unsigned i = 0; i < dim; ++i) {
       for (unsigned j = 0; j < dim; ++j) {
-        const Bonus bonus = m_game_board->get_square(i, j).get_bonus();
-        if (bonus != NONE) {
+        const auto square = m_game_board->get_square(i, j);
+        const Bonus bonus = square.get_bonus();
+        if (bonus != NONE || !square.is_free()) {
           m_row_buff[count] = i;
           m_col_buff[count] = j;
-          m_let_buff[count] = static_cast<char>(bonus);
+          m_let_buff[count] = !square.is_free() ? square.get_piece()->get_letter() : static_cast<char>(bonus);
           ++count;
         }
       }
@@ -118,7 +123,7 @@ void Scrabble_Game::play()
             cout << err_str << endl;
           }
           else if (output == GUI && player.is_human()) {
-            my_require(err_str.size() < 128, "Too big");
+            my_require(err_str.size() < 256, "Too big");
             for (unsigned e = 0; e < err_str.size(); ++e) {
               m_let_buff[e] = err_str[e];
             }
@@ -418,6 +423,30 @@ void Scrabble_Game::save(const std::string& filename) const
   out.close();
 
   if (orig_color) m_config.enable_colors();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void Scrabble_Game::load(std::istream& in)
+////////////////////////////////////////////////////////////////////////////////
+{
+  std::string line;
+
+  getline(in, line);
+  my_require(line == "Players", std::string("Bad line: ") + line);
+
+  for (auto player : m_players) {
+    in >> *player;
+  }
+
+  getline(in, line);
+  my_require(line == "Board", std::string("Bad line: ") + line);
+
+  in >> *m_game_board;
+
+  // If any pieces played, we are not on the first play
+  if (!m_piece_source->is_full()) {
+    m_first_play = false;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

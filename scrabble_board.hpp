@@ -145,6 +145,11 @@ class Scrabble_Board
    */
   std::ostream& operator<<(std::ostream& out) const;
 
+  /**
+   * operator>> - read in board state
+   */
+  std::istream& operator>>(std::istream& in);
+
  private: // ================ PRIVATE INTERFACE ================================
 
   //////////////////////////////////////////////////////////////////////////////
@@ -176,5 +181,7 @@ class Scrabble_Board
 ////////////////////////////////////////////////////////////////////////////////
 
 std::ostream& operator<<(std::ostream& out, const Scrabble_Board& sb);
+
+std::istream& operator>>(std::istream& in, Scrabble_Board& sb);
 
 #endif

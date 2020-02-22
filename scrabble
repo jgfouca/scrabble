@@ -31,6 +31,8 @@ OR
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
+    parser.add_argument("-l", "--load", default="",
+                        help="Load a saved game")
 
     parser.add_argument("-g", "--game", default="scrabble", choices=("scrabble", "wwf"),
                         help="Select the game type. This will affect default "
@@ -68,6 +70,13 @@ OR
     if args.random_seed == -1:
         args.random_seed = int(time.time())
 
+    if args.load:
+        expect(not args.players,    "Cannot change players of loaded game")
+        expect(not args.ais,        "Cannot change players of loaded game")
+        expect(not args.dictionary, "Cannot change dictionary of loaded game")
+        expect(not args.board,      "Cannot change board of loaded game")
+        expect(not args.tileset,    "Cannot change tileset of loaded game")
+
     # Set defaults based on game
     if args.dictionary is None:
         args.dictionary = _DICTS[args.game]
@@ -76,7 +85,7 @@ OR
     if args.tileset is None:
         args.tileset = args.game
 
-    expect(len(args.players) + len(args.ais) > 0, "Need at least one player")
+    expect((len(args.players) + len(args.ais) > 0) or args.load, "Need at least one player")
     expect(os.path.exists(args.dictionary), "Missing dictionary '{}'".format(args.dictionary))
 
     return args
@@ -118,7 +127,7 @@ The supported modes are:
             expect(False, "Unknown mode '{}'".format(args.mode))
 
 ###############################################################################
-def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gui):
+def _play_driver(load, game, players, ais, dictionary, board, tileset, random_seed, gui):
 ###############################################################################
     clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
 
@@ -133,8 +142,8 @@ def _play_driver(game, players, ais, dictionary, board, tileset, random_seed, gu
     go = lambda: clib.c_scrabble(callback,
                                  len(players), to_cstr_list(players),
                                  len(ais),     to_cstr_list(ais),
-                                 to_cstr(dictionary), to_cstr(board), to_cstr(tileset), random_seed,
-                                 gui)
+                                 to_cstr(load), to_cstr(dictionary), to_cstr(board), to_cstr(tileset),
+                                 random_seed, gui)
 
     if gui:
         pygame.GAME = pygame.PyScrabbleGame(11 if board is not None and board == "wwf-solo" else 15)

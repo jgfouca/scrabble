@@ -39,29 +39,6 @@ class Wwf_Piece_Source : public Piece_Source
    */
   Wwf_Piece_Source(const Scrabble_Game& parent);
 
-  /**
-   * Destructor - Deletes all the pieces
-   */
-  virtual ~Wwf_Piece_Source();
-
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////// QUERIES /////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * get_piece - Return the next piece from this source
-   */
-  virtual const Scrabble_Piece* get_piece() const
-  {
-    my_static_assert(!is_empty(), "Tried to get_piece from an empty source");
-    return m_source[m_curr_idx++]; //return current piece and iterate
-  }
-
-  /**
-   * is_empty - Returns true if this source has run out of pieces
-   */
-  virtual bool is_empty() const { return m_curr_idx == m_source.size(); }
-
  private: // ================ PRIVATE INTERFACE ================================
 
   //////////////////////////////////////////////////////////////////////////////
@@ -70,16 +47,6 @@ class Wwf_Piece_Source : public Piece_Source
 
   Wwf_Piece_Source(const Wwf_Piece_Source&) = delete;
   Wwf_Piece_Source& operator=(const Wwf_Piece_Source&) = delete;
-
-  //////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////// DATA MEMBERS ///////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-
-  // m_source - The vector of piece objects
-  std::vector<const Scrabble_Piece*> m_source;
-
-  // m_curr_idx - The index of the next piece to be returned.
-  mutable unsigned m_curr_idx;
 };
 
 #endif

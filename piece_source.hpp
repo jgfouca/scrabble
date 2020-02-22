@@ -16,25 +16,54 @@ class Piece_Source
 ////////////////////////////////////////////////////////////////////////////////
 {
  public:
-  Piece_Source(const Scrabble_Game& parent) : m_parent(parent) {}
+  Piece_Source(const Scrabble_Game& parent) : m_parent(parent), m_source(), m_curr_idx(0) {}
 
   /**
    * Destructor
    */
-  virtual ~Piece_Source() {}
+  virtual ~Piece_Source();
 
   /**
    * get_piece - Returns a fresh, unused piece
    */
-  virtual const Scrabble_Piece* get_piece() const = 0;
+  virtual const Scrabble_Piece* get_piece();
+
+  /**
+   * get_piece - Returns a fresh, unused piece with a specific value
+   */
+  virtual const Scrabble_Piece* get_piece(char value);
 
   /**
    * is_empty - Returns true if this source has run out of pieces
    */
-  virtual bool is_empty() const = 0;
+  virtual bool is_empty() const { return m_curr_idx == m_source.size(); }
+
+  /**
+   * is_full - Returns true if this source has all its pieces
+   */
+  virtual bool is_full() const { return m_curr_idx == 0; }
 
  protected:
+
+  //////////////////////////////////////////////////////////////////////////////
+  ////////////////////////// FORBIDDEN METHODS /////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  Piece_Source(const Piece_Source&) = delete;
+  Piece_Source& operator=(const Piece_Source&) = delete;
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////// DATA MEMBERS ///////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   const Scrabble_Game& m_parent;
+
+  // m_source - The vector of piece objects
+  std::vector<const Scrabble_Piece*> m_source;
+
+  // m_curr_idx - The index of the next piece to be returned.
+  unsigned m_curr_idx;
+
 };
 
 #endif

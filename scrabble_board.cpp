@@ -2,6 +2,7 @@
 #include "scrabble_square.hpp"
 
 #include <iomanip>
+#include <sstream>
 #include <set>
 
 using namespace std;
@@ -151,6 +152,41 @@ ostream& Scrabble_Board::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+istream& Scrabble_Board::operator>>(istream& in)
+////////////////////////////////////////////////////////////////////////////////
+{
+  std::string line;
+  const unsigned dim = get_board_dim();
+
+  getline(in, line); // skip headers
+  getline(in, line); // skip hashes
+
+  for (unsigned row = 0; row < dim; ++row) {
+    std::string curr_cell = "";
+    getline(in, line); // read row
+    unsigned col = 0;
+    for (unsigned i = 4; i < line.size(); ++i) {
+      if (line[i] == '|') {
+        unsigned blanks = std::count(curr_cell.begin(), curr_cell.end(), ' ');
+        if (blanks != curr_cell.size()) {
+          std::istringstream iss(curr_cell);
+          iss >> m_board[row][col];
+        }
+        curr_cell = "";
+        ++col;
+      }
+      else {
+        curr_cell += line[i];
+      }
+    }
+
+    getline(in, line); // skip hashes
+  }
+
+  return in;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 bool Scrabble_Board::is_free(unsigned row, unsigned col) const
 ////////////////////////////////////////////////////////////////////////////////
 {
@@ -197,13 +233,6 @@ std::vector<Board_Loc> Scrabble_Board::get_adjacent(unsigned row,
   }
 
   return adjacent_squares;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-ostream& operator<<(ostream& out, const Scrabble_Board& sb)
-////////////////////////////////////////////////////////////////////////////////
-{
-  return sb.operator<<(out);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -287,4 +316,18 @@ bool Scrabble_Board::is_unconstrained(unsigned row, unsigned col) const
 
   //a square is "unconstrained" if it is empty and is not adjacent to any square with a piece on it
   return (is_free(row, col) && !is_adjacent(row, col));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+ostream& operator<<(ostream& out, const Scrabble_Board& sb)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return sb.operator<<(out);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+std::istream& operator>>(std::istream& in, Scrabble_Board& sb)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return sb.operator>>(in);
 }
