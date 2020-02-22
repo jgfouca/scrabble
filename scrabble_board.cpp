@@ -152,7 +152,7 @@ ostream& Scrabble_Board::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-istream& Scrabble_Board::operator>>(istream& in) const
+istream& Scrabble_Board::operator>>(istream& in)
 ////////////////////////////////////////////////////////////////////////////////
 {
   std::string line;
@@ -166,7 +166,7 @@ istream& Scrabble_Board::operator>>(istream& in) const
     getline(in, line); // read row
     unsigned col = 0;
     for (unsigned i = 4; i < line.size(); ++i) {
-      if (line[i] == "|") {
+      if (line[i] == '|') {
         unsigned blanks = std::count(curr_cell.begin(), curr_cell.end(), ' ');
         if (blanks != curr_cell.size()) {
           std::istringstream iss(curr_cell);
@@ -182,6 +182,8 @@ istream& Scrabble_Board::operator>>(istream& in) const
 
     getline(in, line); // skip hashes
   }
+
+  return in;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

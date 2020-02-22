@@ -74,6 +74,8 @@ void Scrabble_Facade::load(PyObject* py,
 
   Scrabble_Config config(in, output, py);
 
+  srand(random_seed);
+
   auto game = create_game(config);
   game->load(in);
 

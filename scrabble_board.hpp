@@ -148,7 +148,7 @@ class Scrabble_Board
   /**
    * operator>> - read in board state
    */
-  std::istream& operator>>(std::istream& in) const;
+  std::istream& operator>>(std::istream& in);
 
  private: // ================ PRIVATE INTERFACE ================================
 

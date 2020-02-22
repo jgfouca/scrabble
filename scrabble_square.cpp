@@ -74,10 +74,10 @@ ostream& Scrabble_Square::operator<<(ostream& out) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-istream& Scrabble_Square::operator>>(istream& in) const
+istream& Scrabble_Square::operator>>(istream& in)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  auto& piece_source = m_parent->get_piece_source();
+  auto& piece_source = const_cast<Scrabble_Game*>(m_parent)->get_piece_source();
   constexpr unsigned width_without_sep = OUTPUT_LEN - 1;
 
   std::string line;
@@ -112,7 +112,7 @@ istream& Scrabble_Square::operator>>(istream& in) const
     set_bonus(bonus);
   }
   else {
-    my_assert_msg(false, std::string("Could not recognize square: ") + line);
+    my_static_assert(false, std::string("Could not recognize square: ") + line);
   }
 }
 
@@ -168,19 +168,19 @@ istream& operator>>(istream& in, Bonus& b)
   }
 
   if (bonus_str == "   ") {
-    return NONE;
+    b = NONE;
   }
   else if (bonus_str == "b2l") {
-    return DBL_LET;
+    b = DBL_LET;
   }
   else if (bonus_str == "b3l") {
-    return TRP_LET;
+    b = TRP_LET;
   }
   else if (bonus_str == "b2w") {
-    return DBL_WRD;
+    b = DBL_WRD;
   }
   else if (bonus_str == "b3w") {
-    return TRP_WRD;
+    b = TRP_WRD;
   }
   else {
     my_static_assert(false, std::string("Unrecognized bonus string: ") + bonus_str );
