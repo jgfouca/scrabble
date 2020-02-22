@@ -230,9 +230,9 @@ class Scrabble_Game
   bool                     m_game_over;
 
   // buffers for talking to python
-  unsigned m_row_buff[64];
-  unsigned m_col_buff[64];
-  char     m_let_buff[128];
+  unsigned m_row_buff[256];
+  unsigned m_col_buff[256];
+  char     m_let_buff[256];
 
   //////////////////////////////////////////////////////////////////////////////
   /////////////////////////////// FRIENDS //////////////////////////////////////

@@ -128,10 +128,6 @@ Scrabble_Config::Scrabble_Config(std::istream& in, Output_Type output, PyObject*
   my_require(rv == 1, "Bad num pieces format");
 
   getline(in, line);
-  rv = sscanf(line.c_str(), "num pieces: %d", &m_num_player_pieces);
-  my_require(rv == 1, "Bad num pieces format");
-
-  getline(in, line);
   rv = sscanf(line.c_str(), "board type: %d", &m_board_type);
   my_require(rv == 1, "Bad board type format");
 

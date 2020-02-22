@@ -83,7 +83,7 @@ istream& Scrabble_Square::operator>>(istream& in)
   std::string line;
   for (unsigned i = 0; i < width_without_sep; ++i) {
     char c;
-    in >> c;
+    in.read(&c, 1);
     line += c;
   }
 
@@ -109,11 +109,13 @@ istream& Scrabble_Square::operator>>(istream& in)
     std::string bonus_str = line.substr(1, 3);
     istringstream iss(bonus_str);
     iss >> bonus;
-    set_bonus(bonus);
+    //set_bonus(bonus); // should already be set by builder
   }
   else {
     my_static_assert(false, std::string("Could not recognize square: ") + line);
   }
+
+  return in;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

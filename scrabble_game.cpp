@@ -65,11 +65,12 @@ void Scrabble_Game::play()
     unsigned count = 0;
     for (unsigned i = 0; i < dim; ++i) {
       for (unsigned j = 0; j < dim; ++j) {
-        const Bonus bonus = m_game_board->get_square(i, j).get_bonus();
-        if (bonus != NONE) {
+        const auto square = m_game_board->get_square(i, j);
+        const Bonus bonus = square.get_bonus();
+        if (bonus != NONE || !square.is_free()) {
           m_row_buff[count] = i;
           m_col_buff[count] = j;
-          m_let_buff[count] = static_cast<char>(bonus);
+          m_let_buff[count] = !square.is_free() ? square.get_piece()->get_letter() : static_cast<char>(bonus);
           ++count;
         }
       }
@@ -122,7 +123,7 @@ void Scrabble_Game::play()
             cout << err_str << endl;
           }
           else if (output == GUI && player.is_human()) {
-            my_require(err_str.size() < 128, "Too big");
+            my_require(err_str.size() < 256, "Too big");
             for (unsigned e = 0; e < err_str.size(); ++e) {
               m_let_buff[e] = err_str[e];
             }
