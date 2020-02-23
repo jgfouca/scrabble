@@ -105,8 +105,7 @@ Scrabble_Config::Scrabble_Config(std::istream& in, Output_Type output, PyObject*
   istringstream iss(line);
   for (unsigned i = 0; i < m_num_players; ++i) {
     int tmp;
-    char skip;
-    iss >> tmp >> skip;
+    iss >> tmp;
     Player_Type t = static_cast<Player_Type>(tmp);
     m_player_types.push_back(t);
   }

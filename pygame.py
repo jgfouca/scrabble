@@ -326,8 +326,13 @@ class PyScrabbleGame(tk.Frame):
         with self._lock:
             for row, col, letter in zip(rows, cols, letters):
                 self._board[col][row].set_text(letter)
-                self._board[col][row].set_color(TILE_COLOR)
+                self._board[col][row].set_color(HINT_COLOR)
                 self._board[col][row].finalize()
+
+            time.sleep(1)
+
+            for row, col in zip(rows[0:len(letters)], cols[0:len(letters)]):
+                self._board[col][row].set_color(TILE_COLOR)
 
             self.score_and_rotate(score)
 
@@ -573,6 +578,9 @@ Clicking a played letter will return it to your tray (unless it's from
 a previous play).
 If you play a wildcard tile ("-") the next keystroke will fill it with a value.
 If you have a tile in your hand, the cursor will be altered (to a square).
+
+Players and scores will be shown in the upper right corner. The player whose turn
+it is will appear in green.
 
 You can save your progress at anytime by clicking SAVE and entering a filename.
 This saved game can be resumed by using the --load option the next time you
