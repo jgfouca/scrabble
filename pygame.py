@@ -13,14 +13,14 @@ if platform.system() == "Darwin":
 else:
     from tkinter import Button
 
-from utils import cstr_to_letters, cstr_to_ints, expect, to_cstr, tyn
+from utils import cstr_to_str, cstr_to_ints, expect, to_cstr, tyn
 
 # Globals
 
 GAME = None
 
 # Events, must match GUI_Event enum from C++
-TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE = range(8)
+TILES, AI_PLAY, GAME_INIT, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE = range(9)
 
 # Bonusses, must match Bonus enum from C++
 BNONE, DBL_LET, TRP_LET, DBL_WRD, TRP_WRD = range(5)
@@ -104,12 +104,37 @@ class ScrabbleButton(Button):
 class ScrabbleLabel(tk.Label):
 ###############################################################################
 
-    def __init__(self, root, text):
+    def __init__(self, root, text, xloc, yloc):
         super().__init__(root, text=text, font=("TkDefaultFont", 20))
+        self._xloc = xloc
+        self._yloc = yloc
+        self.place()
 
-    def place(self, xslot, yslot):
-        super().place(x=(BUTTON_SIZE*xslot),
-                      y=(BUTTON_SIZE*yslot + BUTTON_SIZE/3)) # want text to appear in middle of tile
+    def place(self):
+        super().place(x=(BUTTON_SIZE*self._xloc),
+                      y=(BUTTON_SIZE*self._yloc + BUTTON_SIZE/3)) # want text to appear in middle of tile
+
+###############################################################################
+class PlayerLabel(ScrabbleLabel):
+###############################################################################
+
+    def __init__(self, root, xloc, yloc, name, score):
+        self._player_name  = name
+        self._score = score
+        super().__init__(root, self.generate_text(), xloc, yloc)
+
+    def change_score(self, delta):
+        self._score += delta
+        self["text"] = self.generate_text()
+
+    def generate_text(self):
+        return "{} : {}".format(self._player_name, self._score)
+
+    def activate(self):
+        self["fg"] = "green"
+
+    def deactivate(self):
+        self["fg"] = "black"
 
 ###############################################################################
 class BoardTile(ScrabbleButton):
@@ -187,9 +212,11 @@ class PyScrabbleGame(tk.Frame):
 
     def __init__(self, dim):
         self._root = tk.Tk()
-        self._root.geometry("{}x{}".format(BUTTON_SIZE * dim, BUTTON_SIZE * (dim+2)))
+        self._root.geometry("{}x{}".format(BUTTON_SIZE * (dim+2), BUTTON_SIZE * (dim+2)))
 
         super().__init__(self._root)
+
+        self._dim = dim
 
         # changing the title of our root widget
         self._root.title("SCRABBLE/WWF")
@@ -211,8 +238,7 @@ class PyScrabbleGame(tk.Frame):
 
         self._active_tile = None
 
-        self._tile_label = ScrabbleLabel(self, "Tiles:")
-        self._tile_label.place(offset-1, dim)
+        self._tile_label = ScrabbleLabel(self, "Tiles:", offset-1, dim)
 
         self._playbut = ActionButton(self, partial(self.make_play), "PLAY", int(dim / 2), dim + 1)
         self._playbut["bg"] = "gold"
@@ -249,6 +275,8 @@ class PyScrabbleGame(tk.Frame):
 
         self._default_cursor = self._root["cursor"]
 
+        self._players = []
+
     def error_popup(self, msg):
         print("ERROR: {}".format(msg))
         popup = tk.Tk()
@@ -281,21 +309,40 @@ class PyScrabbleGame(tk.Frame):
             self._active_tile = None
             self._root["cursor"] = self._default_cursor
 
+    def score_and_rotate(self, score):
+        self._players[0].change_score(score)
+
+        if (len(self._players) > 1):
+            active_player = self._players.pop(0)
+            active_player.deactivate()
+            self._players.append(active_player)
+            self._players[0].activate()
+
     #
     # C++ events
     #
 
-    def play_event(self, rows, cols, letters):
-        print("play_event")
+    def ai_play_event(self, score, rows, cols, letters):
         with self._lock:
             for row, col, letter in zip(rows, cols, letters):
                 self._board[col][row].set_text(letter)
                 self._board[col][row].set_color(TILE_COLOR)
+                self._board[col][row].finalize()
+
+            self.score_and_rotate(score)
 
     def tiles_event(self, num, letters):
         with self._lock:
             for i in range(NUM_PLAYER_TILES):
                 self._tiles[i].set_text(letters[i] if i < num else "")
+
+    def game_init_event(self, player_names, player_scores):
+        row = 0
+        for player_name, player_score in zip(player_names, player_scores):
+            self._players.append(PlayerLabel(self._root, self._dim, row, player_name, player_score))
+            row += 1
+
+        self._players[0].activate()
 
     def board_init_event(self, rows, cols, bonusses):
         with self._lock:
@@ -333,15 +380,17 @@ class PyScrabbleGame(tk.Frame):
             else:
                 return False
 
-    def confirm_play_event(self, success, err_msg):
+    def confirm_play_event(self, success, score, err_msg):
         with self._lock:
-            if success == 0:
+            if success:
                 # if play accepted, finalize
                 for board in self._play:
                     board.finalize()
 
                 self._play = []
                 self._play_cmd = None
+
+                self.score_and_rotate(score)
 
             else:
                 self.error_popup(err_msg)
@@ -567,14 +616,32 @@ the highest-point play in teal.
                     break
 
 ###############################################################################
-def play_callback(play_size, play_rows, play_cols, play_letters):
+def ai_play_callback(play_size, play_rows, play_cols, play_letters):
 ###############################################################################
-    GAME.play_event(play_rows, play_cols, cstr_to_letters(play_letters, play_size))
+    GAME.ai_play_event(play_rows[play_size], play_rows, play_cols, cstr_to_str(play_letters, play_size))
 
 ###############################################################################
 def tiles_callback(num_tiles, tile_letters):
 ###############################################################################
-    GAME.tiles_event(num_tiles, cstr_to_letters(tile_letters, num_tiles))
+    GAME.tiles_event(num_tiles, cstr_to_str(tile_letters, num_tiles))
+
+###############################################################################
+def game_init_callback(num_players, player_scores, player_name_sizes, player_names_c):
+###############################################################################
+    name_data_size = 0
+    for i in range(num_players):
+        name_data_size += player_name_sizes[i]
+
+    player_names_py = cstr_to_str(player_names_c, name_data_size)
+
+    player_names = []
+    curr_idx = 0
+    for i in range(num_players):
+        curr_size = player_name_sizes[i]
+        player_names.append(player_names_py[curr_idx:curr_idx+curr_size])
+        curr_idx += curr_size
+
+    GAME.game_init_event(player_names, player_scores)
 
 ###############################################################################
 def board_init_callback(num_bonus, bonus_rows, bonus_cols, bonus_types):
@@ -597,31 +664,32 @@ def check_save_callback(size_buffer, filename_buffer):
     return GAME.check_save_event(size_buffer, filename_buffer)
 
 ###############################################################################
-def confirm_play_callback(success, error_msg_bytes):
+def confirm_play_callback(error_size, score, error_msg_bytes):
 ###############################################################################
-    error_msg_bytes = error_msg_bytes[0:success]
-    GAME.confirm_play_event(success, error_msg_bytes.decode("utf-8"))
+    GAME.confirm_play_event(error_size == 0, score, cstr_to_str(error_msg_bytes, error_size))
 
 ###############################################################################
 def give_hint_callback(play_size, play_rows, play_cols, play_letters):
 ###############################################################################
-    GAME.hint_event(play_rows, play_cols, cstr_to_letters(play_letters, play_size))
+    GAME.hint_event(play_rows, play_cols, cstr_to_str(play_letters, play_size))
 
 ###############################################################################
 def callback_func(event, play_size, play_rows, play_cols, play_letters):
 ###############################################################################
     success = True
     try:
-        if event == PLAY:
-            play_callback(play_size, play_rows, play_cols, play_letters)
+        if event == AI_PLAY:
+            ai_play_callback(play_size, play_rows, play_cols, play_letters)
         elif event == TILES:
             tiles_callback(play_size, play_letters)
+        elif event == GAME_INIT:
+            game_init_callback(play_size, play_rows, play_cols, play_letters)
         elif event == BOARD_INIT:
             board_init_callback(play_size, play_rows, play_cols, play_letters)
         elif event == CHECK_PLAY:
             success = check_play_callback(play_rows, play_letters)
         elif event == CONFIRM_PLAY:
-            confirm_play_callback(play_size, play_letters)
+            confirm_play_callback(play_size, play_rows[0], play_letters)
         elif event == CHECK_HINT:
             success = check_hint_callback(play_rows, play_letters)
         elif event == CHECK_SAVE:

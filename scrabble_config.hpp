@@ -14,7 +14,7 @@ enum Board_Type {STANDARD_BOARD, WWF_BOARD, WWF_SOLO_BOARD};
 enum Player_Type {HUMAN, AI};
 enum Piece_Source_Type {STANDARD_SOURCE, WWF_SOURCE};
 enum Output_Type {TEXT, GUI, EXPERIMENT};
-enum GUI_Event {TILES, PLAY, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE};
+enum GUI_Event {TILES, AI_PLAY, GAME_INIT, BOARD_INIT, CHECK_PLAY, CONFIRM_PLAY, CHECK_HINT, GIVE_HINT, CHECK_SAVE};
 
 /**
  * This class encapsulates everything that is configurable in this program.

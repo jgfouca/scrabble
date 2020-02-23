@@ -61,22 +61,42 @@ void Scrabble_Game::play()
   const Output_Type output = m_config.OUTPUT();
 
   if (output == GUI) {
-    const unsigned dim = m_game_board->get_board_dim();
-    unsigned count = 0;
-    for (unsigned i = 0; i < dim; ++i) {
-      for (unsigned j = 0; j < dim; ++j) {
-        const auto square = m_game_board->get_square(i, j);
-        const Bonus bonus = square.get_bonus();
-        if (bonus != NONE || !square.is_free()) {
-          m_row_buff[count] = i;
-          m_col_buff[count] = j;
-          m_let_buff[count] = !square.is_free() ? square.get_piece()->get_letter() : static_cast<char>(bonus);
-          ++count;
+    // Initialize GUI players
+    {
+      unsigned count = 0, name_count = 0;
+      for (auto player : m_players) {
+        const auto& name = player->get_name();
+        const auto name_size = name.size();
+
+        m_row_buff[count] = player->get_score();
+        m_col_buff[count] = name_size;
+        std::copy(name.begin(), name.end(), &m_let_buff[name_count]);
+        name_count += name_size;
+        ++count;
+      }
+      bool worked = m_config.PY_CALLBACK()(GAME_INIT, m_players.size(), m_row_buff, m_col_buff, m_let_buff);
+      my_static_assert(worked, "GUI failure");
+    }
+
+    // Initialize GUI board
+    {
+      const unsigned dim = m_game_board->get_board_dim();
+      unsigned count = 0;
+      for (unsigned i = 0; i < dim; ++i) {
+        for (unsigned j = 0; j < dim; ++j) {
+          const auto square = m_game_board->get_square(i, j);
+          const Bonus bonus = square.get_bonus();
+          if (bonus != NONE || !square.is_free()) {
+            m_row_buff[count] = i;
+            m_col_buff[count] = j;
+            m_let_buff[count] = !square.is_free() ? square.get_piece()->get_letter() : static_cast<char>(bonus);
+            ++count;
+          }
         }
       }
+      bool worked = m_config.PY_CALLBACK()(BOARD_INIT, count, m_row_buff, m_col_buff, m_let_buff);
+      my_static_assert(worked, "GUI failure");
     }
-    bool worked = m_config.PY_CALLBACK()(BOARD_INIT, count, m_row_buff, m_col_buff, m_let_buff);
-    my_static_assert(worked, "GUI failure");
   }
 
   //continue having players make plays until the game is over
@@ -91,7 +111,7 @@ void Scrabble_Game::play()
       if (output == TEXT) {
         cout << *this << endl;
       }
-      else if (output == GUI) {
+      else if (output == GUI && player.is_human()) {
         for (unsigned p = 0; p < player.get_num_pieces(); ++p) {
           m_let_buff[p] = player.observe_piece(p)->get_letter();
         }
@@ -113,6 +133,7 @@ void Scrabble_Game::play()
           //play was legit, process it
           process_legit_play(this_play, &player);
           if (output == GUI && player.is_human()) {
+            m_row_buff[0] = m_potential_score;
             bool worked = m_config.PY_CALLBACK()(CONFIRM_PLAY, 0, m_row_buff, m_col_buff, m_let_buff);
             my_static_assert(worked, "GUI failure");
           }
@@ -333,7 +354,8 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
         m_col_buff[i] = the_play.get_ith_col(i);
         m_let_buff[i] = the_play.get_ith_piece(i)->get_letter();
       }
-      bool worked = m_config.PY_CALLBACK()(PLAY, num_played_letters, m_row_buff, m_col_buff, m_let_buff);
+      m_row_buff[num_played_letters] = m_potential_score;
+      bool worked = m_config.PY_CALLBACK()(AI_PLAY, num_played_letters, m_row_buff, m_col_buff, m_let_buff);
       my_static_assert(worked, "GUI failure");
     }
   }
