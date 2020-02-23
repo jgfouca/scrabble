@@ -145,7 +145,7 @@ class BoardTile(ScrabbleButton):
     def finalize(self):
         if self._tile:
             self._tile  = None
-            ScrabbleButton._fixed = True
+            self._fixed = True
 
 ###############################################################################
 class PlayerTile(ScrabbleButton):
@@ -247,6 +247,8 @@ class PyScrabbleGame(tk.Frame):
 
         self._root.bind("<KeyPress>", self.key_press_event)
 
+        self._default_cursor = self._root["cursor"]
+
     def error_popup(self, msg):
         print("ERROR: {}".format(msg))
         popup = tk.Tk()
@@ -268,6 +270,16 @@ class PyScrabbleGame(tk.Frame):
                 result += tile["text"]
 
         return result
+
+    def pickup_tile(self, tile):
+        expect(not self._active_tile, "Already had tile?")
+        self._active_tile = tile
+        self._root["cursor"] = "dotbox red3 red3"
+
+    def drop_tile(self):
+        if self._active_tile:
+            self._active_tile = None
+            self._root["cursor"] = self._default_cursor
 
     #
     # C++ events
@@ -384,7 +396,7 @@ class PyScrabbleGame(tk.Frame):
                 if (not board.has_tile() and not board.is_fixed()):
                     board.play_tile(self._active_tile)
                     self._play.append(board)
-                    self._active_tile = None
+                    self.drop_tile()
 
             elif board.has_tile():
                 tile = board.pop_tile()
@@ -398,14 +410,13 @@ class PyScrabbleGame(tk.Frame):
                 print("tile [{}] was clicked".format(i))
                 if self._active_tile:
                     self._active_tile.swap(self._tiles[i])
-                    self._active_tile = None
+                    self.drop_tile()
                 else:
-                    self._active_tile = self._tiles[i]
+                    self.pickup_tile(self._tiles[i])
 
     def toggle_god(self):
         with self._lock:
-            if self._active_tile:
-                self._active_tile = None
+            self.drop_tile()
 
             self._god_mode = not self._god_mode
             print("god button clicked, god mode now {}".format(self._god_mode))
@@ -421,8 +432,7 @@ class PyScrabbleGame(tk.Frame):
 
     def request_hint(self):
         with self._lock:
-            if self._active_tile:
-                self._active_tile = None
+            self.drop_tile()
 
             if self._god_mode:
                 if self._play:
@@ -431,21 +441,20 @@ class PyScrabbleGame(tk.Frame):
                     self._wants_hint = True
 
     def tray_click_event(self):
-        if self._active_tile:
-            self._active_tile = None
+        with self._lock:
+            self.drop_tile()
 
-        if self._god_mode:
-            if self._traybut_idx == -1:
-                self._traybut_idx = 0
-            else:
-                self._traybut_idx = -1
+            if self._god_mode:
+                if self._traybut_idx == -1:
+                    self._traybut_idx = 0
+                else:
+                    self._traybut_idx = -1
 
-            self._traybut.invert()
+                self._traybut.invert()
 
     def make_play(self):
         with self._lock:
-            if self._active_tile:
-                self._active_tile = None
+            self.drop_tile()
 
             self._make_play_impl()
 
@@ -486,6 +495,8 @@ class PyScrabbleGame(tk.Frame):
             print("PLAY IS '{}'".format(self._play_cmd))
 
     def save_event(self):
+        self.drop_tile()
+
         popup = tk.Tk()
         popup.wm_title("Save")
         label = tk.Label(popup, text="Enter filename:")
@@ -501,17 +512,9 @@ class PyScrabbleGame(tk.Frame):
         print("SAVE request for file: {}".format(self._save_request))
         popup.destroy()
 
-    def error_popup(self, msg):
-        print("ERROR: {}".format(msg))
-        popup = tk.Tk()
-        popup.wm_title("Error")
-        label = tk.Label(popup, text=msg)
-        label.pack(side="top", fill="x", pady=10)
-        B1 = tk.Button(popup, text="Okay", command=popup.destroy)
-        B1.pack()
-        popup.mainloop()
-
     def help_event(self):
+        self.drop_tile()
+
         popup = tk.Tk()
         popup.wm_title("Help")
         helpmsg = \
@@ -520,6 +523,7 @@ Click-and-drag letters into place. Click "PLAY" when word is complete.
 Clicking a played letter will return it to your tray (unless it's from
 a previous play).
 If you play a wildcard tile ("-") the next keystroke will fill it with a value.
+If you have a tile in your hand, the cursor will be altered (to a square).
 
 You can save your progress at anytime by clicking SAVE and entering a filename.
 This saved game can be resumed by using the --load option the next time you
