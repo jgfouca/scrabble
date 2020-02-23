@@ -23,11 +23,22 @@ std::ostream& Scrabble_Piece::operator<<(std::ostream& out) const
     out << "\033[0m";
   }
   else {
-    const char lower = std::tolower(letter);
-    out << (is_wildcard() ? lower : letter);
+    out << get_encoded_letter();
   }
   m_been_output = true;
   return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+char Scrabble_Piece::get_encoded_letter() const
+////////////////////////////////////////////////////////////////////////////////
+{
+  if (is_wildcard() && m_wildcard_choice != '-') {
+    return std::tolower(get_letter());
+  }
+  else {
+    return get_letter();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

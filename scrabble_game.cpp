@@ -89,7 +89,7 @@ void Scrabble_Game::play()
           if (bonus != NONE || !square.is_free()) {
             m_row_buff[count] = i;
             m_col_buff[count] = j;
-            m_let_buff[count] = !square.is_free() ? square.get_piece()->get_letter() : static_cast<char>(bonus);
+            m_let_buff[count] = !square.is_free() ? square.get_piece()->get_encoded_letter() : static_cast<char>(bonus);
             ++count;
           }
         }
@@ -352,7 +352,7 @@ void Scrabble_Game::process_legit_play(const Indv_Play& the_play, Player* player
       for (unsigned i = 0; i < num_played_letters; ++i) {
         m_row_buff[i] = the_play.get_ith_row(i);
         m_col_buff[i] = the_play.get_ith_col(i);
-        m_let_buff[i] = the_play.get_ith_piece(i)->get_letter();
+        m_let_buff[i] = the_play.get_ith_piece(i)->get_encoded_letter();
       }
       m_row_buff[num_played_letters] = m_potential_score;
       bool worked = m_config.PY_CALLBACK()(AI_PLAY, num_played_letters, m_row_buff, m_col_buff, m_let_buff);

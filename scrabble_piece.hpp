@@ -78,6 +78,12 @@ class Scrabble_Piece
   char get_letter() const { return m_wildcard_choice; }
 
   /**
+   * get_encoded_letter - Returns the letter of this piece, using capitalization to
+   *                      encode whether it's a wildcard piece or not.
+   */
+  char get_encoded_letter() const;
+
+  /**
    * get_point_val - Returns the point value of this piece
    */
   unsigned get_point_val() const { return m_point_val; }
