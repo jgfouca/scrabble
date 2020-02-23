@@ -242,6 +242,9 @@ class PyScrabbleGame(tk.Frame):
         self._savebut["bg"] = "purple"
         self._save_request = None
 
+        self._helpbut = ActionButton(self, partial(self.help_event), "HELP", int(dim / 2) - 2, dim + 1)
+        self._helpbut["bg"] = "RosyBrown2"
+
         self._root.bind("<KeyPress>", self.key_press_event)
 
     def error_popup(self, msg):
@@ -497,6 +500,45 @@ class PyScrabbleGame(tk.Frame):
         self._save_request = entry.get()
         print("SAVE request for file: {}".format(self._save_request))
         popup.destroy()
+
+    def error_popup(self, msg):
+        print("ERROR: {}".format(msg))
+        popup = tk.Tk()
+        popup.wm_title("Error")
+        label = tk.Label(popup, text=msg)
+        label.pack(side="top", fill="x", pady=10)
+        B1 = tk.Button(popup, text="Okay", command=popup.destroy)
+        B1.pack()
+        popup.mainloop()
+
+    def help_event(self):
+        popup = tk.Tk()
+        popup.wm_title("Help")
+        helpmsg = \
+"""
+Click-and-drag letters into place. Click "PLAY" when word is complete.
+Clicking a played letter will return it to your tray (unless it's from
+a previous play).
+If you play a wildcard tile ("-") the next keystroke will fill it with a value.
+
+You can save your progress at anytime by clicking SAVE and entering a filename.
+This saved game can be resumed by using the --load option the next time you
+run the program.
+
+God-mode allows the player to perform actions that would not be available
+in a normal scrabble game. Specifically, it allows the player to edit what's
+in their tray by clicking "EDIT TRAY". Any keystrokes that happen after this
+button is clicked will change tray values, from left-to-right, until either
+the end of the tray is reached or the "EDIT TRAY" button is deactivated.
+
+God-mode also allows the player to ask for a HINT, which will briefly display
+the highest-point play in teal.
+"""
+        label = tk.Label(popup, text=helpmsg, justify=tk.LEFT)
+        label.pack(side="top", fill="x", pady=10)
+        B1 = tk.Button(popup, text="Okay", command=popup.destroy)
+        B1.pack()
+        popup.mainloop()
 
     #
     # KeyPress events
