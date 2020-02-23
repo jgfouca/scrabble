@@ -174,10 +174,12 @@ class PlayerTile(ScrabbleButton):
 class ActionButton(ScrabbleButton):
 ###############################################################################
 
-    def __init__(self, root, action, name, xloc, yloc):
+    def __init__(self, root, action, name, xloc, yloc, hide=False):
         super().__init__(root, action, xloc, yloc)
         self["text"] = name
         self.place()
+        if hide:
+            self.place_forget()
 
 ###############################################################################
 class PyScrabbleGame(tk.Frame):
@@ -225,12 +227,14 @@ class PyScrabbleGame(tk.Frame):
 
         self._lock = threading.Lock()
 
-        self._traybut = ActionButton(self, partial(self.tray_click_event), "EDIT\nTRAY", int(dim / 2) + 1, dim + 1)
+        self._traybut = ActionButton(self, partial(self.tray_click_event), "EDIT\nTRAY", int(dim / 2) + 1, dim + 1,
+                                     hide=True)
         self._traybut["bg"] = "black"
         self._traybut["fg"] = TRAYBUT_COLOR
         self._traybut_idx = -1  # -1 -> not active
 
-        self._hintbut = ActionButton(self, partial(self.request_hint), "HINT", int(dim / 2) + 2, dim + 1)
+        self._hintbut = ActionButton(self, partial(self.request_hint), "HINT", int(dim / 2) + 2, dim + 1,
+                                     hide=True)
         self._hintbut["bg"] = HINT_COLOR
         self._wants_hint = False
 
@@ -403,6 +407,14 @@ class PyScrabbleGame(tk.Frame):
             self._god_mode = not self._god_mode
             print("god button clicked, god mode now {}".format(self._god_mode))
             self._godbut.invert()
+            if self._god_mode:
+                # Show god action buttons
+                self._traybut.place()
+                self._hintbut.place()
+            else:
+                # Hide god action buttons
+                self._traybut.place_forget()
+                self._hintbut.place_forget()
 
     def request_hint(self):
         with self._lock:
