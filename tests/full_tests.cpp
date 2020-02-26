@@ -13,6 +13,11 @@
 #include "catch.hpp"
 
 #include <iostream>
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <algorithm>
+#include <sstream>
 
 struct UnitWrap::FullTests
 {
@@ -314,6 +319,54 @@ struct UnitWrap::FullTests
     game->play();
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  static void test_five()
+  /////////////////////////////////////////////////////////////////////////////
+  {
+    // Baseline test
+
+//#define GENERATE_BASELINES
+
+    // Force a specific seed for repeatable results
+    const int force_seed = 84;
+    auto game = Scrabble_Facade::get_test_game(&force_seed);
+
+    my_static_assert(game->m_players.size() > 0, "Game had no players");
+    game->initialize();
+    AI_Player* test_player = dynamic_cast<AI_Player*>(game->m_players[0]);
+    my_static_assert(test_player, "First player needs to be AI for this test");
+
+    static constexpr int moves_to_make = 20;
+    static const std::string output_basename = "test_five.out";
+    static const std::string gold_basename   = "test-files/test_five.gold";
+
+    for (int i = 0; i < moves_to_make; ++i) {
+      const auto& the_play = test_player->play();
+      auto err_msg = game->evaluate_play(the_play);
+      REQUIRE(err_msg == "");
+
+      game->process_legit_play(the_play, test_player);
+
+      std::ostringstream oss;
+#ifdef GENERATE_BASELINES
+      oss << gold_basename << "." << i;
+#else
+      oss << output_basename << "." << i;
+#endif
+      std::string output_filename = oss.str();
+      game->save(output_filename);
+
+#ifndef GENERATE_BASELINES
+      oss.str("");
+      oss.clear();
+
+      oss << gold_basename << "." << i;
+      std::string gold_filename = oss.str();
+
+      REQUIRE(files_equal(output_filename, gold_filename));
+#endif
+    }
+  }
 };
 
 namespace {
@@ -344,6 +397,13 @@ TEST_CASE("test_four", "[full]")
 ////////////////////////////////////////////////////////////////////////////////
 {
   UnitWrap::FullTests::test_four();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("test_five", "[full]")
+////////////////////////////////////////////////////////////////////////////////
+{
+  UnitWrap::FullTests::test_five();
 }
 
 } // empty namespace

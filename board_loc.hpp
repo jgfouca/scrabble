@@ -4,9 +4,9 @@
 #include <iostream>
 
 /**
- * This class represents a position on the board. Since it is easy enough to 
- * work with 2 ints, this class is only used where I was using a pair before. 
- * The main point was to be able to use "row()" and "col()" instead of "first" 
+ * This class represents a position on the board. Since it is easy enough to
+ * work with 2 ints, this class is only used where I was using a pair before.
+ * The main point was to be able to use "row()" and "col()" instead of "first"
  * and "second".
  */
 

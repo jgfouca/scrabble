@@ -55,7 +55,7 @@ struct Scrabble_Facade
                    const Output_Type output);
 
 
-  static std::shared_ptr<Scrabble_Game> get_test_game();
+  static std::shared_ptr<Scrabble_Game> get_test_game(const int* random_seed=nullptr);
 
  private:
 

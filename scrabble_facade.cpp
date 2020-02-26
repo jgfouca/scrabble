@@ -85,14 +85,18 @@ void Scrabble_Facade::load(PyObject* py,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-std::shared_ptr<Scrabble_Game> Scrabble_Facade::get_test_game()
+std::shared_ptr<Scrabble_Game> Scrabble_Facade::get_test_game(const int* random_seed)
 ////////////////////////////////////////////////////////////////////////////////
 {
   // Default config with one AI player
   std::vector<std::string> names = {"testbot"};
   std::vector<Player_Type> types = {AI};
 
-  static Scrabble_Config default_config(types.size(), types, names);
+  Scrabble_Config default_config(types.size(), types, names);
+
+  if (random_seed != nullptr) {
+    srand(*random_seed);
+  }
 
   return create_game(default_config);
 }
