@@ -11,7 +11,7 @@ Standard_Piece_Source::Standard_Piece_Source(const Scrabble_Game& parent)
 ////////////////////////////////////////////////////////////////////////////////
 {
   m_source.reserve(100);
-  const auto& scr_pm = Scrabble_Point_Map::instance();
+  const auto& scr_pm = get_point_map();
 
   //create and add the pieces to the vector
   for (unsigned i = 12; i > 0; i--) {
@@ -70,4 +70,11 @@ Standard_Piece_Source::Standard_Piece_Source(const Scrabble_Game& parent)
       m_source[i] = tmp;
     }
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+const Point_Map& Standard_Piece_Source::get_point_map() const
+////////////////////////////////////////////////////////////////////////////////
+{
+  return Scrabble_Point_Map::instance();
 }

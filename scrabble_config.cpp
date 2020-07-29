@@ -82,12 +82,12 @@ Scrabble_Config::Scrabble_Config(std::istream& in, Output_Type output, PyObject*
   m_num_player_pieces(),
   m_board_type(),
   m_output(output),
-  m_color_output(),
-  m_clear_screen_before_output(),
+  m_color_output(true),
+  m_clear_screen_before_output(true),
   m_dictionary(),
   m_piece_source_type(),
-  m_max_num_log_msgs_to_displ(),
-  m_constrained_square_limit(),
+  m_max_num_log_msgs_to_displ(10),
+  m_constrained_square_limit(3),
   m_py(py)
 ////////////////////////////////////////////////////////////////////////////////
 {

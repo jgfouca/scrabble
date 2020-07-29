@@ -50,16 +50,23 @@ struct Scrabble_Facade
    * load - Loads and resumes a game by file
    */
   static void load(PyObject* py,
-                   const std::string& load_game,
+                   const std::string& save_path,
                    const int random_seed,
                    const Output_Type output);
 
 
   static std::shared_ptr<Scrabble_Game> get_test_game(const int* random_seed=nullptr);
 
+  static std::shared_ptr<Scrabble_Game> load_test_game(const std::string& save_path, const int* random_seed=nullptr);
+
  private:
 
   static std::shared_ptr<Scrabble_Game> create_game(const Scrabble_Config& config);
+
+  static std::shared_ptr<Scrabble_Game> load_game(const std::string& save_path,
+                                                  PyObject* py = nullptr,
+                                                  const int* random_seed=nullptr,
+                                                  const Output_Type=TEXT);
 };
 
 #endif
