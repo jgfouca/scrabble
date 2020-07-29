@@ -8,6 +8,7 @@
 #include <vector>
 
 class Scrabble_Game;
+class Point_Map;
 
 /**
  * This class implements a piece source that you'd expect in a wwf scrabble
@@ -38,6 +39,8 @@ class Wwf_Piece_Source : public Piece_Source
    * Constructor - Populates the piece source
    */
   Wwf_Piece_Source(const Scrabble_Game& parent);
+
+  virtual const Point_Map& get_point_map() const;
 
  private: // ================ PRIVATE INTERFACE ================================
 

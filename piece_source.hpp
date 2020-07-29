@@ -4,6 +4,7 @@
 #include "scrabble_piece.hpp"
 
 class Scrabble_Game;
+class Point_Map;
 
 /**
  * This abstract class defines the interface that needs to be supported by any
@@ -31,7 +32,7 @@ class Piece_Source
   /**
    * get_piece - Returns a fresh, unused piece with a specific value
    */
-  virtual const Scrabble_Piece* get_piece(char value);
+  virtual const Scrabble_Piece* get_piece(char value, bool tolerate_overflow=false);
 
   /**
    * is_empty - Returns true if this source has run out of pieces
@@ -42,6 +43,11 @@ class Piece_Source
    * is_full - Returns true if this source has all its pieces
    */
   virtual bool is_full() const { return m_curr_idx == 0; }
+
+  /**
+   * get_point_map - Returns the point map used by this source
+   */
+  virtual const Point_Map& get_point_map() const = 0;
 
  protected:
 

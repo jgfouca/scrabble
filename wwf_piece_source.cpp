@@ -12,7 +12,7 @@ Wwf_Piece_Source::Wwf_Piece_Source(const Scrabble_Game& parent)
 ////////////////////////////////////////////////////////////////////////////////
 {
   m_source.reserve(104);
-  const auto& wwf_pm = Wwf_Point_Map::instance();
+  const auto& wwf_pm = get_point_map();
 
   //create and add the pieces to the vector
   for (unsigned i = 13; i > 0; i--) {
@@ -75,4 +75,11 @@ Wwf_Piece_Source::Wwf_Piece_Source(const Scrabble_Game& parent)
       m_source[i] = tmp;
     }
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+const Point_Map& Wwf_Piece_Source::get_point_map() const
+////////////////////////////////////////////////////////////////////////////////
+{
+  return Wwf_Point_Map::instance();
 }

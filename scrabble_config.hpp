@@ -27,7 +27,7 @@ class Scrabble_Config
 {
  public:
 
-  Scrabble_Config(std::istream& in, Output_Type output, PyObject* py);
+  Scrabble_Config(std::istream& in, Output_Type output, PyObject* py = nullptr);
 
   Scrabble_Config(unsigned num_players,
                   const std::vector<Player_Type>& player_types,

@@ -8,6 +8,7 @@
 #include <vector>
 
 class Scrabble_Game;
+class Point_Map;
 
 /**
  * This class implements a piece source that you'd expect in a standard scrabble
@@ -35,6 +36,8 @@ class Standard_Piece_Source : public Piece_Source
    * Constructor - Populates the piece source
    */
   Standard_Piece_Source(const Scrabble_Game& parent);
+
+  virtual const Point_Map& get_point_map() const;
 
  private: // ================ PRIVATE INTERFACE ================================
 

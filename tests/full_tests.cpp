@@ -323,6 +323,22 @@ struct UnitWrap::FullTests
   static void test_five()
   /////////////////////////////////////////////////////////////////////////////
   {
+    // Test that loading works, even if there's a letter imbalance due to
+    // players using admin mode to cheat.
+
+    const std::string save_dir = "saves";
+    std::vector<std::string> saves_to_test = {"ella1", "holly1", "piece_overflow"};
+
+    for (auto save_to_test : saves_to_test) {
+      std::string save_path = save_dir + "/" + save_to_test;
+      auto game = Scrabble_Facade::load_test_game(save_path);
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  static void test_six()
+  /////////////////////////////////////////////////////////////////////////////
+  {
     // Baseline test
 
 //#define GENERATE_BASELINES
@@ -404,6 +420,13 @@ TEST_CASE("test_five", "[full]")
 ////////////////////////////////////////////////////////////////////////////////
 {
   UnitWrap::FullTests::test_five();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("test_six", "[full]")
+////////////////////////////////////////////////////////////////////////////////
+{
+  UnitWrap::FullTests::test_six();
 }
 
 } // empty namespace

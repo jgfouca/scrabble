@@ -64,23 +64,12 @@ void Scrabble_Facade::play(PyObject* py,
 
 ////////////////////////////////////////////////////////////////////////////////
 void Scrabble_Facade::load(PyObject* py,
-                           const std::string& load_game,
+                           const std::string& save_path,
                            const int random_seed,
                            const Output_Type output)
 ////////////////////////////////////////////////////////////////////////////////
 {
-  ifstream in(load_game);
-  my_require(in.is_open(), std::string("Failed to load file ") + load_game);
-
-  Scrabble_Config config(in, output, py);
-
-  srand(random_seed);
-
-  auto game = create_game(config);
-  game->load(in);
-
-  in.close();
-
+  auto game = load_game(save_path, py, &random_seed, output);
   game->play();
 }
 
@@ -99,6 +88,13 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::get_test_game(const int* random_
   }
 
   return create_game(default_config);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+std::shared_ptr<Scrabble_Game> Scrabble_Facade::load_test_game(const std::string& save_path, const int* random_seed)
+////////////////////////////////////////////////////////////////////////////////
+{
+  return load_game(save_path, nullptr, random_seed, TEXT);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,6 +152,30 @@ std::shared_ptr<Scrabble_Game> Scrabble_Facade::create_game(const Scrabble_Confi
   }
 
   return std::shared_ptr<Scrabble_Game>(builder.get_game());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+std::shared_ptr<Scrabble_Game> Scrabble_Facade::load_game(const std::string& save_path,
+                                                          PyObject* py,
+                                                          const int* random_seed,
+                                                          const Output_Type output)
+////////////////////////////////////////////////////////////////////////////////
+{
+  ifstream in(save_path);
+  my_require(in.is_open(), std::string("Failed to load file ") + save_path);
+
+  Scrabble_Config config(in, output, py);
+
+  if (random_seed != nullptr) {
+    srand(*random_seed);
+  }
+
+  auto game = create_game(config);
+  game->load(in);
+
+  in.close();
+
+  return game;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

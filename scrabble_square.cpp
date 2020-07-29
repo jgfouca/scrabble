@@ -100,7 +100,10 @@ istream& Scrabble_Square::operator>>(istream& in)
       add_piece(piece);
     }
     else {
-      add_piece(piece_source.get_piece(piece_val));
+      // We need to tolerate overflow here since the user could have used
+      // admin more to create words with more letters of type X than exist
+      // in the piece source.
+      add_piece(piece_source.get_piece(piece_val, true /*tolerate_overflow*/));
     }
   }
   else if (blanks == width_without_sep - 3) {

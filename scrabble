@@ -129,7 +129,7 @@ The supported modes are:
 ###############################################################################
 def _play_driver(load, game, players, ais, dictionary, board, tileset, random_seed, gui):
 ###############################################################################
-    clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "libscrabble.so")
+    clib = ctypes.CDLL("libscrabble.dylib" if platform.system() == "Darwin" else "./libscrabble.so")
 
     callback_type = ctypes.CFUNCTYPE(ctypes.c_bool, # return
                                      ctypes.c_uint,
