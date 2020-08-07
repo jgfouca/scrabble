@@ -117,6 +117,8 @@ class Indv_Play
    */
   std::ostream& operator<<(std::ostream& out) const;
 
+  Indv_Play& operator=(const Indv_Play& rhs) = default;
+
  private: // ================ PRIVATE INTERFACE ================================
 
   //////////////////////////////////////////////////////////////////////////////

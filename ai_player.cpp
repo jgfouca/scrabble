@@ -77,6 +77,8 @@ void AI_Player::make_play()
   std::string highest_word = "";
   set<pair<Board_Loc, Board_Loc> > constraints_checked;
   const int num_pieces = get_num_pieces();
+  const Scrabble_Board* the_board = m_the_game->get_board();
+  const unsigned b_dim = the_board->get_board_dim();
 
   if (m_the_game->is_first_play()) {
     //Need special case for first-play
@@ -98,6 +100,13 @@ void AI_Player::make_play()
 
           //this word may be placed in one of len(word) places
           for (int p = (-l+1); p <= 0; p++) {
+            // check this offset would stay within board dimensions
+            const int min_c = center_square + p;
+            const int max_c = center_square + p + word->size();
+            if (min_c < 0 || max_c >= b_dim) {
+              continue;
+            }
+
             tmp_play.clear();
 
             for (unsigned w = 0; w < word->size(); w++) {
@@ -126,8 +135,6 @@ void AI_Player::make_play()
     cout << "Beginning general board search!" << endl;
 #endif
     //loop over every square on the entire board.
-    const Scrabble_Board* the_board = m_the_game->get_board();
-    unsigned b_dim = the_board->get_board_dim();
     for (unsigned row = 0; row < b_dim; row++) {
       for (unsigned col = 0; col < b_dim; col++) {
         //we can play off of any placed piece
