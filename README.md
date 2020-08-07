@@ -26,6 +26,17 @@ As a quick demonstration of the AI, you can do:
 % $path-to-clone/scrabble play -a bot1
 ```
 
+To each mode has its own help:
+
+```bash
+% $path-to-clone/scrabble play --help
+```
+
+Graphical mode is more convenient than text mode for human player games; it can be enabled with `-u` or `--gui`:
+```bash
+% $path-to-clone/scrabble play -p myname -u
+```
+
 This will start a game with a single AI player that will play a full solo game with itself.
 
 Coming soon:
